@@ -4,47 +4,112 @@ import { motion } from 'framer-motion';
 import { FaShieldAlt, FaUsersCog, FaRocket, FaHeadset } from 'react-icons/fa';
 
 const Section = styled.section`
-  padding: 6rem 1.5rem;
+  padding: clamp(4.5rem, 8vw, 7rem) clamp(1.25rem, 5vw, 4.5rem);
 `;
 
-const Wrapper = styled.div`
-  max-width: 1200px;
+const Header = styled.div`
+  max-width: 780px;
+  margin: 0 auto 3rem;
+  text-align: center;
+  display: grid;
+  gap: 1rem;
+`;
+
+const Title = styled.h2`
+  font-size: clamp(2.2rem, 3vw + 1rem, 3.1rem);
+  margin: 0;
+`;
+
+const Grid = styled.div`
+  max-width: 1100px;
   margin: 0 auto;
   display: grid;
-  gap: 2rem;
+  gap: clamp(1.5rem, 2vw, 2.5rem);
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 `;
 
 const Card = styled(motion.article)`
-  background: ${({ theme }) => theme.surface};
-  border-radius: 20px;
-  padding: 2rem;
-  border: 1px solid ${({ theme }) => theme.border};
+  position: relative;
+  padding: 2.25rem 2rem;
+  border-radius: clamp(1.4rem, 2vw, 1.9rem);
+  background: ${({ theme }) => theme.glass.background};
+  border: 1px solid ${({ theme }) => theme.glass.border};
+  backdrop-filter: blur(22px);
+  box-shadow: ${({ theme }) => theme.glass.shadow};
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.08);
+  gap: 1.05rem;
+  overflow: hidden;
+  isolation: isolate;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.22), transparent 65%);
+    opacity: 0.75;
+    z-index: -1;
+  }
 `;
 
-const IconWrapper = styled.div`
-  width: 56px;
-  height: 56px;
-  border-radius: 16px;
+const IconWrapper = styled(motion.div)`
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.75rem;
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
   color: ${({ theme }) => theme.accent};
-  background: ${({ theme }) => theme.accentSoft};
+  font-size: 2rem;
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -25%;
+    background: conic-gradient(from 90deg, ${({ theme }) => theme.accent}, transparent 65%);
+    opacity: 0.55;
+    mix-blend-mode: screen;
+    animation: spin 12s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
 `;
 
 const Number = styled.span`
-  font-size: 2.5rem;
+  font-size: clamp(2.4rem, 2vw + 1.5rem, 3rem);
   font-weight: 700;
 `;
 
+const Label = styled.h3`
+  margin: 0;
+  font-size: 1.1rem;
+`;
+
 const Description = styled.p`
+  margin: 0;
   color: ${({ theme }) => theme.textSecondary};
+  line-height: 1.6;
+`;
+
+const SparkLine = styled(motion.span)`
+  position: absolute;
+  top: -40%;
+  right: -10%;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, ${({ theme }) => theme.accentSoft}, transparent 70%);
+  opacity: 0.6;
+  filter: blur(50px);
+  pointer-events: none;
 `;
 
 const items = [
@@ -74,7 +139,7 @@ const items = [
     label: 'Satisfacción del cliente (%)',
     target: 98,
     suffix: '%',
-    description: 'Soporte continuo y proximidad con cada aliado estratégico.'
+    description: 'Soporte continuo, escucha activa y evolución constante de cada producto.'
   }
 ];
 
@@ -84,9 +149,9 @@ function useAnimatedCounter(target, active) {
   const start = useRef();
 
   useEffect(() => {
-    if (!active) return;
+    if (!active) return undefined;
 
-    const duration = 1200;
+    const duration = 1300;
 
     const step = (timestamp) => {
       if (!start.current) start.current = timestamp;
@@ -114,17 +179,28 @@ function MetricCard({ icon: Icon, label, target, description, suffix, index }) {
 
   return (
     <Card
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.4 }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
       onViewportEnter={() => setActive(true)}
     >
-      <IconWrapper aria-hidden="true">
+      <SparkLine
+        initial={{ opacity: 0, scale: 0.6 }}
+        whileInView={{ opacity: 0.6, scale: 1 }}
+        viewport={{ once: true, amount: 0.4 }}
+        transition={{ duration: 1, delay: 0.2 + index * 0.08 }}
+        aria-hidden="true"
+      />
+      <IconWrapper
+        animate={{ rotate: active ? [0, 6, -6, 0] : 0 }}
+        transition={{ duration: 2.8, repeat: active ? Infinity : 0, ease: 'easeInOut' }}
+        aria-hidden="true"
+      >
         <Icon />
       </IconWrapper>
       <Number aria-live="polite">{count}{suffix}</Number>
-      <h3>{label}</h3>
+      <Label>{label}</Label>
       <Description>{description}</Description>
     </Card>
   );
@@ -133,14 +209,18 @@ function MetricCard({ icon: Icon, label, target, description, suffix, index }) {
 function WhyChooseUs() {
   return (
     <Section id="por-que" aria-labelledby="por-que-title">
-      <h2 id="por-que-title" style={{ textAlign: 'center', fontSize: 'clamp(2rem, 2.5vw + 1rem, 3rem)', marginBottom: '3rem' }}>
-        ¿Por qué elegir a NEO-KODEX?
-      </h2>
-      <Wrapper>
+      <Header>
+        <Title id="por-que-title">¿Por qué elegir a NEO-KODEX?</Title>
+        <p>
+          Datos animados, íconos cinéticos y visualizaciones responden al scroll para destacar cómo combinamos innovación,
+          acompañamiento y resultados medibles.
+        </p>
+      </Header>
+      <Grid>
         {items.map((item, index) => (
           <MetricCard key={item.label} index={index} {...item} />
         ))}
-      </Wrapper>
+      </Grid>
     </Section>
   );
 }

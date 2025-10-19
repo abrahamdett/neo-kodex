@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { FiMoon, FiSun } from 'react-icons/fi';
+import { FiMoon, FiSun, FiFeather } from 'react-icons/fi';
 
 const Header = styled.header`
   position: sticky;
@@ -102,7 +102,13 @@ const ThemeToggle = styled.button`
   }
 `;
 
-function Navbar({ onToggleTheme, themeName }) {
+const themeMeta = {
+  light: { label: 'Claro', icon: FiSun },
+  dark: { label: 'Oscuro', icon: FiMoon },
+  sepia: { label: 'Sepia', icon: FiFeather }
+};
+
+function Navbar({ onCycleTheme, themeName, availableThemes }) {
   const links = [
     { href: '#servicios', label: 'Servicios' },
     { href: '#acerca', label: 'Acerca de' },
@@ -110,6 +116,11 @@ function Navbar({ onToggleTheme, themeName }) {
     { href: '#testimonios', label: 'Testimonios' },
     { href: '#contacto', label: 'Contacto' }
   ];
+
+  const current = themeMeta[themeName] ?? themeMeta.light;
+  const nextThemeIndex = (availableThemes.indexOf(themeName) + 1) % availableThemes.length;
+  const nextTheme = themeMeta[availableThemes[nextThemeIndex]] ?? themeMeta.light;
+  const ThemeIcon = current.icon;
 
   return (
     <Header>
@@ -125,9 +136,14 @@ function Navbar({ onToggleTheme, themeName }) {
             </MenuItem>
           ))}
           <MenuItem>
-            <ThemeToggle type="button" onClick={onToggleTheme} aria-label="Cambiar modo de color">
-              {themeName === 'dark' ? <FiSun aria-hidden="true" /> : <FiMoon aria-hidden="true" />}
-              <span>{themeName === 'dark' ? 'Claro' : 'Oscuro'}</span>
+            <ThemeToggle
+              type="button"
+              onClick={onCycleTheme}
+              aria-label={`Cambiar a modo ${nextTheme.label}`}
+              title={`Tema actual: ${current.label}`}
+            >
+              <ThemeIcon aria-hidden="true" />
+              <span>{current.label}</span>
             </ThemeToggle>
           </MenuItem>
         </Menu>
@@ -137,8 +153,9 @@ function Navbar({ onToggleTheme, themeName }) {
 }
 
 Navbar.propTypes = {
-  onToggleTheme: PropTypes.func.isRequired,
-  themeName: PropTypes.oneOf(['light', 'dark']).isRequired
+  onCycleTheme: PropTypes.func.isRequired,
+  themeName: PropTypes.oneOf(['light', 'dark', 'sepia']).isRequired,
+  availableThemes: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 export default Navbar;

@@ -4,17 +4,18 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App.jsx';
 import GlobalStyle from './styles/GlobalStyle.js';
 import { ThemeProvider } from 'styled-components';
-import { lightTheme, darkTheme } from './styles/theme.js';
-import useDarkMode from './hooks/useDarkMode.js';
+import { getTheme } from './styles/theme.js';
+import useTheme from './hooks/useTheme.js';
 
 function Root() {
-  const { theme, toggleTheme, themeName } = useDarkMode();
+  const { themeName, cycleTheme, themes } = useTheme();
+  const theme = getTheme(themeName);
 
   return (
-    <ThemeProvider theme={themeName === 'dark' ? darkTheme : lightTheme}>
+    <ThemeProvider theme={theme}>
       <GlobalStyle data-theme={themeName} />
       <BrowserRouter>
-        <App onToggleTheme={toggleTheme} themeName={themeName} />
+        <App onCycleTheme={cycleTheme} themeName={themeName} availableThemes={themes} />
       </BrowserRouter>
     </ThemeProvider>
   );

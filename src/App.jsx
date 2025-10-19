@@ -7,11 +7,11 @@ import SkipToContent from './components/SkipToContent.jsx';
 
 const Home = lazy(() => import('./pages/Home.jsx'));
 
-function App({ onToggleTheme, themeName }) {
+function App({ onCycleTheme, themeName, availableThemes }) {
   return (
     <>
       <SkipToContent />
-      <Layout onToggleTheme={onToggleTheme} themeName={themeName}>
+      <Layout onCycleTheme={onCycleTheme} themeName={themeName} availableThemes={availableThemes}>
         <Suspense fallback={<div role="status" aria-live="polite" style={{ padding: '4rem', textAlign: 'center' }}>Cargando contenido…</div>}>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -24,8 +24,9 @@ function App({ onToggleTheme, themeName }) {
 }
 
 App.propTypes = {
-  onToggleTheme: PropTypes.func.isRequired,
-  themeName: PropTypes.oneOf(['light', 'dark']).isRequired
+  onCycleTheme: PropTypes.func.isRequired,
+  themeName: PropTypes.oneOf(['light', 'dark', 'sepia']).isRequired,
+  availableThemes: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 export default App;

@@ -1,7 +1,11 @@
 import styled, { useTheme } from 'styled-components';
 import { motion } from 'framer-motion';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import { FiArrowUpRight, FiClock, FiPlay } from 'react-icons/fi';
+import { TbAugmentedReality } from 'react-icons/tb';
+import { RiSparkling2Line } from 'react-icons/ri';
 import HeroScene from './HeroScene.jsx';
+import useCountUp from '../hooks/useCountUp.js';
 
 const HeroSection = styled.section`
   position: relative;
@@ -173,29 +177,80 @@ const StatsList = styled.ul`
   list-style: none;
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 `;
 
 const StatCard = styled(motion.li)`
-  padding: 1rem 1.1rem;
-  border-radius: 1.25rem;
+  padding: 1.1rem 1.25rem;
+  border-radius: 1.35rem;
   background: ${({ theme }) => theme.glass.background};
   border: 1px solid ${({ theme }) => theme.glass.border};
   backdrop-filter: blur(18px);
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.55rem;
 `;
 
 const StatValue = styled.span`
   font-weight: 700;
-  font-size: 1.3rem;
+  font-size: 1.45rem;
+  letter-spacing: -0.01em;
 `;
 
 const StatLabel = styled.span`
   color: ${({ theme }) => theme.textSecondary};
   font-size: 0.85rem;
 `;
+
+const StatIcon = styled(motion.span)`
+  display: inline-flex;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: ${({ theme }) => theme.accentSoft};
+  color: ${({ theme }) => theme.accent};
+  font-size: 1.35rem;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+`;
+
+const StatSuffix = styled.span`
+  margin-left: 0.25rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: ${({ theme }) => theme.textSecondary};
+`;
+
+function HeroStat({ icon: Icon, target, suffix, label, index }) {
+  const [active, setActive] = useState(false);
+  const value = useCountUp({ target, isActive: active, duration: 1600 });
+
+  return (
+    <StatCard
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.45 }}
+      transition={{ duration: 0.6, delay: index * 0.1 }}
+      whileHover={{ y: -6 }}
+      onViewportEnter={() => setActive(true)}
+    >
+      <StatIcon
+        initial={{ rotate: 0 }}
+        animate={{ rotate: active ? [0, 8, -8, 0] : 0 }}
+        transition={{ duration: 2.6, repeat: active ? Infinity : 0, ease: 'easeInOut' }}
+        aria-hidden="true"
+      >
+        <Icon />
+      </StatIcon>
+      <StatValue>
+        {value}
+        {suffix ? <StatSuffix>{suffix}</StatSuffix> : null}
+      </StatValue>
+      <StatLabel>{label}</StatLabel>
+    </StatCard>
+  );
+}
 
 function Hero() {
   const theme = useTheme();
@@ -207,9 +262,9 @@ function Hero() {
   }, [theme]);
 
   const stats = useMemo(() => ([
-    { value: '180+', label: 'Implementaciones inmersivas' },
-    { value: '98%', label: 'Clientes fidelizados' },
-    { value: '45 días', label: 'Promedio de lanzamiento' }
+    { target: 180, suffix: '+', label: 'Implementaciones inmersivas', icon: TbAugmentedReality },
+    { target: 98, suffix: '%', label: 'Clientes fidelizados', icon: RiSparkling2Line },
+    { target: 45, suffix: 'días', label: 'Promedio de lanzamiento', icon: FiClock }
   ]), []);
 
   return (
@@ -230,32 +285,36 @@ function Hero() {
           <CTAGroup>
             <PrimaryCTA
               href="#contacto"
-              whileHover={{ scale: 1.04, rotate: -1 }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={{ scale: 1.05, rotate: -1 }}
+              whileTap={{ scale: 0.97 }}
             >
-              Comenzar proyecto
+              <span>Comenzar proyecto</span>
+              <FiArrowUpRight aria-hidden="true" />
             </PrimaryCTA>
             <SecondaryCTA
               href="#acerca"
               whileHover={{ y: -4 }}
               whileTap={{ scale: 0.97 }}
             >
-              Ver manifiesto
+              <FiPlay aria-hidden="true" />
+              <span>Ver manifiesto</span>
             </SecondaryCTA>
           </CTAGroup>
           <StatsList>
             {stats.map((stat, index) => (
-              <StatCard key={stat.label} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.4 }} transition={{ duration: 0.6, delay: index * 0.08 }}>
-                <StatValue>{stat.value}</StatValue>
-                <StatLabel>{stat.label}</StatLabel>
-              </StatCard>
+              <HeroStat key={stat.label} index={index} {...stat} />
             ))}
           </StatsList>
         </Content>
         <CanvasWrapper>
           <HeroScene accentColor={accent} secondaryColor={secondary} />
           <CanvasOverlay />
-          <FloatingBadge initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.4 }} transition={{ duration: 0.7, delay: 0.2 }}>
+          <FloatingBadge
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+          >
             <FloatingBadgeTitle>Experiencias 3D interactivas</FloatingBadgeTitle>
             <FloatingBadgeHighlight>Hero cinético + cursor vivo</FloatingBadgeHighlight>
             <FloatingBadgeText>Scroll y movimiento responden en tiempo real.</FloatingBadgeText>

@@ -4,11 +4,12 @@ Experiencia web moderna construida con React y Vite para la empresa tecnológica
 
 ## Características principales
 
-- Hero inmersivo con efecto parallax, tipografía audaz y CTA claro.
+- Hero inmersivo con lienzo 3D neuronal reactivo al cursor, tipografía audaz y CTA claro.
 - Modo claro/oscuro con persistencia en `localStorage` mediante un hook personalizado.
 - Sección de servicios generada dinámicamente a partir de un arreglo de 11 categorías con iconografía y animaciones.
+- Contadores ascendentes con iconografía animada tanto en el hero como en "¿Por qué elegirnos?".
 - Video introductorio y animaciones 3D ligeras en la sección "Acerca de".
-- Indicadores de valor con contadores animados para "¿Por qué elegirnos?".
+- Métricas destacadas en "¿Por qué elegirnos?" con microinteracciones accesibles.
 - Carrusel de testimonios accesible con transiciones suaves.
 - Formulario de contacto validado con `react-hook-form`, mensajes de error accesibles y enlace directo a WhatsApp.
 - Página 404 creativa con microinteracciones.

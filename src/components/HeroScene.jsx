@@ -1,163 +1,245 @@
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Float, GradientTexture, Html } from '@react-three/drei';
+import { GradientTexture, Html } from '@react-three/drei';
 import { Suspense, useMemo, useRef } from 'react';
-import * as THREE from 'three';
 import PropTypes from 'prop-types';
+import * as THREE from 'three';
+import usePrefersReducedMotion from '../hooks/usePrefersReducedMotion.js';
 
-function AnimatedIcosahedron({ color }) {
-  const mesh = useRef();
+function createNeuralNetworkData(count = 140) {
+  const nodes = [];
+  const connectionsSet = new Set();
+
+  for (let i = 0; i < count; i += 1) {
+    const base = new THREE.Vector3(
+      THREE.MathUtils.randFloatSpread(2),
+      THREE.MathUtils.randFloatSpread(2),
+      THREE.MathUtils.randFloatSpread(2)
+    ).normalize().multiplyScalar(THREE.MathUtils.lerp(1.8, 3.2, Math.random()));
+
+    const axis = new THREE.Vector3(
+      THREE.MathUtils.randFloatSpread(1),
+      THREE.MathUtils.randFloatSpread(1),
+      THREE.MathUtils.randFloatSpread(1)
+    ).normalize();
+
+    nodes.push({
+      origin: base,
+      axis,
+      amplitude: 0.18 + Math.random() * 0.35,
+      frequency: 0.4 + Math.random() * 0.8,
+      phase: Math.random() * Math.PI * 2
+    });
+  }
+
+  nodes.forEach((node, index) => {
+    const distances = nodes
+      .map((candidate, candidateIndex) => ({
+        index: candidateIndex,
+        distance: node.origin.distanceTo(candidate.origin)
+      }))
+      .filter((entry) => entry.index !== index)
+      .sort((a, b) => a.distance - b.distance)
+      .slice(0, 4);
+
+    distances.forEach(({ index: neighbourIndex }) => {
+      const [min, max] = index < neighbourIndex ? [index, neighbourIndex] : [neighbourIndex, index];
+      connectionsSet.add(`${min}-${max}`);
+    });
+  });
+
+  const connections = Array.from(connectionsSet).map((key) => {
+    const [from, to] = key.split('-').map(Number);
+    return { from, to };
+  });
+
+  return { nodes, connections };
+}
+
+function NeuralNetwork({ accentColor, secondaryColor, reducedMotion }) {
+  const groupRef = useRef();
+  const pointsRef = useRef();
+  const linesRef = useRef();
+  const materialRef = useRef();
+
+  const { nodes, connections } = useMemo(() => createNeuralNetworkData(150), []);
+  const animatedPositions = useRef(nodes.map((node) => node.origin.clone()));
+
+  const nodePositions = useMemo(() => new Float32Array(nodes.length * 3), [nodes.length]);
+  const nodeColors = useMemo(() => {
+    const colors = new Float32Array(nodes.length * 3);
+    const colorA = new THREE.Color(accentColor);
+    const colorB = new THREE.Color(secondaryColor);
+    nodes.forEach((_, index) => {
+      const mix = index / nodes.length;
+      const tint = colorA.clone().lerp(colorB, mix * 0.75 + Math.random() * 0.1);
+      tint.toArray(colors, index * 3);
+    });
+    return colors;
+  }, [nodes.length, accentColor, secondaryColor]);
+
+  const linePositions = useMemo(() => new Float32Array(connections.length * 6), [connections.length]);
+
+  const lineColors = useMemo(() => {
+    const colors = new Float32Array(connections.length * 6);
+    const color = new THREE.Color(secondaryColor);
+    connections.forEach((_, index) => {
+      const intensity = 0.35 + (index % 5) * 0.05;
+      const shaded = color.clone().multiplyScalar(intensity);
+      shaded.toArray(colors, index * 6);
+      shaded.toArray(colors, index * 6 + 3);
+    });
+    return colors;
+  }, [connections.length, secondaryColor]);
+
   useFrame((state) => {
-    if (!mesh.current) return;
     const { clock, pointer } = state;
-    mesh.current.rotation.y = clock.elapsedTime * 0.25 + pointer.x * 0.6;
-    mesh.current.rotation.x = clock.elapsedTime * 0.18 + pointer.y * 0.4;
-  });
+    const time = clock.elapsedTime;
 
-  return (
-    <Float speed={1.5} rotationIntensity={1.2} floatIntensity={1.1}>
-      <mesh ref={mesh} castShadow position={[0, 0.6, 0]}>
-        <icosahedronGeometry args={[1.25, 1]} />
-        <meshStandardMaterial color={color} metalness={0.55} roughness={0.28} />
-      </mesh>
-    </Float>
-  );
-}
+    if (groupRef.current) {
+      const rotationIntensity = reducedMotion ? 0.02 : 0.06;
+      const lerpFactor = reducedMotion ? 0.02 : 0.06;
+      const targetY = pointer.x * 0.45;
+      const targetX = pointer.y * -0.25;
+      groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetY + time * rotationIntensity, lerpFactor);
+      groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetX, lerpFactor);
+      groupRef.current.position.z = THREE.MathUtils.lerp(groupRef.current.position.z, pointer.y * 0.5, 0.04);
+    }
 
-AnimatedIcosahedron.propTypes = {
-  color: PropTypes.string.isRequired
-};
+    nodes.forEach((node, index) => {
+      const animated = animatedPositions.current[index];
+      const wobble = reducedMotion ? 0 : Math.sin(time * node.frequency + node.phase) * node.amplitude;
+      animated.copy(node.origin).addScaledVector(node.axis, wobble);
+      const i3 = index * 3;
+      nodePositions[i3] = animated.x;
+      nodePositions[i3 + 1] = animated.y;
+      nodePositions[i3 + 2] = animated.z;
+    });
 
-function RibbonTorus({ color }) {
-  const mesh = useRef();
-  useFrame((state) => {
-    if (!mesh.current) return;
-    const { clock } = state;
-    mesh.current.rotation.y = clock.elapsedTime * 0.35;
-    mesh.current.rotation.z = Math.sin(clock.elapsedTime * 0.4) * 0.5;
-  });
+    connections.forEach((connection, index) => {
+      const start = animatedPositions.current[connection.from];
+      const end = animatedPositions.current[connection.to];
+      const i6 = index * 6;
+      linePositions[i6] = start.x;
+      linePositions[i6 + 1] = start.y;
+      linePositions[i6 + 2] = start.z;
+      linePositions[i6 + 3] = end.x;
+      linePositions[i6 + 4] = end.y;
+      linePositions[i6 + 5] = end.z;
+    });
 
-  return (
-    <Float speed={2.2} rotationIntensity={1} floatIntensity={1.2}>
-      <mesh ref={mesh} position={[-2.4, -1, -0.2]}>
-        <torusKnotGeometry args={[0.75, 0.24, 220, 16]} />
-        <meshStandardMaterial color={color} metalness={0.6} roughness={0.1} />
-      </mesh>
-    </Float>
-  );
-}
+    if (pointsRef.current) {
+      pointsRef.current.geometry.attributes.position.array.set(nodePositions);
+      pointsRef.current.geometry.attributes.position.needsUpdate = true;
+    }
 
-RibbonTorus.propTypes = {
-  color: PropTypes.string.isRequired
-};
+    if (linesRef.current) {
+      linesRef.current.geometry.attributes.position.array.set(linePositions);
+      linesRef.current.geometry.attributes.position.needsUpdate = true;
+    }
 
-function EnergyOrb({ accent, secondary }) {
-  const shader = useRef();
-  useFrame((state) => {
-    if (shader.current) {
-      shader.current.uniforms.uTime.value = state.clock.elapsedTime;
+    if (materialRef.current && !reducedMotion) {
+      materialRef.current.size = 0.085 + Math.sin(time * 0.8) * 0.015;
     }
   });
 
-  const uniforms = useMemo(() => ({
-    uTime: { value: 0 },
-    uColorA: { value: new THREE.Color(accent) },
-    uColorB: { value: new THREE.Color(secondary) }
-  }), [accent, secondary]);
-
   return (
-    <Float speed={1.6} rotationIntensity={0.8} floatIntensity={0.9}>
-      <mesh position={[2.6, 0.8, -0.6]}>
-        <sphereGeometry args={[0.9, 64, 64]} />
-        <shaderMaterial
-          ref={shader}
-          uniforms={uniforms}
-          vertexShader={`
-            uniform float uTime;
-            varying vec2 vUv;
-            void main() {
-              vUv = uv;
-              vec3 pos = position + normal * 0.08 * sin(uv.y * 16.0 + uv.x * 12.0 + uTime * 1.6);
-              gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-            }
-          `}
-          fragmentShader={`
-            uniform vec3 uColorA;
-            uniform vec3 uColorB;
-            varying vec2 vUv;
-            void main() {
-              float intensity = smoothstep(0.1, 1.0, length(vUv - 0.5));
-              vec3 color = mix(uColorA, uColorB, intensity);
-              gl_FragColor = vec4(color, 0.82);
-            }
-          `}
+    <group ref={groupRef}>
+      <points ref={pointsRef}>
+        <bufferGeometry>
+          <bufferAttribute attach="attributes-position" args={[nodePositions, 3]} />
+          <bufferAttribute attach="attributes-color" args={[nodeColors, 3]} />
+        </bufferGeometry>
+        <pointsMaterial
+          ref={materialRef}
+          vertexColors
+          size={0.09}
+          sizeAttenuation
           transparent
+          opacity={0.95}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
         />
-      </mesh>
-    </Float>
+      </points>
+      <lineSegments ref={linesRef}>
+        <bufferGeometry>
+          <bufferAttribute attach="attributes-position" args={[linePositions, 3]} />
+          <bufferAttribute attach="attributes-color" args={[lineColors, 3]} />
+        </bufferGeometry>
+        <lineBasicMaterial vertexColors transparent opacity={0.4} linewidth={0.001} />
+      </lineSegments>
+    </group>
   );
 }
 
-EnergyOrb.propTypes = {
-  accent: PropTypes.string.isRequired,
-  secondary: PropTypes.string.isRequired
+NeuralNetwork.propTypes = {
+  accentColor: PropTypes.string.isRequired,
+  secondaryColor: PropTypes.string.isRequired,
+  reducedMotion: PropTypes.bool.isRequired
 };
 
-function AuroraParticles({ color }) {
-  const points = useMemo(() => {
-    const particles = new Float32Array(800 * 3);
-    for (let i = 0; i < 800; i += 1) {
-      const i3 = i * 3;
-      particles[i3] = (Math.random() - 0.5) * 10;
-      particles[i3 + 1] = (Math.random() - 0.5) * 6;
-      particles[i3 + 2] = (Math.random() - 0.5) * 8;
+function FloatingDust({ color, reducedMotion }) {
+  const pointsRef = useRef();
+  const positions = useMemo(() => {
+    const array = new Float32Array(600 * 3);
+    for (let i = 0; i < 600; i += 1) {
+      const index = i * 3;
+      array[index] = THREE.MathUtils.randFloatSpread(8);
+      array[index + 1] = THREE.MathUtils.randFloatSpread(5);
+      array[index + 2] = THREE.MathUtils.randFloatSpread(6);
     }
-    return particles;
+    return array;
   }, []);
 
-  const ref = useRef();
   useFrame((state) => {
-    if (ref.current) {
-      ref.current.rotation.y = state.clock.elapsedTime * 0.05;
-    }
+    if (!pointsRef.current || reducedMotion) return;
+    pointsRef.current.rotation.y += 0.0008;
+    pointsRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.04) * 0.08;
   });
 
   return (
-    <points ref={ref} rotation={[0, 0, 0]}>
+    <points ref={pointsRef}>
       <bufferGeometry>
-        <bufferAttribute attach="attributes-position" array={points} count={points.length / 3} itemSize={3} />
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
-      <pointsMaterial color={color} size={0.05} transparent opacity={0.45} sizeAttenuation depthWrite={false} />
+      <pointsMaterial color={color} size={0.02} transparent opacity={0.2} sizeAttenuation depthWrite={false} />
     </points>
   );
 }
 
-AuroraParticles.propTypes = {
-  color: PropTypes.string.isRequired
+FloatingDust.propTypes = {
+  color: PropTypes.string.isRequired,
+  reducedMotion: PropTypes.bool.isRequired
 };
 
 function HeroScene({ accentColor, secondaryColor }) {
+  const prefersReducedMotion = usePrefersReducedMotion();
+
   return (
-    <Canvas shadows dpr={[1, 1.5]} gl={{ alpha: true }} camera={{ position: [0, 0, 6], fov: 50 }}>
-      <ambientLight intensity={0.65} />
-      <directionalLight position={[5, 5, 5]} intensity={1.1} />
-      <directionalLight position={[-6, -4, -6]} intensity={0.7} color={secondaryColor} />
+    <Canvas
+      shadows
+      dpr={[1, 1.6]}
+      gl={{ alpha: true, antialias: true }}
+      camera={{ position: [0, 0, 8], fov: 48 }}
+    >
+      <color attach="background" args={["transparent"]} />
+      <ambientLight intensity={0.5} />
+      <directionalLight position={[5, 4, 6]} intensity={0.8} color={accentColor} />
+      <directionalLight position={[-6, -3, -4]} intensity={0.5} color={secondaryColor} />
       <Suspense fallback={<Html center>cargando...</Html>}>
-        <AuroraParticles color={secondaryColor} />
-        <AnimatedIcosahedron color={accentColor} />
-        <RibbonTorus color={secondaryColor} />
-        <EnergyOrb accent={accentColor} secondary={secondaryColor} />
+        <FloatingDust color={`${secondaryColor}99`} reducedMotion={prefersReducedMotion} />
+        <NeuralNetwork
+          accentColor={accentColor}
+          secondaryColor={secondaryColor}
+          reducedMotion={prefersReducedMotion}
+        />
       </Suspense>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]} receiveShadow>
-        <planeGeometry args={[50, 50]} />
-        <meshStandardMaterial transparent opacity={0} />
-      </mesh>
-      <mesh position={[0, -1.75, -2]} rotation={[-Math.PI / 2, 0, 0]}> 
-        <planeGeometry args={[12, 12]} />
-        <meshBasicMaterial>
+      <mesh position={[0, -3, -4]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[18, 18]} />
+        <meshBasicMaterial transparent>
           <GradientTexture
-            stops={[0, 0.8, 1]}
-            colors={[`${accentColor}11`, `${accentColor}0A`, '#00000000']}
-            size={1024}
+            stops={[0, 0.7, 1]}
+            colors={[`${accentColor}1A`, `${secondaryColor}0F`, '#00000000']}
+            size={512}
           />
         </meshBasicMaterial>
       </mesh>

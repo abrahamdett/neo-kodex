@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaShieldAlt, FaUsersCog, FaRocket, FaHeadset } from 'react-icons/fa';
+import useCountUp from '../hooks/useCountUp.js';
 
 const Section = styled.section`
   padding: clamp(4.5rem, 8vw, 7rem) clamp(1.25rem, 5vw, 4.5rem);
@@ -143,39 +144,9 @@ const items = [
   }
 ];
 
-function useAnimatedCounter(target, active) {
-  const [value, setValue] = useState(0);
-  const frame = useRef();
-  const start = useRef();
-
-  useEffect(() => {
-    if (!active) return undefined;
-
-    const duration = 1300;
-
-    const step = (timestamp) => {
-      if (!start.current) start.current = timestamp;
-      const progress = Math.min((timestamp - start.current) / duration, 1);
-      setValue(Math.floor(progress * target));
-      if (progress < 1) {
-        frame.current = window.requestAnimationFrame(step);
-      }
-    };
-
-    frame.current = window.requestAnimationFrame(step);
-
-    return () => {
-      if (frame.current) window.cancelAnimationFrame(frame.current);
-      start.current = undefined;
-    };
-  }, [target, active]);
-
-  return value;
-}
-
 function MetricCard({ icon: Icon, label, target, description, suffix, index }) {
   const [active, setActive] = useState(false);
-  const count = useAnimatedCounter(target, active);
+  const count = useCountUp({ target, isActive: active, duration: 1500 });
 
   return (
     <Card

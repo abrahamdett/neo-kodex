@@ -3,19 +3,40 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import React from 'react';
 
-const IconWrapper = styled.div`
+const IconWrapper = styled(motion.div)`
   display: inline-flex;
-  width: 54px;
-  height: 54px;
+  width: 64px;
+  height: 64px;
   align-items: center;
   justify-content: center;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.18);
+  border-radius: 22px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.08));
   color: ${({ theme }) => theme.accent};
-  font-size: 1.85rem;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+  font-size: 2rem;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18), 0 18px 28px rgba(0, 0, 0, 0.2);
   transform: translateZ(0);
-  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), filter 0.45s ease;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border-radius: 18px;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.6), transparent 65%);
+    opacity: 0.7;
+    transition: opacity 0.4s ease;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -40%;
+    background: conic-gradient(from 90deg, ${({ theme }) => theme.accent}, transparent 70%);
+    mix-blend-mode: screen;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
 `;
 
 const Card = styled(motion.article)`
@@ -32,6 +53,7 @@ const Card = styled(motion.article)`
   box-shadow: ${({ theme }) => theme.glass.shadow};
   overflow: hidden;
   isolation: isolate;
+  transform-style: preserve-3d;
 
   &::before {
     content: '';
@@ -52,8 +74,17 @@ const Card = styled(motion.article)`
 
   &:hover ${IconWrapper},
   &:focus-visible ${IconWrapper} {
-    transform: rotate(-8deg) scale(1.07);
-    filter: drop-shadow(0 12px 18px rgba(127, 90, 240, 0.3));
+    transform: rotate(-6deg) translateY(-6px) scale(1.05);
+  }
+
+  &:hover ${IconWrapper}::after,
+  &:focus-visible ${IconWrapper}::after {
+    opacity: 0.65;
+  }
+
+  &:hover ${IconWrapper}::before,
+  &:focus-visible ${IconWrapper}::before {
+    opacity: 1;
   }
 `;
 
@@ -70,14 +101,18 @@ const Description = styled.p`
 function ServiceCard({ icon: Icon, title, description, className, ...motionProps }) {
   return (
     <Card
-      whileHover={{ y: -8, rotate: -0.5 }}
+      whileHover={{ y: -10, rotateX: -2, rotateY: 1.5 }}
       whileFocus={{ scale: 1.02 }}
       transition={{ type: 'spring', stiffness: 260, damping: 20 }}
       tabIndex={0}
       className={className}
       {...motionProps}
     >
-      <IconWrapper aria-hidden="true">
+      <IconWrapper
+        aria-hidden="true"
+        animate={{ rotate: [0, 3, -3, 0] }}
+        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+      >
         <Icon />
       </IconWrapper>
       <Title>{title}</Title>

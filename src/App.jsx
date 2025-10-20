@@ -6,6 +6,8 @@ import NotFound from './pages/NotFound.jsx';
 import SkipToContent from './components/SkipToContent.jsx';
 
 const Home = lazy(() => import('./pages/Home.jsx'));
+const Blog = lazy(() => import('./pages/Blog.jsx'));
+const BlogPost = lazy(() => import('./pages/BlogPost.jsx'));
 
 function App({ onCycleTheme, themeName, availableThemes }) {
   return (
@@ -15,6 +17,8 @@ function App({ onCycleTheme, themeName, availableThemes }) {
         <Suspense fallback={<div role="status" aria-live="polite" style={{ padding: '4rem', textAlign: 'center' }}>Cargando contenido…</div>}>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

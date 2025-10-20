@@ -1,11 +1,14 @@
 import styled, { useTheme } from 'styled-components';
 import { motion } from 'framer-motion';
-import { useMemo, useState } from 'react';
+import { lazy, Suspense, useMemo, useState } from 'react';
 import { FiArrowUpRight, FiClock, FiPlay } from 'react-icons/fi';
 import { TbAugmentedReality } from 'react-icons/tb';
 import { RiSparkling2Line } from 'react-icons/ri';
-import HeroScene from './HeroScene.jsx';
+import { LuGlobe2 } from 'react-icons/lu';
+import usePrefersReducedMotion from '../hooks/usePrefersReducedMotion.js';
 import useCountUp from '../hooks/useCountUp.js';
+
+const HeroScene = lazy(() => import('./HeroScene.jsx'));
 
 const HeroSection = styled.section`
   position: relative;
@@ -31,6 +34,7 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  position: relative;
 `;
 
 const AccentBadge = styled(motion.span)`
@@ -51,6 +55,13 @@ const Title = styled(motion.h1)`
   line-height: 1.05;
   text-transform: uppercase;
   letter-spacing: 0.08em;
+  font-variation-settings: 'wght' 720;
+
+  span {
+    display: block;
+    font-variation-settings: 'wght' 350;
+    letter-spacing: 0.02em;
+  }
 `;
 
 const Subtitle = styled(motion.p)`
@@ -75,12 +86,34 @@ const PrimaryCTA = styled(motion.a)`
   border-radius: 999px;
   border: none;
   background: linear-gradient(120deg, ${({ theme }) => theme.accent}, ${({ theme }) => theme.accentSoft});
+  background-size: 220% 220%;
+  background-position: 0% 50%;
   color: #ffffff;
   font-weight: 600;
   letter-spacing: 0.04em;
   box-shadow: 0 24px 46px rgba(127, 90, 240, 0.35);
   position: relative;
   overflow: hidden;
+  transition: background-position 0.6s ease;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -20%;
+    background: conic-gradient(from 90deg, rgba(255, 255, 255, 0.45), transparent 55%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  &:hover::after,
+  &:focus-visible::after {
+    opacity: 0.6;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background-position: 100% 50%;
+  }
 `;
 
 const SecondaryCTA = styled(motion.a)`
@@ -104,6 +137,7 @@ const CanvasWrapper = styled.div`
   background: ${({ theme }) => theme.surfaceSecondary};
   box-shadow: ${({ theme }) => theme.glass.shadow};
   backdrop-filter: blur(24px);
+  isolation: isolate;
 `;
 
 const CanvasOverlay = styled.div`
@@ -255,6 +289,7 @@ function HeroStat({ icon: Icon, target, suffix, label, index }) {
 function Hero() {
   const theme = useTheme();
   const accent = theme?.accent ?? '#7f5af0';
+  const prefersReducedMotion = usePrefersReducedMotion();
   const secondary = useMemo(() => {
     if (theme?.name === 'sepia') return '#facc15';
     if (theme?.name === 'dark') return '#38bdf8';
@@ -262,8 +297,9 @@ function Hero() {
   }, [theme]);
 
   const stats = useMemo(() => ([
-    { target: 180, suffix: '+', label: 'Implementaciones inmersivas', icon: TbAugmentedReality },
+    { target: 220, suffix: '+', label: 'Experiencias inmersivas', icon: TbAugmentedReality },
     { target: 98, suffix: '%', label: 'Clientes fidelizados', icon: RiSparkling2Line },
+    { target: 18, suffix: 'países', label: 'Presencia global', icon: LuGlobe2 },
     { target: 45, suffix: 'días', label: 'Promedio de lanzamiento', icon: FiClock }
   ]), []);
 
@@ -277,6 +313,7 @@ function Hero() {
           </AccentBadge>
           <Title initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}>
             NEO-KODEX
+            <span>Inteligencia de diseño para ecosistemas humanos</span>
           </Title>
           <Subtitle initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}>
             Diseñamos experiencias digitales inmersivas con tecnología 3D, micro-interacciones y accesibilidad avanzada para
@@ -306,8 +343,24 @@ function Hero() {
             ))}
           </StatsList>
         </Content>
-        <CanvasWrapper>
-          <HeroScene accentColor={accent} secondaryColor={secondary} />
+        <CanvasWrapper
+          role="presentation"
+          aria-hidden={prefersReducedMotion}
+          aria-describedby={prefersReducedMotion ? undefined : 'hero-3d-description'}
+        >
+          {prefersReducedMotion ? (
+            <motion.div
+              aria-hidden="true"
+              style={{ width: '100%', height: '100%', background: `radial-gradient(circle at 30% 20%, ${accent}33, transparent 60%)`, filter: 'blur(0px)' }}
+              initial={{ opacity: 0.3 }}
+              animate={{ opacity: 0.6 }}
+              transition={{ duration: 1.8, repeat: Infinity, repeatType: 'reverse' }}
+            />
+          ) : (
+            <Suspense fallback={<motion.div style={{ padding: '2rem', color: theme?.text }} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>Cargando visual neuronal…</motion.div>}>
+              <HeroScene accentColor={accent} secondaryColor={secondary} />
+            </Suspense>
+          )}
           <CanvasOverlay />
           <FloatingBadge
             initial={{ opacity: 0, y: 30 }}
@@ -334,6 +387,9 @@ function Hero() {
           transition={{ duration: 1.8, repeat: Infinity }}
         />
       </ScrollIndicator>
+      <p className="sr-only" id="hero-3d-description">
+        Visualización tridimensional de una red neuronal con nodos luminosos que responde suavemente al movimiento del cursor.
+      </p>
     </HeroSection>
   );
 }

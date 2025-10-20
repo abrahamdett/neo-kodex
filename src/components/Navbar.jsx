@@ -80,6 +80,22 @@ const MenuLink = styled.a`
   }
 `;
 
+const BlogLink = styled(Link)`
+  position: relative;
+  font-weight: 500;
+  color: ${({ theme }) => theme.textSecondary};
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.text};
+  }
+
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.accent};
+    outline-offset: 4px;
+  }
+`;
+
 const ThemeToggle = styled.button`
   display: inline-flex;
   align-items: center;
@@ -111,8 +127,10 @@ const themeMeta = {
 function Navbar({ onCycleTheme, themeName, availableThemes }) {
   const links = [
     { href: '#servicios', label: 'Servicios' },
+    { href: '#portafolio', label: 'Portafolio' },
     { href: '#acerca', label: 'Acerca de' },
     { href: '#por-que', label: 'Por qué elegirnos' },
+    { href: '#equipo', label: 'Equipo' },
     { href: '#testimonios', label: 'Testimonios' },
     { href: '#contacto', label: 'Contacto' }
   ];
@@ -130,6 +148,9 @@ function Navbar({ onCycleTheme, themeName, availableThemes }) {
           NEO-KODEX
         </Brand>
         <Menu>
+          <MenuItem>
+            <BlogLink to="/blog">Blog & Recursos</BlogLink>
+          </MenuItem>
           {links.map((link) => (
             <MenuItem key={link.href}>
               <MenuLink href={link.href}>{link.label}</MenuLink>

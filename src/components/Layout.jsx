@@ -3,6 +3,7 @@ import Navbar from './Navbar.jsx';
 import Footer from './Footer.jsx';
 import CustomCursor from './CustomCursor.jsx';
 import styled from 'styled-components';
+import ChatbotWidget from './ChatbotWidget.jsx';
 
 const Main = styled.main`
   min-height: 100vh;
@@ -18,6 +19,7 @@ function Layout({ children, onCycleTheme, themeName, availableThemes }) {
       <Navbar onCycleTheme={onCycleTheme} themeName={themeName} availableThemes={availableThemes} />
       <Main id="contenido-principal">{children}</Main>
       <Footer />
+      <ChatbotWidget />
     </div>
   );
 }

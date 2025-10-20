@@ -1,8 +1,9 @@
 import styled, { keyframes } from 'styled-components';
 import { useForm } from 'react-hook-form';
-import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useMemo, useState } from 'react';
 import { FaWhatsapp } from 'react-icons/fa';
+import { services } from '../data/services.js';
 
 const Section = styled.section`
   padding: 6rem 1.5rem 8rem;
@@ -66,6 +67,21 @@ const TextArea = styled.textarea`
   }
 `;
 
+const Select = styled.select`
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  border: 1px solid ${({ theme }) => theme.border};
+  background: ${({ theme }) => theme.surfaceSecondary};
+  color: ${({ theme }) => theme.text};
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+
+  &:focus-visible {
+    outline: none;
+    border-color: ${({ theme }) => theme.accent};
+    box-shadow: 0 0 0 4px ${({ theme }) => theme.accentSoft};
+  }
+`;
+
 const ErrorMessage = styled.span`
   color: #ef4444;
   font-size: 0.9rem;
@@ -96,9 +112,15 @@ const SubmitButton = styled.button`
   &:focus-visible {
     transform: translateY(-2px);
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    animation: none;
+  }
 `;
 
-const SuccessMessage = styled.div`
+const SuccessMessage = styled(motion.div)`
   margin-top: 1rem;
   padding: 1rem;
   border-radius: 14px;
@@ -106,16 +128,39 @@ const SuccessMessage = styled.div`
   color: ${({ theme }) => theme.text};
 `;
 
+const AttachmentHint = styled.span`
+  font-size: 0.85rem;
+  color: ${({ theme }) => theme.textSecondary};
+`;
+
 function ContactSection() {
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+    reset,
+    watch
+  } = useForm({ mode: 'onChange' });
   const [submitted, setSubmitted] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+
+  const serviceOptions = useMemo(
+    () => services.map((service) => ({ id: service.id, title: service.title })),
+    []
+  );
 
   const onSubmit = (data) => {
     console.info('Formulario enviado', data);
-    setSubmitted(true);
-    reset();
-    setTimeout(() => setSubmitted(false), 5000);
+    setIsSending(true);
+    setTimeout(() => {
+      setSubmitted(true);
+      setIsSending(false);
+      reset();
+      setTimeout(() => setSubmitted(false), 5000);
+    }, 800);
   };
+
+  const selectedService = watch('servicio');
 
   return (
     <Section id="contacto" aria-labelledby="contacto-title">
@@ -159,6 +204,21 @@ function ContactSection() {
           />
           {errors.correo && <ErrorMessage role="alert">{errors.correo.message}</ErrorMessage>}
 
+          <Label htmlFor="servicio">Servicio de interés *</Label>
+          <Select
+            id="servicio"
+            aria-invalid={Boolean(errors.servicio)}
+            {...register('servicio', { required: 'Selecciona un servicio para personalizar la asesoría.' })}
+          >
+            <option value="">Selecciona una opción</option>
+            {serviceOptions.map((option) => (
+              <option key={option.id} value={option.title}>
+                {option.title}
+              </option>
+            ))}
+          </Select>
+          {errors.servicio && <ErrorMessage role="alert">{errors.servicio.message}</ErrorMessage>}
+
           <Label htmlFor="mensaje">Mensaje *</Label>
           <TextArea
             id="mensaje"
@@ -168,8 +228,39 @@ function ContactSection() {
           />
           {errors.mensaje && <ErrorMessage role="alert">{errors.mensaje.message}</ErrorMessage>}
 
-          <SubmitButton type="submit">Enviar mensaje</SubmitButton>
-          {submitted && <SuccessMessage role="status">¡Gracias! Nuestro equipo se pondrá en contacto contigo muy pronto.</SuccessMessage>}
+          <Label htmlFor="archivos">Adjuntar archivos (opcional)</Label>
+          <Input
+            id="archivos"
+            type="file"
+            multiple
+            aria-describedby="adjuntos-ayuda"
+            {...register('archivos')}
+          />
+          <AttachmentHint id="adjuntos-ayuda">
+            Comparte brief, mockups o requerimientos técnicos. Formatos aceptados: PDF, PNG, MP4.
+          </AttachmentHint>
+
+          {selectedService ? (
+            <AttachmentHint>
+              Personalizaremos la propuesta enfocándonos en «{selectedService}».
+            </AttachmentHint>
+          ) : null}
+
+          <SubmitButton type="submit" disabled={!isValid || isSending} aria-live="polite">
+            {isSending ? 'Enviando…' : 'Enviar mensaje'}
+          </SubmitButton>
+          <AnimatePresence>
+            {submitted && (
+              <SuccessMessage
+                role="status"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+              >
+                ¡Gracias! Nuestro equipo se pondrá en contacto contigo muy pronto.
+              </SuccessMessage>
+            )}
+          </AnimatePresence>
         </FormWrapper>
       </Wrapper>
     </Section>

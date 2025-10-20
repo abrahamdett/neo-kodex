@@ -37,6 +37,13 @@ const Title = styled.h2`
   margin: 0;
 `;
 
+const SectionFooter = styled.div`
+  text-align: center;
+  margin-top: clamp(2rem, 3vw, 3rem);
+  color: ${({ theme }) => theme.textSecondary};
+  font-weight: 600;
+`;
+
 const Carousel = styled.div`
   position: relative;
   min-height: 280px;
@@ -138,10 +145,10 @@ function Testimonials() {
       <Glow aria-hidden="true" />
       <Wrapper>
         <Header>
-          <Title id="testimonios-title">Historias de valor real</Title>
+          <Title id="testimonios-title">Historias reales que avalan nuestro compromiso</Title>
           <p>
-            Testimonios en carrusel con glassmorphism y microinteracciones que refuerzan el impacto tangible de nuestras
-            soluciones 3D y multiexperiencia.
+            Escucha cómo nuestros clientes describen el acompañamiento estratégico, la transparencia y los resultados que
+            construimos juntos.
           </p>
         </Header>
         <Carousel>
@@ -180,6 +187,7 @@ function Testimonials() {
             <FaChevronRight aria-hidden="true" />
           </ControlButton>
         </Controls>
+        <SectionFooter>¿Te gustaría ser nuestro próximo caso de éxito?</SectionFooter>
       </Wrapper>
     </Section>
   );

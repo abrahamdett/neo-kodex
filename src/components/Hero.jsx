@@ -256,6 +256,12 @@ const StatSuffix = styled.span`
   color: ${({ theme }) => theme.textSecondary};
 `;
 
+const QuestionPrompt = styled(motion.p)`
+  margin: 1rem 0 0;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+`;
+
 function HeroStat({ icon: Icon, target, suffix, label, index }) {
   const [active, setActive] = useState(false);
   const value = useCountUp({ target, isActive: active, duration: 1600 });
@@ -297,10 +303,10 @@ function Hero() {
   }, [theme]);
 
   const stats = useMemo(() => ([
-    { target: 220, suffix: '+', label: 'Experiencias inmersivas', icon: TbAugmentedReality },
-    { target: 98, suffix: '%', label: 'Clientes fidelizados', icon: RiSparkling2Line },
-    { target: 18, suffix: 'países', label: 'Presencia global', icon: LuGlobe2 },
-    { target: 45, suffix: 'días', label: 'Promedio de lanzamiento', icon: FiClock }
+    { target: 220, suffix: '+', label: 'Experiencias inmersivas lanzadas', icon: TbAugmentedReality },
+    { target: 98, suffix: '%', label: 'Clientes que renuevan con nosotros', icon: RiSparkling2Line },
+    { target: 18, suffix: 'países', label: 'Equipos acompañados en expansión', icon: LuGlobe2 },
+    { target: 45, suffix: 'días', label: 'Promedio para activar tu MVP', icon: FiClock }
   ]), []);
 
   return (
@@ -309,15 +315,15 @@ function Hero() {
       <Grid>
         <Content id="inicio">
           <AccentBadge initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-            Más allá del código
+            Confianza con IA ética
           </AccentBadge>
           <Title initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}>
             NEO-KODEX
-            <span>Inteligencia de diseño para ecosistemas humanos</span>
+            <span>Inteligencia de diseño que transforma tu negocio y mejora la vida de las personas</span>
           </Title>
           <Subtitle initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}>
-            Diseñamos experiencias digitales inmersivas con tecnología 3D, micro-interacciones y accesibilidad avanzada para
-            que tu marca lidere el futuro del diseño 2025.
+            Diseñamos experiencias inmersivas donde la IA, el diseño inclusivo y la estrategia de negocio se alinean con
+            resultados medibles, prácticas éticas y soporte humano de principio a fin.
           </Subtitle>
           <CTAGroup>
             <PrimaryCTA
@@ -342,6 +348,13 @@ function Hero() {
               <HeroStat key={stat.label} index={index} {...stat} />
             ))}
           </StatsList>
+          <QuestionPrompt
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            ¿Listo para transformar tu próximo lanzamiento con nosotros?
+          </QuestionPrompt>
         </Content>
         <CanvasWrapper
           role="presentation"
@@ -369,8 +382,10 @@ function Hero() {
             transition={{ duration: 0.7, delay: 0.2 }}
           >
             <FloatingBadgeTitle>Experiencias 3D interactivas</FloatingBadgeTitle>
-            <FloatingBadgeHighlight>Hero cinético + cursor vivo</FloatingBadgeHighlight>
-            <FloatingBadgeText>Scroll y movimiento responden en tiempo real.</FloatingBadgeText>
+            <FloatingBadgeHighlight>Canvas neuronal continuo</FloatingBadgeHighlight>
+            <FloatingBadgeText>
+              Fondo generativo que conecta cada sección y se adapta a la accesibilidad.
+            </FloatingBadgeText>
           </FloatingBadge>
         </CanvasWrapper>
       </Grid>

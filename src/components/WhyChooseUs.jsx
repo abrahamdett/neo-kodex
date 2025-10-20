@@ -29,6 +29,13 @@ const Grid = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 `;
 
+const SectionFooter = styled.div`
+  margin-top: clamp(2.5rem, 4vw, 3.5rem);
+  text-align: center;
+  color: ${({ theme }) => theme.textSecondary};
+  font-weight: 600;
+`;
+
 const Card = styled(motion.article)`
   position: relative;
   padding: 2.25rem 2rem;
@@ -119,28 +126,28 @@ const items = [
     label: 'Proyectos completados',
     target: 180,
     suffix: '+',
-    description: 'Experiencia comprobada en soluciones a medida para sectores fintech, salud y retail.'
+    description: 'Experiencia comprobada acompañando a compañías que buscan transformar procesos críticos.'
   },
   {
     icon: FaUsersCog,
     label: 'Especialistas certificados',
     target: 40,
     suffix: '+',
-    description: 'Equipo multidisciplinario con certificaciones en AWS, Scrum y diseño de experiencias.'
+    description: 'Equipo multidisciplinario listo para integrarse con tu cultura y acelerar entregas.'
   },
   {
     icon: FaRocket,
     label: 'Tiempo promedio de lanzamiento (días)',
     target: 45,
     suffix: '',
-    description: 'Metodologías ágiles y automatización DevOps que aceleran el time-to-market.'
+    description: 'Procesos ágiles y automatizados para que verifiques valor rápidamente.'
   },
   {
     icon: FaHeadset,
     label: 'Satisfacción del cliente (%)',
     target: 98,
     suffix: '%',
-    description: 'Soporte continuo, escucha activa y evolución constante de cada producto.'
+    description: 'Soporte continuo, comunicación transparente y evolución constante de cada producto.'
   }
 ];
 
@@ -183,8 +190,8 @@ function WhyChooseUs() {
       <Header>
         <Title id="por-que-title">¿Por qué elegir a NEO-KODEX?</Title>
         <p>
-          Datos animados, íconos cinéticos y visualizaciones responden al scroll para destacar cómo combinamos innovación,
-          acompañamiento y resultados medibles.
+          Datos animados, íconos cinéticos y visualizaciones responden al scroll para mostrar cómo combinamos innovación,
+          acompañamiento estratégico y resultados medibles.
         </p>
       </Header>
       <Grid>
@@ -192,6 +199,9 @@ function WhyChooseUs() {
           <MetricCard key={item.label} index={index} {...item} />
         ))}
       </Grid>
+      <SectionFooter>
+        ¿Listo para medir resultados con un equipo que se alinea contigo desde el día uno?
+      </SectionFooter>
     </Section>
   );
 }

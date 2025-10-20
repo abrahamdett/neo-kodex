@@ -5,10 +5,11 @@ Experiencia web moderna construida con React y Vite para la empresa tecnológica
 ## Características principales
 
 - Hero inmersivo con lienzo 3D neuronal reactivo al cursor (renderizado con `@react-three/fiber` + `drei`), tipografía variable y CTA con gradiente animado. Incluye fallback accesible cuando se detecta `prefers-reduced-motion`.
+- Fondo generativo global (`NeuralBackdrop`) que dibuja redes neuronales suaves en todo el sitio y respeta la preferencia de reducir movimiento.
 - Modo claro, oscuro y sepia con persistencia en `localStorage` mediante un hook personalizado.
-- Sección de servicios (11 categorías) dispuesta en bento grid con mezcla de glassmorphism y neumorfismo, iconos pseudo-3D y animaciones con Framer Motion.
+- Sección de servicios (11 categorías) dispuesta en bento grid con mezcla de glassmorphism y neumorfismo, iconos pseudo-3D, copia centrada en beneficios y modales con CTA a contacto.
 - Contadores ascendentes con iconografía animada tanto en el hero como en "¿Por qué elegirnos?".
-- Portafolio interactivo con modal detallado y carga diferida de imágenes (`loading="lazy"`).
+- Portafolio interactivo que relata reto, solución, resultado e impacto con lenguaje orientado a negocio.
 - Blog/Recursos con ruta dedicada (`/blog` y `/blog/:slug`) listo para conectar a un CMS o Markdown (ver comentarios en `src/data/blogPosts.js`).
 - Sección de equipo y cultura con tarjetas animadas y especialidades destacadas.
 - Carrusel de testimonios accesible con transiciones suaves.
@@ -16,6 +17,12 @@ Experiencia web moderna construida con React y Vite para la empresa tecnológica
 - Chatbot flotante coherente con el diseño, con foco automático, respuesta contextual y cierre por `Escape`.
 - Página 404 creativa con microinteracciones.
 - Componentes reutilizables y estilos con `styled-components`.
+
+## Lineamientos de copywriting
+
+- Cada sección cierra con una pregunta o llamada a la acción que invita al diálogo.
+- Los textos se enfocan en beneficios tangibles y resultados medibles, evitando listas de tecnologías específicas.
+- Los casos de éxito describen reto, solución y resultado para conectar rápidamente con el valor entregado.
 
 ## Requisitos previos
 

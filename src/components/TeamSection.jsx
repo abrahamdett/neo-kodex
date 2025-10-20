@@ -26,6 +26,13 @@ const Grid = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 `;
 
+const SectionFooter = styled.div`
+  margin-top: clamp(2.5rem, 4vw, 3.5rem);
+  text-align: center;
+  color: ${({ theme }) => theme.textSecondary};
+  font-weight: 600;
+`;
+
 const Card = styled(motion.article)`
   background: ${({ theme }) => theme.glass.background};
   border-radius: 1.75rem;
@@ -102,8 +109,8 @@ function TeamSection() {
       <Header>
         <Title id="equipo-title">Equipo y cultura</Title>
         <p>
-          Somos un equipo multidisciplinario que celebra la experimentación responsable. Cada card revela especialidades para
-          conectar con la persona ideal desde la primera interacción.
+          Somos un equipo multidisciplinario movido por la ética, la curiosidad y la colaboración. Cada perfil muestra cómo
+          conectamos talento humano con resultados sostenibles.
         </p>
       </Header>
       <Grid>
@@ -133,6 +140,9 @@ function TeamSection() {
           </Card>
         ))}
       </Grid>
+      <SectionFooter>
+        ¿Con quién de nosotros te gustaría co-crear tu próxima iniciativa?
+      </SectionFooter>
     </Section>
   );
 }

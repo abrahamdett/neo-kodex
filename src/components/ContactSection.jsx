@@ -178,6 +178,7 @@ function ContactSection() {
           <p>
             También puedes escribirnos a <a href="mailto:hola@neo-kodex.com">hola@neo-kodex.com</a>. Respondemos en menos de 24 horas hábiles.
           </p>
+          <p style={{ fontWeight: 600 }}>¿Agendamos una llamada exploratoria esta semana?</p>
         </Info>
         <FormWrapper onSubmit={handleSubmit(onSubmit)} noValidate aria-describedby="contacto-ayuda">
           <p id="contacto-ayuda">Campos marcados con * son obligatorios.</p>

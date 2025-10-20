@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import React from 'react';
+import { FiArrowUpRight } from 'react-icons/fi';
 
 const IconWrapper = styled(motion.div)`
   display: inline-flex;
@@ -39,7 +40,7 @@ const IconWrapper = styled(motion.div)`
   }
 `;
 
-const Card = styled(motion.article)`
+const Card = styled(motion.button)`
   position: relative;
   background: ${({ theme }) => theme.glass.background};
   border: 1px solid ${({ theme }) => theme.glass.border};
@@ -54,6 +55,16 @@ const Card = styled(motion.article)`
   overflow: hidden;
   isolation: isolate;
   transform-style: preserve-3d;
+  cursor: pointer;
+  color: inherit;
+  text-align: left;
+  transition: transform 0.4s ease;
+  outline: none;
+
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.accent};
+    outline-offset: 4px;
+  }
 
   &::before {
     content: '';
@@ -98,14 +109,25 @@ const Description = styled.p`
   color: ${({ theme }) => theme.textSecondary};
 `;
 
-function ServiceCard({ icon: Icon, title, description, className, ...motionProps }) {
+const CardCTA = styled.span`
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+`;
+
+function ServiceCard({ icon: Icon, title, description, className, onSelect, ...motionProps }) {
   return (
     <Card
+      type="button"
       whileHover={{ y: -10, rotateX: -2, rotateY: 1.5 }}
       whileFocus={{ scale: 1.02 }}
       transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-      tabIndex={0}
       className={className}
+      onClick={onSelect}
+      aria-label={`Conoce más sobre ${title}`}
       {...motionProps}
     >
       <IconWrapper
@@ -117,6 +139,10 @@ function ServiceCard({ icon: Icon, title, description, className, ...motionProps
       </IconWrapper>
       <Title>{title}</Title>
       <Description>{description}</Description>
+      <CardCTA>
+        Conoce cómo lo hacemos
+        <FiArrowUpRight aria-hidden="true" />
+      </CardCTA>
     </Card>
   );
 }
@@ -125,11 +151,13 @@ ServiceCard.propTypes = {
   icon: PropTypes.elementType.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  className: PropTypes.string
+  className: PropTypes.string,
+  onSelect: PropTypes.func
 };
 
 ServiceCard.defaultProps = {
-  className: undefined
+  className: undefined,
+  onSelect: undefined
 };
 
 export default React.memo(ServiceCard);

@@ -21,6 +21,13 @@ const Title = styled.h2`
   font-size: clamp(2.2rem, 3vw + 1rem, 3.1rem);
 `;
 
+const SectionFooter = styled.div`
+  margin-top: clamp(2.5rem, 4vw, 3.5rem);
+  text-align: center;
+  color: ${({ theme }) => theme.textSecondary};
+  font-weight: 600;
+`;
+
 const Grid = styled.div`
   display: grid;
   gap: clamp(1.5rem, 2vw, 2.5rem);
@@ -92,7 +99,7 @@ const CardSummary = styled.p`
 `;
 
 const ModalTitle = styled(CardTitle)`
-  font-size: 1.4rem;
+  font-size: 1.45rem;
   margin-bottom: 0.35rem;
 `;
 
@@ -127,23 +134,6 @@ const ModalHeader = styled.div`
   align-items: center;
 `;
 
-const TagList = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-`;
-
-const Tag = styled.li`
-  padding: 0.35rem 0.75rem;
-  border-radius: 999px;
-  background: ${({ theme }) => theme.accentSoft};
-  color: ${({ theme }) => theme.text};
-  font-size: 0.85rem;
-`;
-
 const CloseButton = styled.button`
   border: none;
   background: transparent;
@@ -165,7 +155,20 @@ const CloseButton = styled.button`
   }
 `;
 
-const DeliverableList = styled.ul`
+const ModalBlock = styled.div`
+  display: grid;
+  gap: 0.35rem;
+`;
+
+const ModalLabel = styled.span`
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: ${({ theme }) => theme.textSecondary};
+`;
+
+const ImpactList = styled.ul`
   margin: 0;
   padding-left: 1.2rem;
   display: grid;
@@ -184,10 +187,10 @@ function PortfolioSection() {
   return (
     <Section id="portafolio" aria-labelledby="portafolio-title">
       <Header>
-        <Title id="portafolio-title">Casos de éxito inmersivos</Title>
+        <Title id="portafolio-title">Casos de éxito con impacto medible</Title>
         <p>
-          Explora proyectos que combinan IA, redes neuronales visuales y experiencias accesibles. Cada tarjeta revela un
-          resumen detallado en un modal animado.
+          Descubre cómo empresas de retail, salud y finanzas resolvieron retos concretos gracias a experiencias inmersivas,
+          datos accionables y acompañamiento continuo.
         </p>
       </Header>
       <Grid>
@@ -210,10 +213,13 @@ function PortfolioSection() {
               </CardMeta>
               <CardTitle>{project.title}</CardTitle>
               <CardSummary>{project.summary}</CardSummary>
-            </CardBody>
+              </CardBody>
           </Card>
         ))}
       </Grid>
+      <SectionFooter>
+        ¿Te gustaría que contemos la próxima historia de crecimiento contigo?
+      </SectionFooter>
 
       <AnimatePresence>
         {activeProject && (
@@ -248,25 +254,28 @@ function PortfolioSection() {
                   Cerrar
                 </CloseButton>
               </ModalHeader>
-              <p id={`portfolio-${activeProject.id}-description`} style={{ margin: 0 }}>
-                {activeProject.description}
-              </p>
-              <div>
-                <strong>Entregables clave</strong>
-                <DeliverableList>
-                  {activeProject.deliverables.map((item) => (
+              <ModalBlock>
+                <ModalLabel>Reto</ModalLabel>
+                <p id={`portfolio-${activeProject.id}-description`} style={{ margin: 0 }}>
+                  {activeProject.challenge}
+                </p>
+              </ModalBlock>
+              <ModalBlock>
+                <ModalLabel>Solución</ModalLabel>
+                <p style={{ margin: 0 }}>{activeProject.solution}</p>
+              </ModalBlock>
+              <ModalBlock>
+                <ModalLabel>Resultado</ModalLabel>
+                <p style={{ margin: 0 }}>{activeProject.result}</p>
+              </ModalBlock>
+              <ModalBlock>
+                <ModalLabel>Impacto destacado</ModalLabel>
+                <ImpactList>
+                  {activeProject.impact.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
-                </DeliverableList>
-              </div>
-              <div>
-                <strong>Tecnologías</strong>
-                <TagList>
-                  {activeProject.technologies.map((tech) => (
-                    <Tag key={tech}>{tech}</Tag>
-                  ))}
-                </TagList>
-              </div>
+                </ImpactList>
+              </ModalBlock>
             </ModalContent>
           </ModalOverlay>
         )}

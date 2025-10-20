@@ -47,6 +47,13 @@ const Grid = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 `;
 
+const SectionFooter = styled.div`
+  margin-top: clamp(2rem, 3vw, 3rem);
+  text-align: center;
+  color: ${({ theme }) => theme.textSecondary};
+  font-weight: 600;
+`;
+
 const Card = styled(motion(Link))`
   display: grid;
   gap: 0.85rem;
@@ -91,8 +98,8 @@ function BlogPreview() {
         <div>
           <Title id="recursos-title">Recursos destacados</Title>
           <p style={{ margin: 0 }}>
-            Conecta con artículos sobre IA aplicada, micro-interacciones y accesibilidad. Descubre cómo integrar estas ideas en
-            tus productos.
+            Conecta con guías prácticas y tendencias sobre experiencias inmersivas responsables. Cada artículo responde a
+            preguntas frecuentes de nuestros clientes.
           </p>
         </div>
         <LinkButton to="/blog">Ver todos</LinkButton>
@@ -119,6 +126,7 @@ function BlogPreview() {
           </Card>
         ))}
       </Grid>
+      <SectionFooter>¿Qué tema te gustaría que abordemos en la próxima publicación?</SectionFooter>
     </Section>
   );
 }

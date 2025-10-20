@@ -43,6 +43,10 @@ const Description = styled.p`
   line-height: 1.7;
 `;
 
+const CTAQuestion = styled.p`
+  font-weight: 600;
+`;
+
 const VideoWrapper = styled(motion.div)`
   border-radius: 24px;
   overflow: hidden;
@@ -62,11 +66,15 @@ function AboutSection() {
           <Highlight>Innovación y humanidad</Highlight>
           <Title id="acerca-title">Tecnología que potencia historias reales</Title>
           <Description>
-            Somos un equipo apasionado que integra estrategia, diseño y código para crear experiencias memorables. Nuestra misión es acompañarte en cada iteración, aplicando metodologías ágiles y arquitectura escalable que trasciende el entregable inicial.
+            Acompañamos a las organizaciones desde la estrategia hasta la evolución continua, alineando descubrimientos de
+            usuarios, prototipado inmersivo y despliegues sostenibles. Cada entrega se diseña para generar confianza y valor
+            tangible.
           </Description>
           <Description>
-            Las tendencias 2025 destacan el uso de video y animaciones para transmitir valor rápidamente; por eso, incorporamos un resumen audiovisual accesible que muestra nuestro enfoque colaborativo y orientado a resultados.
+            Documentamos decisiones, facilitamos ceremonias colaborativas y medimos impactos para que tu equipo conserve el
+            aprendizaje y pueda escalarlo. El video resume cómo convertimos la innovación en resultados humanos.
           </Description>
+          <CTAQuestion>¿Nos dejas acompañarte en tu próximo reto?</CTAQuestion>
         </Content>
         <VideoWrapper
           initial={{ opacity: 0, x: 60 }}

@@ -4,6 +4,7 @@ import { Suspense, lazy } from 'react';
 import Layout from './components/Layout.jsx';
 import NotFound from './pages/NotFound.jsx';
 import SkipToContent from './components/SkipToContent.jsx';
+import AnalyticsListener from './components/AnalyticsListener.jsx';
 
 const Home = lazy(() => import('./pages/Home.jsx'));
 const Blog = lazy(() => import('./pages/Blog.jsx'));
@@ -14,6 +15,7 @@ function App({ onCycleTheme, themeName, availableThemes }) {
     <>
       <SkipToContent />
       <Layout onCycleTheme={onCycleTheme} themeName={themeName} availableThemes={availableThemes}>
+        <AnalyticsListener />
         <Suspense fallback={<div role="status" aria-live="polite" style={{ padding: '4rem', textAlign: 'center' }}>Cargando contenido…</div>}>
           <Routes>
             <Route path="/" element={<Home />} />

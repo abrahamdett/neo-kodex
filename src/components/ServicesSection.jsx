@@ -3,6 +3,9 @@ import { useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { services } from '../data/services.js';
 import ServiceCard from './ServiceCard.jsx';
+import { useAnalytics } from '../providers/AnalyticsProvider.jsx';
+import { logCtaInteraction } from '../services/leadService.js';
+import { useExperiment } from '../contexts/ExperimentContext.jsx';
 
 const Section = styled.section`
   padding: clamp(4.5rem, 8vw, 7rem) clamp(1.25rem, 4vw, 4rem);
@@ -31,6 +34,32 @@ const SectionFooter = styled.div`
   text-align: center;
   color: ${({ theme }) => theme.textSecondary};
   font-weight: 600;
+  display: grid;
+  gap: 1rem;
+`;
+
+const FooterActions = styled.div`
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+`;
+
+const SecondaryLink = styled.a`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.4rem;
+  border-radius: 999px;
+  border: 1px solid ${({ theme }) => theme.border};
+  background: ${({ theme }) => theme.surface};
+  color: ${({ theme }) => theme.text};
+  font-weight: 600;
+
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.accent};
+    outline-offset: 4px;
+  }
 `;
 
 const Grid = styled.div`
@@ -176,6 +205,8 @@ function ServicesSection() {
   const theme = useTheme();
   const layoutAreas = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k'];
   const [activeServiceId, setActiveServiceId] = useState(null);
+  const { trackEvent } = useAnalytics();
+  const { variant } = useExperiment();
 
   const gradients = useMemo(() => {
     const accentSoft = theme?.accentSoft ?? 'rgba(127, 90, 240, 0.2)';
@@ -226,6 +257,26 @@ function ServicesSection() {
       </Grid>
       <SectionFooter>
         ¿Cuál de estas soluciones desbloqueará tu siguiente hito?
+        <FooterActions>
+          <CTAButton
+            href="#contacto"
+            onClick={() => {
+              trackEvent({ action: 'cta_diagnostico_servicios_footer', category: 'cta_intermedia', label: 'cta-servicios-footer' });
+              logCtaInteraction({ location: 'cta-servicios-footer', variant, intent: 'cta_diagnostico_servicios_footer' }).catch(() => {});
+            }}
+          >
+            Agenda diagnóstico estratégico
+          </CTAButton>
+          <SecondaryLink
+            href="#recursos"
+            onClick={() => {
+              trackEvent({ action: 'cta_recursos_servicios_footer', category: 'cta_intermedia', label: 'cta-servicios-footer' });
+              logCtaInteraction({ location: 'cta-servicios-footer', variant, intent: 'cta_recursos_servicios_footer' }).catch(() => {});
+            }}
+          >
+            Explorar frameworks descargables
+          </SecondaryLink>
+        </FooterActions>
       </SectionFooter>
 
       <AnimatePresence>

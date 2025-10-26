@@ -3,6 +3,11 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { FiMoon, FiSun, FiFeather } from 'react-icons/fi';
+import { useCallback } from 'react';
+import { useAnalytics } from '../providers/AnalyticsProvider.jsx';
+import { useExperiment } from '../contexts/ExperimentContext.jsx';
+import { useAccessibility } from '../contexts/AccessibilityContext.jsx';
+import { logCtaInteraction } from '../services/leadService.js';
 
 const Header = styled.header`
   position: sticky;
@@ -42,13 +47,18 @@ const Dot = styled.span`
 const Menu = styled.ul`
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 1.5rem;
   list-style: none;
   padding: 0;
   margin: 0;
+  justify-content: flex-end;
 `;
 
-const MenuItem = styled.li``;
+const MenuItem = styled.li`
+  display: flex;
+  align-items: center;
+`;
 
 const MenuLink = styled.a`
   position: relative;
@@ -118,6 +128,44 @@ const ThemeToggle = styled.button`
   }
 `;
 
+const HeaderCTA = styled.a`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1.4rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, ${({ theme }) => theme.accent}, ${({ theme }) => theme.accentSoft});
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 16px 32px rgba(127, 90, 240, 0.25);
+  transition: transform 0.3s ease;
+
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-2px);
+    outline: 3px solid ${({ theme }) => theme.accentSoft};
+    outline-offset: 4px;
+  }
+`;
+
+const MotionToggle = styled.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  border: 1px solid ${({ theme }) => theme.border};
+  background: ${({ theme }) => theme.surface};
+  color: ${({ theme }) => theme.textSecondary};
+  font-weight: 500;
+  margin-left: 0.75rem;
+
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.accent};
+    outline-offset: 4px;
+  }
+`;
+
 const themeMeta = {
   light: { label: 'Claro', icon: FiSun },
   dark: { label: 'Oscuro', icon: FiMoon },
@@ -139,6 +187,18 @@ function Navbar({ onCycleTheme, themeName, availableThemes }) {
   const nextThemeIndex = (availableThemes.indexOf(themeName) + 1) % availableThemes.length;
   const nextTheme = themeMeta[availableThemes[nextThemeIndex]] ?? themeMeta.light;
   const ThemeIcon = current.icon;
+  const { variant } = useExperiment();
+  const { reduceMotion, toggleReduceMotion } = useAccessibility();
+  const { trackEvent } = useAnalytics();
+
+  const ctaCopy = variant === 'b' ? 'Agenda tu diagnóstico sin costo' : 'Agenda tu sesión gratuita de diagnóstico';
+
+  const handleCtaClick = useCallback(() => {
+    trackEvent({ action: 'cta_click', category: 'navbar', label: 'agenda-diagnostico' });
+    logCtaInteraction({ location: 'navbar', variant, intent: 'agenda_diagnostico' }).catch(() => {
+      // Evitamos romper la navegación si el registro remoto falla.
+    });
+  }, [trackEvent, variant]);
 
   return (
     <Header>
@@ -157,6 +217,11 @@ function Navbar({ onCycleTheme, themeName, availableThemes }) {
             </MenuItem>
           ))}
           <MenuItem>
+            <HeaderCTA href="#contacto" onClick={handleCtaClick}>
+              {ctaCopy}
+            </HeaderCTA>
+          </MenuItem>
+          <MenuItem>
             <ThemeToggle
               type="button"
               onClick={onCycleTheme}
@@ -166,6 +231,11 @@ function Navbar({ onCycleTheme, themeName, availableThemes }) {
               <ThemeIcon aria-hidden="true" />
               <span>{current.label}</span>
             </ThemeToggle>
+          </MenuItem>
+          <MenuItem>
+            <MotionToggle type="button" onClick={toggleReduceMotion} aria-pressed={reduceMotion}>
+              {reduceMotion ? 'Activar animaciones' : 'Reducir movimiento'}
+            </MotionToggle>
           </MenuItem>
         </Menu>
       </Nav>

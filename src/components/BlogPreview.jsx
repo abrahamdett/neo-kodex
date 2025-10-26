@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { blogPosts } from '../data/blogPosts.js';
+import NewsletterForm from './NewsletterForm.jsx';
 
 const Section = styled.section`
   padding: clamp(4.5rem, 8vw, 7rem) clamp(1.25rem, 5vw, 4.5rem);
@@ -54,6 +55,12 @@ const SectionFooter = styled.div`
   font-weight: 600;
 `;
 
+const NewsletterWrapper = styled.div`
+  margin-top: clamp(2.5rem, 4vw, 3.5rem);
+  display: grid;
+  gap: 1.5rem;
+`;
+
 const Card = styled(motion(Link))`
   display: grid;
   gap: 0.85rem;
@@ -102,7 +109,7 @@ function BlogPreview() {
             preguntas frecuentes de nuestros clientes.
           </p>
         </div>
-        <LinkButton to="/blog">Ver todos</LinkButton>
+        <LinkButton to="/blog">Ver todos los artículos</LinkButton>
       </Header>
       <Grid>
         {featured.map((post, index) => (
@@ -126,7 +133,14 @@ function BlogPreview() {
           </Card>
         ))}
       </Grid>
-      <SectionFooter>¿Qué tema te gustaría que abordemos en la próxima publicación?</SectionFooter>
+      <NewsletterWrapper>
+        <NewsletterForm
+          id="newsletter-blog"
+          title="Descarga la guía de onboarding inmersivo"
+          description="Te enviamos la guía en PDF junto con estudios de caso y plantillas accionables para tu equipo."
+        />
+      </NewsletterWrapper>
+      <SectionFooter>¿Qué tema te gustaría que abordemos en la próxima publicación? Escríbenos y lo investigamos para ti.</SectionFooter>
     </Section>
   );
 }

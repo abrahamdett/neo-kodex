@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { useAccessibility } from '../contexts/AccessibilityContext.jsx';
 
 const primarySpring = { damping: 20, stiffness: 220, mass: 0.3 };
 const followerSpring = { damping: 18, stiffness: 140, mass: 0.6 };
 
 function CustomCursor() {
   const [enabled, setEnabled] = useState(false);
+  const { reduceMotion } = useAccessibility();
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
   const followerX = useMotionValue(-100);
@@ -29,7 +31,7 @@ function CustomCursor() {
     const { finePointer, reducedMotion } = mediaQueries;
 
     const updateState = () => {
-      setEnabled(finePointer.matches && !reducedMotion.matches);
+      setEnabled(finePointer.matches && !reducedMotion.matches && !reduceMotion);
     };
 
     updateState();
@@ -41,7 +43,7 @@ function CustomCursor() {
       finePointer.removeEventListener('change', updateState);
       reducedMotion.removeEventListener('change', updateState);
     };
-  }, [mediaQueries]);
+  }, [mediaQueries, reduceMotion]);
 
   useEffect(() => {
     if (!enabled) return undefined;

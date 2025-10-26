@@ -33,6 +33,10 @@ const GlobalStyle = createGlobalStyle`
     overflow-x: hidden;
   }
 
+  body[data-reduce-motion='true'] {
+    scroll-behavior: auto;
+  }
+
   body::before {
     content: '';
     position: fixed;
@@ -67,6 +71,11 @@ const GlobalStyle = createGlobalStyle`
     body {
       cursor: none;
     }
+  }
+
+  body[data-reduce-motion='true'] .neo-cursor,
+  body[data-reduce-motion='true'] .neo-cursor--trailing {
+    display: none;
   }
 
   .neo-cursor,

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import styled, { useTheme } from 'styled-components';
 import usePrefersReducedMotion from '../hooks/usePrefersReducedMotion.js';
+import { useAccessibility } from '../contexts/AccessibilityContext.jsx';
 
 const Canvas = styled.canvas`
   position: fixed;
@@ -22,6 +23,7 @@ function NeuralBackdrop() {
   const canvasRef = useRef(null);
   const prefersReducedMotion = usePrefersReducedMotion();
   const theme = useTheme();
+  const { reduceMotion } = useAccessibility();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -35,13 +37,15 @@ function NeuralBackdrop() {
     let width = 0;
     let height = 0;
 
-    const nodes = Array.from({ length: prefersReducedMotion ? 60 : 120 }, (_, index) => ({
+    const shouldReduce = reduceMotion || prefersReducedMotion;
+
+    const nodes = Array.from({ length: shouldReduce ? 60 : 120 }, (_, index) => ({
       // Los nodos se desplazan suavemente sobre el fondo para reforzar la identidad neuronal.
       x: Math.random(),
       y: Math.random(),
       angle: Math.random() * Math.PI * 2,
-      speed: prefersReducedMotion ? 0 : 0.0008 + Math.random() * 0.0015,
-      radius: prefersReducedMotion ? 0.6 + Math.random() * 1.2 : 0.8 + Math.random() * 1.6,
+      speed: shouldReduce ? 0 : 0.0008 + Math.random() * 0.0015,
+      radius: shouldReduce ? 0.6 + Math.random() * 1.2 : 0.8 + Math.random() * 1.6,
       offset: index * 12
     }));
 
@@ -90,7 +94,7 @@ function NeuralBackdrop() {
         context.fillStyle = gradient;
         context.fillRect(x - 60, y - 60, 120, 120);
 
-        if (prefersReducedMotion) continue;
+        if (shouldReduce) continue;
 
         for (let j = i + 1; j < nodes.length; j += 1) {
           const other = nodes[j];
@@ -115,11 +119,19 @@ function NeuralBackdrop() {
       animationFrame = requestAnimationFrame(loop);
     };
 
-    resize();
-    if (!prefersReducedMotion) {
-      animationFrame = requestAnimationFrame(loop);
+    const start = () => {
+      resize();
+      if (!shouldReduce) {
+        animationFrame = requestAnimationFrame(loop);
+      } else {
+        draw(0);
+      }
+    };
+
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(start, { timeout: 600 });
     } else {
-      draw(0);
+      setTimeout(start, 150);
     }
 
     window.addEventListener('resize', resize);
@@ -128,7 +140,7 @@ function NeuralBackdrop() {
       window.removeEventListener('resize', resize);
       if (animationFrame) cancelAnimationFrame(animationFrame);
     };
-  }, [prefersReducedMotion, theme]);
+  }, [prefersReducedMotion, theme, reduceMotion]);
 
   return <Canvas ref={canvasRef} aria-hidden />;
 }

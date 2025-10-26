@@ -1,8 +1,9 @@
 import styled from 'styled-components';
-import { FaLinkedin, FaGithub, FaTwitter } from 'react-icons/fa';
+import { FaLinkedin, FaGithub, FaTwitter, FaLock } from 'react-icons/fa';
+import NewsletterForm from './NewsletterForm.jsx';
 
 const FooterWrapper = styled.footer`
-  padding: 3rem 1.5rem 2rem;
+  padding: clamp(3rem, 6vw, 4rem) clamp(1.5rem, 5vw, 4rem) 2rem;
   background: ${({ theme }) => theme.surfaceSecondary};
   color: ${({ theme }) => theme.textSecondary};
   border-top: 1px solid ${({ theme }) => theme.border};
@@ -37,6 +38,7 @@ const SocialAnchor = styled.a`
   background: ${({ theme }) => theme.surface};
   color: ${({ theme }) => theme.accent};
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+
   &:hover,
   &:focus-visible {
     transform: translateY(-3px);
@@ -44,9 +46,28 @@ const SocialAnchor = styled.a`
   }
 `;
 
+const LegalRow = styled.div`
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  font-size: 0.9rem;
+`;
+
+const SecurityBadge = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid ${({ theme }) => theme.border};
+  background: ${({ theme }) => theme.surface};
+`;
+
 const Copyright = styled.p`
   text-align: center;
-  margin-top: 2rem;
+  margin-top: 1.5rem;
   font-size: 0.9rem;
 `;
 
@@ -57,6 +78,15 @@ function Footer() {
         <Column>
           <h3>NEO-KODEX</h3>
           <p>Más allá del código. Innovación, confianza y acompañamiento estratégico para tus proyectos tecnológicos.</p>
+        </Column>
+        <Column>
+          <h4>Recibe recursos exclusivos</h4>
+          <NewsletterForm
+            id="newsletter-footer"
+            title=""
+            description="Suscríbete para recibir frameworks accionables, estudios de caso y avisos de workshops."
+            submitLabel="Unirme a la comunidad"
+          />
         </Column>
         <Column>
           <h4>Contacto</h4>
@@ -79,6 +109,13 @@ function Footer() {
           </SocialLinks>
         </Column>
       </FooterGrid>
+      <LegalRow>
+        <a href="/privacy.html">Política de privacidad</a>
+        <a href="/terms.html">Términos de servicio</a>
+        <SecurityBadge>
+          <FaLock aria-hidden="true" /> SSL 256-bit · Data Residency MX/EU
+        </SecurityBadge>
+      </LegalRow>
       <Copyright>© {new Date().getFullYear()} NEO-KODEX. Todos los derechos reservados.</Copyright>
     </FooterWrapper>
   );

@@ -2,6 +2,9 @@ import { useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { AnimatePresence, motion } from 'framer-motion';
 import { portfolioProjects } from '../data/portfolio.js';
+import { useAnalytics } from '../providers/AnalyticsProvider.jsx';
+import { logCtaInteraction } from '../services/leadService.js';
+import { useExperiment } from '../contexts/ExperimentContext.jsx';
 
 const Section = styled.section`
   padding: clamp(4.5rem, 8vw, 7rem) clamp(1.25rem, 5vw, 4.5rem);
@@ -26,6 +29,49 @@ const SectionFooter = styled.div`
   text-align: center;
   color: ${({ theme }) => theme.textSecondary};
   font-weight: 600;
+  display: grid;
+  gap: 1rem;
+`;
+
+const FooterActions = styled.div`
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+`;
+
+const PrimaryFooterButton = styled.a`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 1.75rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, ${({ theme }) => theme.accent}, ${({ theme }) => theme.accentSoft});
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 18px 36px rgba(127, 90, 240, 0.28);
+
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.accentSoft};
+    outline-offset: 4px;
+  }
+`;
+
+const FooterButton = styled.a`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.6rem;
+  border-radius: 999px;
+  border: 1px solid ${({ theme }) => theme.border};
+  background: ${({ theme }) => theme.surface};
+  color: ${({ theme }) => theme.text};
+  font-weight: 600;
+
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.accent};
+    outline-offset: 4px;
+  }
 `;
 
 const Grid = styled.div`
@@ -181,6 +227,8 @@ function PortfolioSection() {
     () => new Map(portfolioProjects.map((project) => [project.id, project])),
     []
   );
+  const { trackEvent } = useAnalytics();
+  const { variant } = useExperiment();
 
   const activeProject = activeId ? projectsById.get(activeId) : null;
 
@@ -219,6 +267,26 @@ function PortfolioSection() {
       </Grid>
       <SectionFooter>
         ¿Te gustaría que contemos la próxima historia de crecimiento contigo?
+        <FooterActions>
+          <PrimaryFooterButton
+            href="#contacto"
+            onClick={() => {
+              trackEvent({ action: 'cta_propuesta_portafolio', category: 'cta_intermedia', label: 'cta-portafolio-footer' });
+              logCtaInteraction({ location: 'cta-portafolio-footer', variant, intent: 'cta_propuesta_portafolio' }).catch(() => {});
+            }}
+          >
+            Solicitar propuesta basada en datos
+          </PrimaryFooterButton>
+          <FooterButton
+            href="#alianzas"
+            onClick={() => {
+              trackEvent({ action: 'cta_confianza_portafolio', category: 'cta_intermedia', label: 'cta-portafolio-footer' });
+              logCtaInteraction({ location: 'cta-portafolio-footer', variant, intent: 'cta_confianza_portafolio' }).catch(() => {});
+            }}
+          >
+            Ver garantías y certificaciones
+          </FooterButton>
+        </FooterActions>
       </SectionFooter>
 
       <AnimatePresence>

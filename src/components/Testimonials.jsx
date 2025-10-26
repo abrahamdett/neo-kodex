@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { useAnalytics } from '../providers/AnalyticsProvider.jsx';
+import { logCtaInteraction } from '../services/leadService.js';
+import { useExperiment } from '../contexts/ExperimentContext.jsx';
 
 const Section = styled.section`
   position: relative;
@@ -42,6 +45,25 @@ const SectionFooter = styled.div`
   margin-top: clamp(2rem, 3vw, 3rem);
   color: ${({ theme }) => theme.textSecondary};
   font-weight: 600;
+  display: grid;
+  gap: 0.75rem;
+`;
+
+const FooterButton = styled.a`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.6rem;
+  border-radius: 999px;
+  border: 1px solid ${({ theme }) => theme.border};
+  background: ${({ theme }) => theme.surface};
+  color: ${({ theme }) => theme.text};
+  font-weight: 600;
+
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.accent};
+    outline-offset: 4px;
+  }
 `;
 
 const Carousel = styled.div`
@@ -134,6 +156,8 @@ const variants = {
 function Testimonials() {
   const [[index, direction], setIndex] = useState([0, 0]);
   const testimonial = testimonials[index];
+  const { trackEvent } = useAnalytics();
+  const { variant } = useExperiment();
 
   const goTo = (step) => {
     const newIndex = (index + step + testimonials.length) % testimonials.length;
@@ -187,7 +211,18 @@ function Testimonials() {
             <FaChevronRight aria-hidden="true" />
           </ControlButton>
         </Controls>
-        <SectionFooter>¿Te gustaría ser nuestro próximo caso de éxito?</SectionFooter>
+        <SectionFooter>
+          ¿Te gustaría ser nuestro próximo caso de éxito?
+          <FooterButton
+            href="#contacto"
+            onClick={() => {
+              trackEvent({ action: 'cta_propuesta_testimonios_footer', category: 'cta_intermedia', label: 'cta-testimonios-footer' });
+              logCtaInteraction({ location: 'cta-testimonios-footer', variant, intent: 'cta_propuesta_testimonios_footer' }).catch(() => {});
+            }}
+          >
+            Solicita tu roadmap personalizado
+          </FooterButton>
+        </SectionFooter>
       </Wrapper>
     </Section>
   );

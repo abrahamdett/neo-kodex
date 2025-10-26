@@ -1,12 +1,16 @@
 import styled, { useTheme } from 'styled-components';
 import { motion } from 'framer-motion';
 import { lazy, Suspense, useMemo, useState } from 'react';
-import { FiArrowUpRight, FiClock, FiPlay } from 'react-icons/fi';
+import { FiArrowUpRight, FiClock, FiDownload } from 'react-icons/fi';
 import { TbAugmentedReality } from 'react-icons/tb';
 import { RiSparkling2Line } from 'react-icons/ri';
 import { LuGlobe2 } from 'react-icons/lu';
 import usePrefersReducedMotion from '../hooks/usePrefersReducedMotion.js';
 import useCountUp from '../hooks/useCountUp.js';
+import { useExperiment } from '../contexts/ExperimentContext.jsx';
+import { useAnalytics } from '../providers/AnalyticsProvider.jsx';
+import { logCtaInteraction } from '../services/leadService.js';
+import { useAccessibility } from '../contexts/AccessibilityContext.jsx';
 
 const HeroScene = lazy(() => import('./HeroScene.jsx'));
 
@@ -91,6 +95,8 @@ const PrimaryCTA = styled(motion.a)`
   color: #ffffff;
   font-weight: 600;
   letter-spacing: 0.04em;
+  text-align: center;
+  white-space: normal;
   box-shadow: 0 24px 46px rgba(127, 90, 240, 0.35);
   position: relative;
   overflow: hidden;
@@ -126,6 +132,8 @@ const SecondaryCTA = styled(motion.a)`
   background: ${({ theme }) => theme.surface};
   color: ${({ theme }) => theme.text};
   font-weight: 600;
+  text-align: center;
+  white-space: normal;
 `;
 
 const CanvasWrapper = styled.div`
@@ -296,6 +304,10 @@ function Hero() {
   const theme = useTheme();
   const accent = theme?.accent ?? '#7f5af0';
   const prefersReducedMotion = usePrefersReducedMotion();
+  const { reduceMotion } = useAccessibility();
+  const shouldReduceMotion = reduceMotion || prefersReducedMotion;
+  const { variant } = useExperiment();
+  const { trackEvent } = useAnalytics();
   const secondary = useMemo(() => {
     if (theme?.name === 'sepia') return '#facc15';
     if (theme?.name === 'dark') return '#38bdf8';
@@ -330,17 +342,26 @@ function Hero() {
               href="#contacto"
               whileHover={{ scale: 1.05, rotate: -1 }}
               whileTap={{ scale: 0.97 }}
+              onClick={() => {
+                const action = variant === 'b' ? 'cta_propuesta' : 'cta_agendar_diagnostico';
+                trackEvent({ action, category: 'hero', label: 'hero-cta' });
+                logCtaInteraction({ location: 'hero', variant, intent: action }).catch(() => {});
+              }}
             >
-              <span>Comenzar proyecto</span>
+              <span>{variant === 'b' ? 'Solicita una propuesta personalizada' : 'Agenda tu sesión gratuita de diagnóstico'}</span>
               <FiArrowUpRight aria-hidden="true" />
             </PrimaryCTA>
             <SecondaryCTA
-              href="#acerca"
+              href="#recursos"
               whileHover={{ y: -4 }}
               whileTap={{ scale: 0.97 }}
+              onClick={() => {
+                trackEvent({ action: 'cta_descarga_guia', category: 'hero', label: 'guia-exclusiva' });
+                logCtaInteraction({ location: 'hero', variant, intent: 'cta_descarga_guia' }).catch(() => {});
+              }}
             >
-              <FiPlay aria-hidden="true" />
-              <span>Ver manifiesto</span>
+              <FiDownload aria-hidden="true" />
+              <span>Descarga la guía exclusiva</span>
             </SecondaryCTA>
           </CTAGroup>
           <StatsList>
@@ -353,15 +374,15 @@ function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            ¿Listo para transformar tu próximo lanzamiento con nosotros?
+            Reservamos un diagnóstico sin costo en menos de 48 horas hábiles para descubrir tu próximo hito.
           </QuestionPrompt>
         </Content>
         <CanvasWrapper
           role="presentation"
-          aria-hidden={prefersReducedMotion}
-          aria-describedby={prefersReducedMotion ? undefined : 'hero-3d-description'}
+          aria-hidden={shouldReduceMotion}
+          aria-describedby={shouldReduceMotion ? undefined : 'hero-3d-description'}
         >
-          {prefersReducedMotion ? (
+          {shouldReduceMotion ? (
             <motion.div
               aria-hidden="true"
               style={{ width: '100%', height: '100%', background: `radial-gradient(circle at 30% 20%, ${accent}33, transparent 60%)`, filter: 'blur(0px)' }}

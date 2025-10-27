@@ -13,8 +13,8 @@ const Header = styled.header`
   position: sticky;
   top: 0;
   z-index: 999;
-  backdrop-filter: blur(12px);
-  background: ${({ theme }) => `${theme.background}cc`};
+  backdrop-filter: blur(14px);
+  background: ${({ theme }) => `${theme.background}e6`};
   border-bottom: 1px solid ${({ theme }) => theme.border};
 `;
 
@@ -132,19 +132,22 @@ const HeaderCTA = styled.a`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.65rem 1.4rem;
+  padding: 0.7rem 1.6rem;
   border-radius: 999px;
-  background: linear-gradient(135deg, ${({ theme }) => theme.accent}, ${({ theme }) => theme.accentSoft});
+  background: linear-gradient(120deg, ${({ theme }) => theme.accent}, ${({ theme }) => theme.accentSoft});
+  background-size: 180% 180%;
   color: #ffffff;
   font-weight: 600;
-  box-shadow: 0 16px 32px rgba(127, 90, 240, 0.25);
-  transition: transform 0.3s ease;
+  letter-spacing: 0.02em;
+  box-shadow: 0 18px 40px rgba(127, 90, 240, 0.28);
+  transition: transform 0.3s ease, background-position 0.6s ease;
 
   &:hover,
   &:focus-visible {
     transform: translateY(-2px);
     outline: 3px solid ${({ theme }) => theme.accentSoft};
     outline-offset: 4px;
+    background-position: 100% 50%;
   }
 `;
 
@@ -152,13 +155,22 @@ const MotionToggle = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.4rem;
   padding: 0.45rem 1rem;
   border-radius: 999px;
-  border: 1px solid ${({ theme }) => theme.border};
-  background: ${({ theme }) => theme.surface};
+  border: 1px dashed ${({ theme }) => theme.border};
+  background: transparent;
   color: ${({ theme }) => theme.textSecondary};
   font-weight: 500;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   margin-left: 0.75rem;
+
+  &:hover {
+    color: ${({ theme }) => theme.text};
+    border-color: ${({ theme }) => theme.accent};
+  }
 
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.accent};
@@ -233,7 +245,12 @@ function Navbar({ onCycleTheme, themeName, availableThemes }) {
             </ThemeToggle>
           </MenuItem>
           <MenuItem>
-            <MotionToggle type="button" onClick={toggleReduceMotion} aria-pressed={reduceMotion}>
+            <MotionToggle
+              type="button"
+              onClick={toggleReduceMotion}
+              aria-pressed={reduceMotion}
+              title={reduceMotion ? 'Vuelve a activar las animaciones suaves' : 'Reduce el movimiento de la interfaz'}
+            >
               {reduceMotion ? 'Activar animaciones' : 'Reducir movimiento'}
             </MotionToggle>
           </MenuItem>

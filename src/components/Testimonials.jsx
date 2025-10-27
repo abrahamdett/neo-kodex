@@ -5,6 +5,7 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useAnalytics } from '../providers/AnalyticsProvider.jsx';
 import { logCtaInteraction } from '../services/leadService.js';
 import { useExperiment } from '../contexts/ExperimentContext.jsx';
+import { testimonials } from '../data/testimonials.js';
 
 const Section = styled.section`
   position: relative;
@@ -125,27 +126,6 @@ const ControlButton = styled(motion.button)`
   cursor: pointer;
   backdrop-filter: blur(18px);
 `;
-
-const testimonials = [
-  {
-    quote:
-      'La capacidad de NEO-KODEX para traducir objetivos de negocio en experiencias digitales inmersivas nos permitió triplicar la retención de usuarios en tres meses.',
-    author: 'Andrea Gómez',
-    role: 'CMO, Finova Bank'
-  },
-  {
-    quote:
-      'Su enfoque integral de DevOps y desarrollo full stack redujo nuestros tiempos de despliegue de semanas a horas, manteniendo altos estándares de calidad.',
-    author: 'Luis Martínez',
-    role: 'CTO, HealthCore'
-  },
-  {
-    quote:
-      'El rediseño con microinteracciones accesibles mejoró nuestras conversiones un 35%. El equipo entiende cómo equilibrar estética, rendimiento y accesibilidad.',
-    author: 'Valentina Rivas',
-    role: 'Product Lead, RetailX'
-  }
-];
 
 const variants = {
   enter: (direction) => ({ x: direction > 0 ? 220 : -220, opacity: 0, scale: 0.97 }),

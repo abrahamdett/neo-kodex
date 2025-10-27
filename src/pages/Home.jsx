@@ -9,6 +9,7 @@ import BlogPreview from '../components/BlogPreview.jsx';
 import ContactSection from '../components/ContactSection.jsx';
 import InlineCTA from '../components/InlineCTA.jsx';
 import TrustSection from '../components/TrustSection.jsx';
+import HumanConnection from '../components/HumanConnection.jsx';
 import styled from 'styled-components';
 
 const MainWrapper = styled.div`
@@ -21,6 +22,7 @@ function Home() {
   return (
     <MainWrapper>
       <Hero />
+      <HumanConnection />
       <ServicesSection />
       <InlineCTA
         id="cta-servicios"

@@ -22,6 +22,16 @@ const HeroSection = styled.section`
   align-items: center;
   justify-items: center;
   overflow: hidden;
+  background: radial-gradient(120% 120% at 15% 20%, rgba(4, 7, 18, 0.9), rgba(4, 7, 18, 0.35) 50%, transparent 80%);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(3, 6, 20, 0.85) 0%, rgba(3, 6, 20, 0.65) 35%, transparent 82%);
+    z-index: 1;
+    pointer-events: none;
+  }
 `;
 
 const Grid = styled.div`
@@ -37,8 +47,33 @@ const Grid = styled.div`
 const Content = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: clamp(1.5rem, 3vw, 2.4rem);
   position: relative;
+`;
+
+const Messaging = styled(motion.div)`
+  position: relative;
+  padding: clamp(2.2rem, 4vw, 2.8rem);
+  border-radius: clamp(2rem, 4vw, 2.75rem);
+  background: ${({ theme }) =>
+    `linear-gradient(175deg, ${theme.surface} 0%, ${theme.surfaceSecondary} 55%, ${theme.surface} 100%)`};
+  border: 1px solid ${({ theme }) => theme.glass.border};
+  box-shadow: ${({ theme }) => theme.glass.shadow};
+  backdrop-filter: blur(22px);
+  display: grid;
+  gap: clamp(1rem, 2vw, 1.6rem);
+  isolation: isolate;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -25% -30% auto -30%;
+    height: clamp(220px, 32vw, 360px);
+    background: radial-gradient(circle at top, rgba(255, 255, 255, 0.18), transparent 70%);
+    opacity: 0.65;
+    filter: blur(0.8px);
+    pointer-events: none;
+  }
 `;
 
 const AccentBadge = styled(motion.span)`
@@ -55,24 +90,36 @@ const AccentBadge = styled(motion.span)`
 
 const Title = styled(motion.h1)`
   margin: 0;
-  font-size: clamp(3rem, 6vw + 1rem, 5.2rem);
-  line-height: 1.05;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-variation-settings: 'wght' 720;
+  display: grid;
+  gap: clamp(0.75rem, 1.5vw, 1rem);
+`;
 
-  span {
-    display: block;
-    font-variation-settings: 'wght' 350;
-    letter-spacing: 0.02em;
-  }
+const BrandName = styled.span`
+  font-size: clamp(4rem, 7vw + 1rem, 6.5rem);
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-variation-settings: 'wght' 760;
+  background: ${({ $accent, $secondary }) => `linear-gradient(180deg, ${$accent}, ${$secondary})`};
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: drop-shadow(0 22px 38px rgba(127, 90, 240, 0.28));
+`;
+
+const Tagline = styled.span`
+  font-size: clamp(1.3rem, 1.4vw + 1rem, 1.65rem);
+  letter-spacing: 0.02em;
+  color: ${({ theme }) => theme.text};
+  max-width: 26ch;
 `;
 
 const Subtitle = styled(motion.p)`
   margin: 0;
-  color: ${({ theme }) => theme.textSecondary};
-  font-size: clamp(1.05rem, 1.2vw + 1rem, 1.25rem);
-  max-width: 32rem;
+  color: ${({ theme }) => `${theme.textSecondary}cc`};
+  font-size: clamp(0.95rem, 0.95vw + 1rem, 1.15rem);
+  max-width: 34rem;
+  line-height: 1.75;
 `;
 
 const CTAGroup = styled.div`
@@ -80,6 +127,7 @@ const CTAGroup = styled.div`
   flex-wrap: wrap;
   gap: 1rem;
   align-items: center;
+  justify-content: flex-start;
 `;
 
 const PrimaryCTA = styled(motion.a)`
@@ -197,7 +245,7 @@ const GlowBackdrop = styled.div`
   background: radial-gradient(circle at center, rgba(127, 90, 240, 0.2), transparent 60%);
   filter: blur(60px);
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
 `;
 
 const ScrollIndicator = styled(motion.div)`
@@ -314,6 +362,8 @@ function Hero() {
     return '#00d1ff';
   }, [theme]);
 
+  const gradientSecondary = `${secondary}cc`;
+
   const stats = useMemo(() => ([
     { target: 220, suffix: '+', label: 'Experiencias inmersivas lanzadas', icon: TbAugmentedReality },
     { target: 98, suffix: '%', label: 'Clientes que renuevan con nosotros', icon: RiSparkling2Line },
@@ -325,45 +375,59 @@ function Hero() {
     <HeroSection aria-labelledby="inicio">
       <GlowBackdrop aria-hidden="true" />
       <Grid>
-        <Content id="inicio">
-          <AccentBadge initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-            Confianza con IA ética
-          </AccentBadge>
-          <Title initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}>
-            NEO-KODEX
-            <span>Inteligencia de diseño que transforma tu negocio y mejora la vida de las personas</span>
-          </Title>
-          <Subtitle initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}>
-            Diseñamos experiencias inmersivas donde la IA, el diseño inclusivo y la estrategia de negocio se alinean con
-            resultados medibles, prácticas éticas y soporte humano de principio a fin.
-          </Subtitle>
-          <CTAGroup>
-            <PrimaryCTA
-              href="#contacto"
-              whileHover={{ scale: 1.05, rotate: -1 }}
-              whileTap={{ scale: 0.97 }}
-              onClick={() => {
-                const action = variant === 'b' ? 'cta_propuesta' : 'cta_agendar_diagnostico';
-                trackEvent({ action, category: 'hero', label: 'hero-cta' });
-                logCtaInteraction({ location: 'hero', variant, intent: action }).catch(() => {});
-              }}
+        <Content>
+          <Messaging initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+            <AccentBadge initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+              Confianza con IA ética
+            </AccentBadge>
+            <Title
+              id="inicio"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
             >
-              <span>{variant === 'b' ? 'Solicita una propuesta personalizada' : 'Agenda tu sesión gratuita de diagnóstico'}</span>
-              <FiArrowUpRight aria-hidden="true" />
-            </PrimaryCTA>
-            <SecondaryCTA
-              href="#recursos"
-              whileHover={{ y: -4 }}
-              whileTap={{ scale: 0.97 }}
-              onClick={() => {
-                trackEvent({ action: 'cta_descarga_guia', category: 'hero', label: 'guia-exclusiva' });
-                logCtaInteraction({ location: 'hero', variant, intent: 'cta_descarga_guia' }).catch(() => {});
-              }}
-            >
-              <FiDownload aria-hidden="true" />
-              <span>Descarga la guía exclusiva</span>
-            </SecondaryCTA>
-          </CTAGroup>
+              <BrandName $accent={accent} $secondary={gradientSecondary}>NEO-KODEX</BrandName>
+              <Tagline>Inteligencia aplicada que acelera tus metas sin perder el cuidado por las personas.</Tagline>
+            </Title>
+            <Subtitle initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}>
+              Creamos productos inmersivos donde estrategia, diseño inclusivo y automatización responsable trabajan para el
+              crecimiento sostenible de tu organización.
+            </Subtitle>
+            <CTAGroup>
+              <PrimaryCTA
+                href="#contacto"
+                initial={{ scale: 1 }}
+                animate={{ scale: [1, 1.035, 1] }}
+                transition={{ duration: 3, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
+                whileHover={{ scale: 1.06, rotate: -1 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => {
+                  const action = variant === 'b' ? 'cta_propuesta' : 'cta_agendar_diagnostico';
+                  trackEvent({ action, category: 'hero', label: 'hero-cta' });
+                  logCtaInteraction({ location: 'hero', variant, intent: action }).catch(() => {});
+                }}
+              >
+                <span>
+                  {variant === 'b'
+                    ? 'Solicita una propuesta personalizada'
+                    : 'Agenda tu sesión gratuita de diagnóstico'}
+                </span>
+                <FiArrowUpRight aria-hidden="true" />
+              </PrimaryCTA>
+              <SecondaryCTA
+                href="#recursos"
+                whileHover={{ y: -4 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => {
+                  trackEvent({ action: 'cta_descarga_guia', category: 'hero', label: 'guia-exclusiva' });
+                  logCtaInteraction({ location: 'hero', variant, intent: 'cta_descarga_guia' }).catch(() => {});
+                }}
+              >
+                <FiDownload aria-hidden="true" />
+                <span>Descarga la guía exclusiva</span>
+              </SecondaryCTA>
+            </CTAGroup>
+          </Messaging>
           <StatsList>
             {stats.map((stat, index) => (
               <HeroStat key={stat.label} index={index} {...stat} />

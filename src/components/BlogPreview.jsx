@@ -55,6 +55,47 @@ const SectionFooter = styled.div`
   font-weight: 600;
 `;
 
+const FooterCTAGroup = styled.div`
+  margin-top: 1.35rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+`;
+
+const FooterCTA = styled.a`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.6rem;
+  border-radius: 999px;
+  background: linear-gradient(120deg, ${({ theme }) => theme.accent}, ${({ theme }) => theme.accentSoft});
+  color: #ffffff;
+  font-weight: 600;
+
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.accentSoft};
+    outline-offset: 4px;
+  }
+`;
+
+const FooterSecondaryCTA = styled(Link)`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.6rem;
+  border-radius: 999px;
+  border: 1px solid ${({ theme }) => theme.border};
+  background: ${({ theme }) => theme.surface};
+  color: ${({ theme }) => theme.text};
+  font-weight: 600;
+
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.accent};
+    outline-offset: 4px;
+  }
+`;
+
 const NewsletterWrapper = styled.div`
   margin-top: clamp(2.5rem, 4vw, 3.5rem);
   display: grid;
@@ -140,7 +181,13 @@ function BlogPreview() {
           description="Te enviamos la guía en PDF junto con estudios de caso y plantillas accionables para tu equipo."
         />
       </NewsletterWrapper>
-      <SectionFooter>¿Qué tema te gustaría que abordemos en la próxima publicación? Escríbenos y lo investigamos para ti.</SectionFooter>
+      <SectionFooter>
+        ¿Qué tema te gustaría que abordemos en la próxima publicación? Escríbenos y lo investigamos para ti.
+        <FooterCTAGroup>
+          <FooterCTA href="#contacto">Agendar una consulta de contenido</FooterCTA>
+          <FooterSecondaryCTA to="/blog">Explorar el blog completo</FooterSecondaryCTA>
+        </FooterCTAGroup>
+      </SectionFooter>
     </Section>
   );
 }

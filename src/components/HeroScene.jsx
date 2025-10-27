@@ -25,8 +25,8 @@ function createNeuralNetworkData(count = 140) {
     nodes.push({
       origin: base,
       axis,
-      amplitude: 0.18 + Math.random() * 0.35,
-      frequency: 0.4 + Math.random() * 0.8,
+      amplitude: 0.12 + Math.random() * 0.22,
+      frequency: 0.22 + Math.random() * 0.55,
       phase: Math.random() * Math.PI * 2
     });
   }
@@ -96,13 +96,13 @@ function NeuralNetwork({ accentColor, secondaryColor, reducedMotion }) {
     const time = clock.elapsedTime;
 
     if (groupRef.current) {
-      const rotationIntensity = reducedMotion ? 0.02 : 0.06;
-      const lerpFactor = reducedMotion ? 0.02 : 0.06;
-      const targetY = pointer.x * 0.45;
-      const targetX = pointer.y * -0.25;
+      const rotationIntensity = reducedMotion ? 0.015 : 0.04;
+      const lerpFactor = reducedMotion ? 0.02 : 0.05;
+      const targetY = pointer.x * 0.32;
+      const targetX = pointer.y * -0.18;
       groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetY + time * rotationIntensity, lerpFactor);
       groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetX, lerpFactor);
-      groupRef.current.position.z = THREE.MathUtils.lerp(groupRef.current.position.z, pointer.y * 0.5, 0.04);
+      groupRef.current.position.z = THREE.MathUtils.lerp(groupRef.current.position.z, pointer.y * 0.32, 0.035);
     }
 
     nodes.forEach((node, index) => {
@@ -138,7 +138,7 @@ function NeuralNetwork({ accentColor, secondaryColor, reducedMotion }) {
     }
 
     if (materialRef.current && !reducedMotion) {
-      materialRef.current.size = 0.085 + Math.sin(time * 0.8) * 0.015;
+      materialRef.current.size = 0.075 + Math.sin(time * 0.6) * 0.01;
     }
   });
 
@@ -192,8 +192,8 @@ function FloatingDust({ color, reducedMotion }) {
 
   useFrame((state) => {
     if (!pointsRef.current || reducedMotion) return;
-    pointsRef.current.rotation.y += 0.0008;
-    pointsRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.04) * 0.08;
+    pointsRef.current.rotation.y += 0.0005;
+    pointsRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.028) * 0.06;
   });
 
   return (

@@ -1,44 +1,44 @@
 export const portfolioProjects = [
   {
-    id: 'metaverso-retail',
-    title: 'RetailSense Metaverso',
-    summary: 'Transformamos un catálogo estático en un showroom inmersivo que triplicó la retención mensual.',
-    challenge: 'El equipo de retail buscaba diferenciarse con experiencias que mantuvieran a las personas explorando productos más allá de la tienda física.',
+    id: 'sistema-inventario',
+    title: 'Sistema de Inventario Inteligente',
+    summary: 'Software a la medida que automatizó el control de inventario de una distribuidora con más de 5,000 productos.',
+    challenge: 'La empresa manejaba todo en hojas de Excel, generando errores constantes en el stock y pérdidas por falta de control en tiempo real.',
     solution:
-      'Codiseñamos recorridos guiados con visualizaciones neuronales, implementamos pruebas de usabilidad con clientes reales y habilitamos un dashboard que monitorea engagement en tiempo real.',
+      'Desarrollamos un sistema web con lector de códigos de barras, alertas de stock mínimo, reportes automáticos y módulo de compras integrado.',
     result:
-      'En ocho semanas, la marca registró 42% más conversiones, sesiones 68% más largas y un índice de satisfacción de 9.2/10.',
-    year: 2024,
-    sector: 'Retail',
-    cover: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80',
-    impact: ['+42% en conversiones digitales', '+68% de permanencia en el recorrido', 'NPS 9.2/10 tras el lanzamiento']
-  },
-  {
-    id: 'salud-digital',
-    title: 'ClinicFlow XR',
-    summary: 'Acompañamos a una red de clínicas para digitalizar la experiencia de ingreso con asistentes empáticos en tres idiomas.',
-    challenge: 'Pacientes y personal médico necesitaban una experiencia accesible que redujera tiempos de espera y ansiedad antes de una cita.',
-    solution:
-      'Creamos un portal inmersivo con rutas personalizadas, contenidos auditivos opcionales y protocolos éticos para resguardar datos sensibles.',
-    result:
-      'Los tiempos de registro disminuyeron 55% y el 87% de pacientes calificó el proceso como “más humano y claro” después del rediseño.',
+      'Redujeron pérdidas de inventario en un 85%, el equipo de almacén ahorra 15 horas semanales y los reportes se generan en segundos.',
     year: 2025,
-    sector: 'Salud',
-    cover: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1000&q=80',
-    impact: ['-55% en tiempo de registro', 'Soporte disponible 24/7 con satisfacción 4.8/5', 'Cumplimiento normativo auditado']
+    sector: 'Distribución',
+    cover: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1000&q=80',
+    impact: ['-85% de pérdidas en inventario', '15 hrs/semana ahorradas', 'Reportes en tiempo real']
   },
   {
-    id: 'fintech-neon',
-    title: 'FinNova Pulse',
-    summary: 'Rediseñamos la operación de análisis financiero con paneles predictivos que detectan riesgos 60% más rápido.',
-    challenge: 'El área de riesgo necesitaba anticiparse a movimientos críticos y compartir hallazgos con stakeholders no técnicos.',
+    id: 'app-vendedores',
+    title: 'App de Gestión de Pedidos en Campo',
+    summary: 'Aplicación móvil que permite a vendedores levantar pedidos, consultar catálogos y rastrear entregas desde su celular.',
+    challenge: 'Los vendedores tomaban pedidos en papel, causando retrasos, errores en captura y falta de visibilidad sobre el pipeline de ventas.',
     solution:
-      'Unificamos fuentes de datos en un hub visual, prototipamos escenarios de estrés y entrenamos a los equipos en toma de decisiones basada en insights.',
+      'Creamos una app nativa para Android con catálogo offline, captura de pedidos en tiempo real, GPS de rutas y sincronización automática con el ERP.',
     result:
-      'El nuevo ecosistema permitió automatizar reportes, reducir falsas alertas 37% y fortalecer la comunicación entre negocios y tecnología.',
-    year: 2023,
-    sector: 'Fintech',
-    cover: 'https://images.unsplash.com/photo-1518183214770-9cffbec72538?auto=format&fit=crop&w=1000&q=80',
-    impact: ['Riesgos detectados 60% más rápido', '-37% de alertas falsas', 'Adopción del dashboard por 5 unidades de negocio']
+      'Las ventas incrementaron un 40%, los errores de captura se eliminaron prácticamente y la gerencia tiene visibilidad total del equipo.',
+    year: 2024,
+    sector: 'Logística',
+    cover: 'https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1000&q=80',
+    impact: ['+40% en ventas mensuales', '0 errores de captura', 'Visibilidad en tiempo real']
+  },
+  {
+    id: 'red-clinica',
+    title: 'Infraestructura de Red para Clínica',
+    summary: 'Diseño e instalación completa de cableado estructurado, servidores y WiFi empresarial para una clínica con 3 sucursales.',
+    challenge: 'La clínica tenía una red inestable con caídas frecuentes que afectaban el acceso a expedientes electrónicos y la atención a pacientes.',
+    solution:
+      'Instalamos cableado Cat 6A certificado, configuramos servidores redundantes, VPN entre sucursales y una red WiFi segmentada para personal y visitantes.',
+    result:
+      'Cero caídas de red en 12 meses, acceso a expedientes 3x más rápido y cumplimiento total de normativas de datos de salud.',
+    year: 2024,
+    sector: 'Salud',
+    cover: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1000&q=80',
+    impact: ['0 caídas de red en 12 meses', 'Acceso 3x más rápido', 'Cumplimiento normativo al 100%']
   }
 ];

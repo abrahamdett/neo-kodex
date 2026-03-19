@@ -1,11 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
-  @font-face {
-    font-family: 'ClashDisplay';
-    src: local('ClashDisplay-Semibold'), local('ClashDisplay');
-    font-display: swap;
-  }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
   :root {
     color-scheme: ${({ 'data-theme': dataTheme }) => dataTheme};
@@ -26,11 +22,13 @@ const GlobalStyle = createGlobalStyle`
     background-attachment: fixed;
     background-size: cover;
     color: ${({ theme }) => theme.text};
-    font-family: 'InterVariable', 'Inter', 'ClashDisplay', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
     line-height: 1.65;
     transition: background 0.8s ease, color 0.8s ease;
     position: relative;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body[data-reduce-motion='true'] {
@@ -42,7 +40,7 @@ const GlobalStyle = createGlobalStyle`
     position: fixed;
     inset: 0;
     pointer-events: none;
-    background: radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgba(127, 90, 240, 0.16), transparent 55%);
+    background: radial-gradient(circle at var(--cursor-x) var(--cursor-y), ${({ theme }) => theme.accentSoft}, transparent 55%);
     mix-blend-mode: screen;
     transition: background 0.3s ease;
     z-index: 0;
@@ -67,6 +65,14 @@ const GlobalStyle = createGlobalStyle`
     font: inherit;
   }
 
+  h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
   @media (hover: hover) and (pointer: fine) {
     body {
       cursor: none;
@@ -89,17 +95,17 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .neo-cursor {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     background: ${({ theme }) => theme.accent};
-    box-shadow: 0 0 24px ${({ theme }) => theme.accent};
+    box-shadow: 0 0 20px ${({ theme }) => theme.accent};
   }
 
   .neo-cursor--trailing {
-    width: 64px;
-    height: 64px;
+    width: 56px;
+    height: 56px;
     border: 2px solid ${({ theme }) => theme.accent};
-    opacity: 0.55;
+    opacity: 0.45;
     mix-blend-mode: screen;
     backdrop-filter: blur(12px);
   }

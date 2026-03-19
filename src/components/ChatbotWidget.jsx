@@ -77,7 +77,7 @@ const Bubble = styled.span`
   border-radius: 1rem;
   background: ${({ theme, $fromUser }) => ($fromUser ? theme.accent : theme.glass.background)};
   color: ${({ $fromUser }) => ($fromUser ? '#ffffff' : 'inherit')};
-  box-shadow: ${({ theme, $fromUser }) => ($fromUser ? '0 12px 24px rgba(127, 90, 240, 0.35)' : theme.glass.shadow)};
+  box-shadow: ${({ theme, $fromUser }) => ($fromUser ? `0 12px 24px ${theme.accentSoft}` : theme.glass.shadow)};
   font-size: 0.95rem;
   max-width: 240px;
 `;

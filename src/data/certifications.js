@@ -1,27 +1,27 @@
 export const certifications = [
   {
-    id: 'aws-partner',
-    title: 'AWS Select Partner',
-    description: 'Arquitecturas escalables con mejores prácticas de seguridad y rendimiento.',
-    logo: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/amazonaws.svg'
+    id: 'microsoft-partner',
+    title: 'Microsoft Partner',
+    description: 'Soluciones empresariales con tecnologías Microsoft: Azure, Office 365 y Windows Server.',
+    logo: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/microsoft.svg'
   },
   {
-    id: 'scrum-master',
-    title: 'Scrum Alliance',
-    description: 'Frameworks ágiles certificados para mantener la entrega continua y el foco en valor.',
-    logo: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/scrumalliance.svg'
-  },
-  {
-    id: 'iso-27001',
-    title: 'ISO 27001',
-    description: 'Procesos auditados para protección de datos sensibles y cumplimiento normativo.',
-    logo: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/iso.svg'
-  },
-  {
-    id: 'gcp',
-    title: 'Google Cloud Partner',
-    description: 'Analítica en tiempo real y pipelines de datos certificados por Google.',
+    id: 'google-cloud',
+    title: 'Google Cloud',
+    description: 'Infraestructura en la nube con Google Cloud Platform para escalabilidad y rendimiento.',
     logo: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/googlecloud.svg'
+  },
+  {
+    id: 'cisco-certified',
+    title: 'Cisco Certified',
+    description: 'Diseño e instalación de redes empresariales con equipos y estándares Cisco.',
+    logo: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/cisco.svg'
+  },
+  {
+    id: 'aws-partner',
+    title: 'AWS Partner',
+    description: 'Arquitectura y migración a Amazon Web Services con mejores prácticas de seguridad.',
+    logo: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/amazonaws.svg'
   }
 ];
 

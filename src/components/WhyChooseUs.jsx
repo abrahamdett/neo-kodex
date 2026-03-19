@@ -54,14 +54,13 @@ const Card = styled(motion.article)`
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.22), transparent 65%);
+    background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.15), transparent 65%);
     opacity: 0.75;
     z-index: -1;
   }
 `;
 
 const IconWrapper = styled(motion.div)`
-  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -70,25 +69,8 @@ const IconWrapper = styled(motion.div)`
   border-radius: 20px;
   color: ${({ theme }) => theme.accent};
   font-size: 2rem;
-  background: rgba(255, 255, 255, 0.18);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    inset: -25%;
-    background: conic-gradient(from 90deg, ${({ theme }) => theme.accent}, transparent 65%);
-    opacity: 0.55;
-    mix-blend-mode: screen;
-    animation: spin 12s linear infinite;
-  }
-
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
+  background: ${({ theme }) => theme.accentSoft};
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
 `;
 
 const Number = styled.span`
@@ -107,47 +89,34 @@ const Description = styled.p`
   line-height: 1.6;
 `;
 
-const SparkLine = styled(motion.span)`
-  position: absolute;
-  top: -40%;
-  right: -10%;
-  width: 220px;
-  height: 220px;
-  border-radius: 50%;
-  background: radial-gradient(circle, ${({ theme }) => theme.accentSoft}, transparent 70%);
-  opacity: 0.6;
-  filter: blur(50px);
-  pointer-events: none;
-`;
-
 const items = [
   {
     icon: FaShieldAlt,
-    label: 'Proyectos completados',
-    target: 180,
+    label: 'Proyectos entregados',
+    target: 150,
     suffix: '+',
-    description: 'Experiencia comprobada acompañando a compañías que buscan transformar procesos críticos.'
+    description: 'Software, apps, instalaciones de red y soporte técnico para empresas de todos los tamaños.'
   },
   {
     icon: FaUsersCog,
-    label: 'Especialistas certificados',
-    target: 40,
+    label: 'Clientes activos',
+    target: 80,
     suffix: '+',
-    description: 'Equipo multidisciplinario listo para integrarse con tu cultura y acelerar entregas.'
+    description: 'Empresas que confían en nosotros para su tecnología y soporte técnico continuo.'
   },
   {
     icon: FaRocket,
-    label: 'Tiempo promedio de lanzamiento (días)',
-    target: 45,
-    suffix: '',
-    description: 'Procesos ágiles y automatizados para que verifiques valor rápidamente.'
+    label: 'Tiempo promedio de entrega',
+    target: 30,
+    suffix: ' días',
+    description: 'Metodología ágil para que veas resultados rápidos sin sacrificar calidad.'
   },
   {
     icon: FaHeadset,
-    label: 'Satisfacción del cliente (%)',
+    label: 'Satisfacción del cliente',
     target: 98,
     suffix: '%',
-    description: 'Soporte continuo, comunicación transparente y evolución constante de cada producto.'
+    description: 'Atención personalizada, comunicación clara y soporte que no te deja esperando.'
   }
 ];
 
@@ -163,18 +132,7 @@ function MetricCard({ icon: Icon, label, target, description, suffix, index }) {
       transition={{ duration: 0.6, delay: index * 0.1 }}
       onViewportEnter={() => setActive(true)}
     >
-      <SparkLine
-        initial={{ opacity: 0, scale: 0.6 }}
-        whileInView={{ opacity: 0.6, scale: 1 }}
-        viewport={{ once: true, amount: 0.4 }}
-        transition={{ duration: 1, delay: 0.2 + index * 0.08 }}
-        aria-hidden="true"
-      />
-      <IconWrapper
-        animate={{ rotate: active ? [0, 6, -6, 0] : 0 }}
-        transition={{ duration: 2.8, repeat: active ? Infinity : 0, ease: 'easeInOut' }}
-        aria-hidden="true"
-      >
+      <IconWrapper aria-hidden="true">
         <Icon />
       </IconWrapper>
       <Number aria-live="polite">{count}{suffix}</Number>
@@ -190,8 +148,8 @@ function WhyChooseUs() {
       <Header>
         <Title id="por-que-title">¿Por qué elegir a NEO-KODEX?</Title>
         <p>
-          Datos animados, íconos cinéticos y visualizaciones responden al scroll para mostrar cómo combinamos innovación,
-          acompañamiento estratégico y resultados medibles.
+          Porque no solo entregamos tecnología, construimos relaciones de confianza.
+          Conocemos tu negocio, resolvemos tus problemas y te acompañamos en cada paso.
         </p>
       </Header>
       <Grid>
@@ -200,7 +158,7 @@ function WhyChooseUs() {
         ))}
       </Grid>
       <SectionFooter>
-        ¿Listo para medir resultados con un equipo que se alinea contigo desde el día uno?
+        ¿Listo para trabajar con un equipo que se compromete con tus resultados?
       </SectionFooter>
     </Section>
   );

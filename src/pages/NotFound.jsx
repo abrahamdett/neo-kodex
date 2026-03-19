@@ -56,9 +56,9 @@ const Orb = styled(motion.div)`
   height: 120px;
   margin: 0 auto 2rem;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgba(127, 90, 240, 0.9), rgba(0, 209, 255, 0.4));
+  background: radial-gradient(circle at 30% 30%, rgba(26, 140, 58, 0.9), rgba(46, 204, 90, 0.4));
   animation: ${float} 6s ease-in-out infinite;
-  filter: drop-shadow(0 24px 36px rgba(127, 90, 240, 0.35));
+  filter: drop-shadow(0 24px 36px rgba(26, 140, 58, 0.35));
 `;
 
 function NotFound() {

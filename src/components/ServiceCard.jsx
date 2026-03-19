@@ -70,7 +70,7 @@ const Card = styled(motion.button)`
     content: '';
     position: absolute;
     inset: 0;
-    background: var(--card-gradient, linear-gradient(135deg, rgba(127, 90, 240, 0.25), transparent 70%));
+    background: var(--card-gradient, linear-gradient(135deg, rgba(26, 140, 58, 0.2), transparent 70%));
     opacity: 0.9;
     z-index: -2;
   }

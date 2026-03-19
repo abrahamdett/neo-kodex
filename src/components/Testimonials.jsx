@@ -17,7 +17,7 @@ const Glow = styled.div`
   position: absolute;
   inset: 0;
   background: radial-gradient(circle at 15% 20%, ${({ theme }) => theme.accentSoft}, transparent 60%),
-    radial-gradient(circle at 85% 80%, rgba(0, 209, 255, 0.16), transparent 70%);
+    radial-gradient(circle at 85% 80%, ${({ theme }) => theme.accentSoft}, transparent 70%);
   opacity: 0.6;
   pointer-events: none;
 `;
@@ -149,10 +149,10 @@ function Testimonials() {
       <Glow aria-hidden="true" />
       <Wrapper>
         <Header>
-          <Title id="testimonios-title">Historias reales que avalan nuestro compromiso</Title>
+          <Title id="testimonios-title">Lo que dicen nuestros clientes</Title>
           <p>
-            Escucha cómo nuestros clientes describen el acompañamiento estratégico, la transparencia y los resultados que
-            construimos juntos.
+            Empresas reales que confiaron en nosotros y obtuvieron resultados concretos.
+            Sus palabras son nuestra mejor carta de presentación.
           </p>
         </Header>
         <Carousel>
@@ -192,7 +192,7 @@ function Testimonials() {
           </ControlButton>
         </Controls>
         <SectionFooter>
-          ¿Te gustaría ser nuestro próximo caso de éxito?
+          ¿Quieres resultados como estos para tu empresa?
           <FooterButton
             href="#contacto"
             onClick={() => {
@@ -200,7 +200,7 @@ function Testimonials() {
               logCtaInteraction({ location: 'cta-testimonios-footer', variant, intent: 'cta_propuesta_testimonios_footer' }).catch(() => {});
             }}
           >
-            Solicita tu roadmap personalizado
+            Contáctanos hoy
           </FooterButton>
         </SectionFooter>
       </Wrapper>

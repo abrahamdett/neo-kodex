@@ -63,7 +63,7 @@ function NeuralBackdrop() {
     const draw = (time) => {
       context.clearRect(0, 0, width, height);
 
-      const accent = theme?.accent ?? '#7f5af0';
+      const accent = theme?.accent ?? '#1a8c3a';
       const neon = theme?.name === 'dark' ? '#38bdf8' : '#00d1ff';
       const baseStroke = `${accent}22`;
       const activeStroke = `${neon}44`;

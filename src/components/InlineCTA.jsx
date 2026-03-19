@@ -49,7 +49,7 @@ const PrimaryButton = styled(motion.a)`
   background: linear-gradient(135deg, ${({ theme }) => theme.accent}, ${({ theme }) => theme.accentSoft});
   color: #ffffff;
   font-weight: 600;
-  box-shadow: 0 20px 36px rgba(127, 90, 240, 0.28);
+  box-shadow: 0 20px 36px ${({ theme }) => theme.accentSoft};
 
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.accentSoft};

@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import ReactPlayer from 'react-player/lazy';
 import { motion } from 'framer-motion';
+import { FaCheckCircle } from 'react-icons/fa';
 
 const Section = styled.section`
-  padding: 6rem 1.5rem;
+  padding: clamp(4.5rem, 8vw, 7rem) 1.5rem;
   background: ${({ theme }) => theme.surfaceSecondary};
 `;
 
@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  gap: 2.5rem;
+  gap: 3rem;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   align-items: center;
 `;
@@ -31,6 +31,8 @@ const Highlight = styled.span`
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
+  font-size: 0.85rem;
+  align-self: flex-start;
 `;
 
 const Title = styled.h2`
@@ -41,20 +43,68 @@ const Title = styled.h2`
 const Description = styled.p`
   color: ${({ theme }) => theme.textSecondary};
   line-height: 1.7;
+  margin: 0;
 `;
 
-const CTAQuestion = styled.p`
-  font-weight: 600;
+const FeatureList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.75rem;
 `;
 
-const VideoWrapper = styled(motion.div)`
+const FeatureItem = styled.li`
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  color: ${({ theme }) => theme.text};
+  line-height: 1.5;
+
+  svg {
+    color: ${({ theme }) => theme.accent};
+    margin-top: 0.2rem;
+    flex-shrink: 0;
+  }
+`;
+
+const ImagePanel = styled(motion.div)`
   border-radius: 24px;
   overflow: hidden;
   box-shadow: 0 30px 60px rgba(15, 23, 42, 0.2);
-  transform: perspective(1200px) rotateY(-6deg);
-  transition: transform 0.6s ease;
-  &:hover {
-    transform: perspective(1200px) rotateY(0deg);
+  position: relative;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+`;
+
+const LogoOverlay = styled.div`
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.2rem;
+  border-radius: 1rem;
+  background: ${({ theme }) => theme.glass.background};
+  border: 1px solid ${({ theme }) => theme.glass.border};
+  backdrop-filter: blur(16px);
+
+  img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+  }
+
+  span {
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
   }
 `;
 
@@ -63,35 +113,57 @@ function AboutSection() {
     <Section id="acerca" aria-labelledby="acerca-title">
       <Wrapper>
         <Content>
-          <Highlight>Innovación y humanidad</Highlight>
-          <Title id="acerca-title">Tecnología que potencia historias reales</Title>
+          <Highlight>Sobre nosotros</Highlight>
+          <Title id="acerca-title">Tu socio tecnológico de confianza</Title>
           <Description>
-            Acompañamos a las organizaciones desde la estrategia hasta la evolución continua, alineando descubrimientos de
-            usuarios, prototipado inmersivo y despliegues sostenibles. Cada entrega se diseña para generar confianza y valor
-            tangible.
+            En NEO-KODEX nos especializamos en crear soluciones tecnológicas que resuelven problemas reales.
+            Desde software a la medida hasta la instalación completa de tu infraestructura de red, somos
+            el aliado que tu empresa necesita para crecer con tecnología.
           </Description>
           <Description>
-            Documentamos decisiones, facilitamos ceremonias colaborativas y medimos impactos para que tu equipo conserve el
-            aprendizaje y pueda escalarlo. El video resume cómo convertimos la innovación en resultados humanos.
+            Nuestro equipo combina experiencia técnica con un compromiso genuino por entender tu negocio.
+            No vendemos soluciones genéricas: analizamos tus procesos, identificamos oportunidades y
+            diseñamos exactamente lo que necesitas.
           </Description>
-          <CTAQuestion>¿Nos dejas acompañarte en tu próximo reto?</CTAQuestion>
+          <FeatureList>
+            <FeatureItem>
+              <FaCheckCircle aria-hidden="true" />
+              Software y apps diseñados específicamente para tu operación
+            </FeatureItem>
+            <FeatureItem>
+              <FaCheckCircle aria-hidden="true" />
+              Soporte técnico con tiempos de respuesta garantizados
+            </FeatureItem>
+            <FeatureItem>
+              <FaCheckCircle aria-hidden="true" />
+              Instalación profesional de redes y cableado certificado
+            </FeatureItem>
+            <FeatureItem>
+              <FaCheckCircle aria-hidden="true" />
+              Venta y configuración de equipo de cómputo empresarial
+            </FeatureItem>
+            <FeatureItem>
+              <FaCheckCircle aria-hidden="true" />
+              Consultoría tecnológica para tomar las mejores decisiones
+            </FeatureItem>
+          </FeatureList>
         </Content>
-        <VideoWrapper
+        <ImagePanel
           initial={{ opacity: 0, x: 60 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.8 }}
         >
-          <ReactPlayer
-            url="https://cdn.coverr.co/videos/coverr-working-in-the-future-technology-4709/1080p.mp4"
-            playing
-            muted
-            loop
-            width="100%"
-            height="100%"
-            config={{ file: { attributes: { title: 'Video resumen de NEO-KODEX' } } }}
+          <img
+            src="https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=800&q=80"
+            alt="Equipo de desarrollo trabajando en soluciones tecnológicas"
+            loading="lazy"
           />
-        </VideoWrapper>
+          <LogoOverlay>
+            <img src="/assets/logo-neokodex.svg" alt="" />
+            <span>NEO-KODEX</span>
+          </LogoOverlay>
+        </ImagePanel>
       </Wrapper>
     </Section>
   );

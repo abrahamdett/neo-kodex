@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2ecc5a" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#2ecc5a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <circle cx="100" cy="100" r="98" fill="none" stroke="#1a8c3a" stroke-width="1.5"/>
+  <circle cx="100" cy="100" r="60" fill="url(#glow)"/>
+  <!-- Binary spiral rings -->
+  <g fill="none" stroke="#1a8c3a" stroke-width="1.2" opacity="0.7">
+    <circle cx="100" cy="100" r="20"/>
+    <circle cx="100" cy="100" r="30"/>
+    <circle cx="100" cy="100" r="40"/>
+    <circle cx="100" cy="100" r="50"/>
+    <circle cx="100" cy="100" r="60"/>
+  </g>
+  <!-- Stylized binary dots -->
+  <g fill="#1a8c3a" opacity="0.6">
+    <rect x="80" y="55" width="4" height="6" rx="1"/>
+    <rect x="90" y="50" width="4" height="6" rx="1"/>
+    <rect x="100" y="48" width="4" height="6" rx="1"/>
+    <rect x="110" y="50" width="4" height="6" rx="1"/>
+    <rect x="120" y="55" width="4" height="6" rx="1"/>
+    <rect x="70" y="65" width="4" height="6" rx="1"/>
+    <rect x="130" y="65" width="4" height="6" rx="1"/>
+    <rect x="65" y="78" width="4" height="6" rx="1"/>
+    <rect x="135" y="78" width="4" height="6" rx="1"/>
+    <rect x="62" y="92" width="4" height="6" rx="1"/>
+    <rect x="138" y="92" width="4" height="6" rx="1"/>
+    <rect x="65" y="106" width="4" height="6" rx="1"/>
+    <rect x="135" y="106" width="4" height="6" rx="1"/>
+    <rect x="70" y="118" width="4" height="6" rx="1"/>
+    <rect x="130" y="118" width="4" height="6" rx="1"/>
+    <rect x="80" y="128" width="4" height="6" rx="1"/>
+    <rect x="120" y="128" width="4" height="6" rx="1"/>
+    <rect x="90" y="133" width="4" height="6" rx="1"/>
+    <rect x="100" y="135" width="4" height="6" rx="1"/>
+    <rect x="110" y="133" width="4" height="6" rx="1"/>
+  </g>
+  <!-- NEOKODEX text -->
+  <text x="100" y="162" text-anchor="middle" font-family="'Segoe UI', system-ui, sans-serif" font-size="16" font-weight="700" letter-spacing="3" fill="#1a8c3a">NEOKODEX</text>
+  <!-- Accent line -->
+  <line x1="72" y1="167" x2="128" y2="167" stroke="#1a8c3a" stroke-width="1.5"/>
+  <!-- Tagline -->
+  <text x="100" y="180" text-anchor="middle" font-family="'Segoe UI', system-ui, sans-serif" font-size="8" font-style="italic" fill="#1a8c3a" opacity="0.8">Más allá del código</text>
+</svg>

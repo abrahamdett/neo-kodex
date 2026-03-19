@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { teamMembers } from '../data/team.js';
 import { testimonials } from '../data/testimonials.js';
 
 const Section = styled.section`
@@ -42,7 +41,8 @@ const Title = styled.h2`
 const Description = styled.p`
   margin: 0;
   color: ${({ theme }) => theme.textSecondary};
-  max-width: 34ch;
+  max-width: 38ch;
+  line-height: 1.7;
 `;
 
 const CTAGroup = styled.div`
@@ -57,10 +57,10 @@ const PrimaryCTA = styled(motion.a)`
   justify-content: center;
   padding: 0.9rem 1.8rem;
   border-radius: 999px;
-  background: linear-gradient(120deg, ${({ theme }) => theme.accent}, ${({ theme }) => theme.accentSoft});
+  background: ${({ theme }) => theme.accent};
   color: #ffffff;
   font-weight: 600;
-  box-shadow: 0 18px 40px rgba(127, 90, 240, 0.25);
+  box-shadow: 0 18px 40px ${({ theme }) => theme.accentSoft};
 `;
 
 const SecondaryCTA = styled.a`
@@ -73,42 +73,6 @@ const SecondaryCTA = styled.a`
   color: ${({ theme }) => theme.text};
   font-weight: 600;
   background: ${({ theme }) => theme.surface};
-`;
-
-const PortraitCollage = styled.div`
-  position: relative;
-  display: grid;
-  gap: 1.1rem;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-`;
-
-const PortraitCard = styled(motion.figure)`
-  position: relative;
-  margin: 0;
-  border-radius: 1.4rem;
-  overflow: hidden;
-  background: ${({ theme }) => theme.glass.background};
-  border: 1px solid ${({ theme }) => theme.glass.border};
-  box-shadow: ${({ theme }) => theme.glass.shadow};
-  isolation: isolate;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  figcaption {
-    position: absolute;
-    inset: auto 0 0 0;
-    padding: 0.85rem 1.1rem;
-    font-size: 0.85rem;
-    background: linear-gradient(0deg, rgba(8, 11, 26, 0.72), transparent 85%);
-    color: #ffffff;
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-  }
 `;
 
 const QuoteGroup = styled.div`
@@ -137,14 +101,13 @@ const QuoteCard = styled(motion.blockquote)`
 const Background = styled.div`
   position: absolute;
   inset: -10% -5% -40% -5%;
-  background: radial-gradient(circle at top, rgba(8, 15, 35, 0.65), transparent 65%);
+  background: radial-gradient(circle at top, ${({ theme }) => theme.accentSoft}, transparent 65%);
   filter: blur(40px);
   z-index: 0;
   pointer-events: none;
 `;
 
 function HumanConnection() {
-  const portraits = teamMembers.slice(0, 3);
   const featuredQuotes = testimonials.slice(0, 2);
 
   return (
@@ -152,41 +115,24 @@ function HumanConnection() {
       <Background aria-hidden="true" />
       <Wrapper>
         <CopyBlock>
-          <Eyebrow>Personas en el centro</Eyebrow>
-          <Title id="human-connection-title">Acompañamos cada proyecto con rostros y responsabilidad</Title>
+          <Eyebrow>Compromiso real</Eyebrow>
+          <Title id="human-connection-title">Tu proyecto es nuestra prioridad</Title>
           <Description>
-            Antes de escribir una línea de código nos sentamos contigo para entender tus procesos. Nuestro equipo combina
-            estrategia, datos y empatía para construir soluciones que la gente quiere usar.
+            No somos una fábrica de código. Nos sentamos contigo para entender tu negocio,
+            tus procesos y tus objetivos. Después diseñamos la solución tecnológica exacta
+            que necesitas, con soporte continuo y un equipo que responde.
           </Description>
           <CTAGroup>
             <PrimaryCTA
               href="#contacto"
-              initial={{ scale: 1 }}
-              animate={{ scale: [1, 1.03, 1] }}
-              transition={{ duration: 3, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
             >
-              Agenda tu sesión de bienvenida
+              Platícanos tu proyecto
             </PrimaryCTA>
-            <SecondaryCTA href="#equipo">Conoce a quienes te acompañarán</SecondaryCTA>
+            <SecondaryCTA href="#equipo">Conoce a nuestro equipo</SecondaryCTA>
           </CTAGroup>
         </CopyBlock>
-        <PortraitCollage>
-          {portraits.map((member, index) => (
-            <PortraitCard
-              key={member.id}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.65, delay: index * 0.08 }}
-            >
-              <img src={member.avatar} alt={`Retrato de ${member.name}`} loading="lazy" />
-              <figcaption>
-                <strong>{member.name}</strong>
-                <span>{member.role}</span>
-              </figcaption>
-            </PortraitCard>
-          ))}
-        </PortraitCollage>
         <QuoteGroup>
           {featuredQuotes.map((item, index) => (
             <QuoteCard
@@ -196,7 +142,7 @@ function HumanConnection() {
               viewport={{ once: true, amount: 0.4 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
             >
-              “{item.quote}”
+              &ldquo;{item.quote}&rdquo;
               <cite>
                 {item.author} — {item.role}
               </cite>

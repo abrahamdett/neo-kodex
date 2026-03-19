@@ -192,7 +192,7 @@ const CTAButton = styled.a`
 `;
 
 function toRgba(hex, alpha = 1) {
-  if (!hex) return `rgba(127, 90, 240, ${alpha})`;
+  if (!hex) return `rgba(26, 140, 58, ${alpha})`;
   const value = hex.replace('#', '');
   const bigint = parseInt(value, 16);
   const r = (bigint >> 16) & 255;
@@ -209,7 +209,7 @@ function ServicesSection() {
   const { variant } = useExperiment();
 
   const gradients = useMemo(() => {
-    const accentSoft = theme?.accentSoft ?? 'rgba(127, 90, 240, 0.2)';
+    const accentSoft = theme?.accentSoft ?? 'rgba(26, 140, 58, 0.15)';
     const neon = theme?.name === 'sepia' ? 'rgba(255, 202, 138, 0.25)' : 'rgba(0, 209, 255, 0.22)';
     const dusk = theme?.name === 'dark' ? 'rgba(15, 30, 60, 0.45)' : 'rgba(241, 242, 255, 0.6)';
 
@@ -231,10 +231,10 @@ function ServicesSection() {
   return (
     <Section id="servicios" aria-labelledby="servicios-title">
       <SectionHeader>
-        <Title id="servicios-title">Servicios que resuelven tus retos clave</Title>
+        <Title id="servicios-title">Nuestros servicios</Title>
         <Description>
-          Un bento grid inmersivo presenta nuestras soluciones estratégicas con glassmorphism y micro-interacciones. Explora
-          cómo cada servicio ataca dolores específicos y abre nuevos resultados para tu negocio.
+          Soluciones tecnológicas completas para tu empresa: desde el desarrollo de software y aplicaciones hasta
+          soporte técnico, instalación de redes y venta de equipo. Todo lo que necesitas en un solo lugar.
         </Description>
       </SectionHeader>
       <Grid>
@@ -256,25 +256,27 @@ function ServicesSection() {
         ))}
       </Grid>
       <SectionFooter>
-        ¿Cuál de estas soluciones desbloqueará tu siguiente hito?
+        ¿Necesitas alguno de estos servicios? Te cotizamos sin compromiso.
         <FooterActions>
           <CTAButton
             href="#contacto"
             onClick={() => {
-              trackEvent({ action: 'cta_diagnostico_servicios_footer', category: 'cta_intermedia', label: 'cta-servicios-footer' });
-              logCtaInteraction({ location: 'cta-servicios-footer', variant, intent: 'cta_diagnostico_servicios_footer' }).catch(() => {});
+              trackEvent({ action: 'cta_cotizacion_servicios_footer', category: 'cta_intermedia', label: 'cta-servicios-footer' });
+              logCtaInteraction({ location: 'cta-servicios-footer', variant, intent: 'cta_cotizacion_servicios_footer' }).catch(() => {});
             }}
           >
-            Agenda diagnóstico estratégico
+            Solicitar cotización gratis
           </CTAButton>
           <SecondaryLink
-            href="#recursos"
+            href="https://wa.me/5215512345678"
+            target="_blank"
+            rel="noreferrer"
             onClick={() => {
-              trackEvent({ action: 'cta_recursos_servicios_footer', category: 'cta_intermedia', label: 'cta-servicios-footer' });
-              logCtaInteraction({ location: 'cta-servicios-footer', variant, intent: 'cta_recursos_servicios_footer' }).catch(() => {});
+              trackEvent({ action: 'cta_whatsapp_servicios_footer', category: 'cta_intermedia', label: 'cta-servicios-footer' });
+              logCtaInteraction({ location: 'cta-servicios-footer', variant, intent: 'cta_whatsapp_servicios_footer' }).catch(() => {});
             }}
           >
-            Explorar frameworks descargables
+            Escríbenos por WhatsApp
           </SecondaryLink>
         </FooterActions>
       </SectionFooter>

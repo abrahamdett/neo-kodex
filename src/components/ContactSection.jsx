@@ -2,7 +2,7 @@ import styled, { keyframes } from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useMemo, useState } from 'react';
-import { FaWhatsapp, FaShieldAlt, FaLock } from 'react-icons/fa';
+import { FaWhatsapp, FaShieldAlt, FaPhone, FaEnvelope } from 'react-icons/fa';
 import { services } from '../data/services.js';
 import { submitLead, subscribeToNewsletter } from '../services/leadService.js';
 import { useAnalytics } from '../providers/AnalyticsProvider.jsx';
@@ -26,7 +26,12 @@ const Info = styled.div`
   gap: 1.5rem;
 `;
 
-const HighlightCard = styled.div`
+const InfoTitle = styled.h2`
+  font-size: clamp(1.8rem, 2.5vw + 1rem, 2.6rem);
+  margin: 0;
+`;
+
+const ContactCard = styled.div`
   display: grid;
   gap: 0.75rem;
   padding: 1.5rem;
@@ -35,6 +40,25 @@ const HighlightCard = styled.div`
   border: 1px solid ${({ theme }) => theme.glass.border};
   box-shadow: ${({ theme }) => theme.glass.shadow};
   backdrop-filter: blur(18px);
+`;
+
+const ContactItem = styled.a`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+  color: ${({ theme }) => theme.text};
+  transition: color 0.2s ease;
+
+  svg {
+    color: ${({ theme }) => theme.accent};
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    color: ${({ theme }) => theme.accent};
+  }
 `;
 
 const FormWrapper = styled(motion.form)`
@@ -70,7 +94,7 @@ const Input = styled.input`
 `;
 
 const TextArea = styled.textarea`
-  min-height: 160px;
+  min-height: 140px;
   resize: vertical;
   padding: 1rem;
   border-radius: 14px;
@@ -106,38 +130,9 @@ const ErrorMessage = styled.span`
   font-size: 0.9rem;
 `;
 
-const OptionalToggle = styled.button`
-  justify-self: flex-start;
-  border: none;
-  background: transparent;
-  color: ${({ theme }) => theme.accent};
-  font-weight: 600;
-  cursor: pointer;
-
-  &:focus-visible {
-    outline: 3px solid ${({ theme }) => theme.accent};
-    outline-offset: 4px;
-  }
-`;
-
-const NewsletterCheckbox = styled.label`
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  font-size: 0.95rem;
-  color: ${({ theme }) => theme.textSecondary};
-`;
-
-const Checkbox = styled.input`
-  width: 20px;
-  height: 20px;
-  border-radius: 6px;
-  border: 1px solid ${({ theme }) => theme.border};
-`;
-
 const pulse = keyframes`
   0% { transform: scale(1); }
-  50% { transform: scale(1.04); }
+  50% { transform: scale(1.03); }
   100% { transform: scale(1); }
 `;
 
@@ -149,6 +144,7 @@ const SubmitButton = styled.button`
   border: none;
   border-radius: 999px;
   font-weight: 600;
+  font-size: 1rem;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -204,37 +200,6 @@ const CloseButton = styled.button`
   padding: 0.6rem 1.2rem;
   font-weight: 600;
   cursor: pointer;
-
-  &:focus-visible {
-    outline: 3px solid ${({ theme }) => theme.accent};
-    outline-offset: 4px;
-  }
-`;
-
-const ConfidenceRow = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  align-items: center;
-  font-size: 0.9rem;
-  color: ${({ theme }) => theme.textSecondary};
-`;
-
-const Badge = styled.span`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0.85rem;
-  border-radius: 999px;
-  background: ${({ theme }) => theme.glass.background};
-  border: 1px solid ${({ theme }) => theme.glass.border};
-  backdrop-filter: blur(12px);
-`;
-
-const FormHint = styled.p`
-  margin: 0;
-  font-size: 0.9rem;
-  color: ${({ theme }) => theme.textSecondary};
 `;
 
 const ErrorBanner = styled.div`
@@ -245,24 +210,49 @@ const ErrorBanner = styled.div`
   font-weight: 600;
 `;
 
+const FormHint = styled.p`
+  margin: 0;
+  font-size: 0.9rem;
+  color: ${({ theme }) => theme.textSecondary};
+`;
+
+const ConfidenceRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  font-size: 0.85rem;
+  color: ${({ theme }) => theme.textSecondary};
+`;
+
+const Badge = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  background: ${({ theme }) => theme.glass.background};
+  border: 1px solid ${({ theme }) => theme.glass.border};
+  font-size: 0.8rem;
+`;
+
 function ContactSection() {
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-    reset,
-    watch
+    reset
   } = useForm({
     mode: 'onChange',
     defaultValues: {
       nombre: '',
       correo: '',
+      telefono: '',
       mensaje: '',
       servicio: '',
       newsletter: true
     }
   });
-  const [showService, setShowService] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -274,16 +264,11 @@ function ContactSection() {
     []
   );
 
-  const selectedService = watch('servicio');
-
   useEffect(() => {
     if (!showModal) return undefined;
     const handler = (event) => {
-      if (event.key === 'Escape') {
-        setShowModal(false);
-      }
+      if (event.key === 'Escape') setShowModal(false);
     };
-
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
   }, [showModal]);
@@ -296,6 +281,7 @@ function ContactSection() {
       const payload = {
         nombre: data.nombre,
         email: data.correo,
+        telefono: data.telefono || null,
         mensaje: data.mensaje,
         servicio: data.servicio || null,
         fuente: 'sitio-web',
@@ -312,8 +298,7 @@ function ContactSection() {
 
       trackEvent({ action: 'lead_enviado', category: 'formulario', label: 'contacto-principal' });
       setShowModal(true);
-      reset({ nombre: '', correo: '', mensaje: '', servicio: '', newsletter: true });
-      setShowService(false);
+      reset({ nombre: '', correo: '', telefono: '', mensaje: '', servicio: '', newsletter: true });
     } catch (error) {
       setErrorMessage(error.message ?? 'Ocurrió un error inesperado. Intenta de nuevo.');
     } finally {
@@ -325,32 +310,34 @@ function ContactSection() {
     <Section id="contacto" aria-labelledby="contacto-title">
       <Wrapper>
         <Info>
-          <h2 id="contacto-title">Coordina tu sesión de descubrimiento personalizada</h2>
+          <InfoTitle id="contacto-title">¿Listo para impulsar tu negocio con tecnología?</InfoTitle>
           <p>
-            Cuéntanos el objetivo y en menos de 12 horas hábiles un especialista te contactará para agendar la videollamada y
-            compartir un roadmap inicial.
+            Cuéntanos qué necesitas y te contactamos en menos de 24 horas con una propuesta personalizada
+            y sin compromiso.
           </p>
-          <HighlightCard>
-            <strong>Atención directa:</strong>
-            <p style={{ margin: 0 }}>
-              Escríbenos a <a href="mailto:hola@neo-kodex.com">hola@neo-kodex.com</a> o envía un mensaje a WhatsApp y coordinamos
-              contigo.
-            </p>
-            <a href="https://wa.me/5215512345678" target="_blank" rel="noreferrer" aria-label="Escríbenos por WhatsApp">
-              <FaWhatsapp aria-hidden="true" /> +52 1 55 1234 5678
-            </a>
-          </HighlightCard>
+          <ContactCard>
+            <strong>Contáctanos directamente:</strong>
+            <ContactItem href="https://wa.me/5215512345678" target="_blank" rel="noreferrer">
+              <FaWhatsapp aria-hidden="true" />
+              WhatsApp: +52 1 55 1234 5678
+            </ContactItem>
+            <ContactItem href="tel:+525512345678">
+              <FaPhone aria-hidden="true" />
+              Teléfono: +52 55 1234 5678
+            </ContactItem>
+            <ContactItem href="mailto:hola@neo-kodex.com">
+              <FaEnvelope aria-hidden="true" />
+              hola@neo-kodex.com
+            </ContactItem>
+          </ContactCard>
           <ConfidenceRow>
             <Badge>
-              <FaShieldAlt aria-hidden="true" /> Cifrado TLS y almacenamiento seguro
+              <FaShieldAlt aria-hidden="true" /> Cotización sin compromiso
             </Badge>
             <Badge>
-              <FaLock aria-hidden="true" /> Cumplimos GDPR y LFPDPPP
+              <FaShieldAlt aria-hidden="true" /> Respuesta en menos de 24 hrs
             </Badge>
           </ConfidenceRow>
-          <FormHint>
-            ¿Solo quieres inspiración? Descarga la guía táctica en la sección de recursos o suscríbete a la newsletter semanal.
-          </FormHint>
         </Info>
         <FormWrapper
           onSubmit={handleSubmit(onSubmit)}
@@ -370,7 +357,7 @@ function ContactSection() {
             <Input
               id="nombre"
               type="text"
-              placeholder="Ana Torres"
+              placeholder="Tu nombre"
               aria-invalid={Boolean(errors.nombre)}
               {...register('nombre', {
                 required: 'El nombre es obligatorio',
@@ -385,7 +372,7 @@ function ContactSection() {
             <Input
               id="correo"
               type="email"
-              placeholder="ana@empresa.com"
+              placeholder="tu@empresa.com"
               aria-invalid={Boolean(errors.correo)}
               {...register('correo', {
                 required: 'El correo es obligatorio',
@@ -395,44 +382,33 @@ function ContactSection() {
           </Label>
           {errors.correo && <ErrorMessage role="alert">{errors.correo.message}</ErrorMessage>}
 
-          <OptionalToggle type="button" onClick={() => setShowService((prev) => !prev)}>
-            {showService ? 'Ocultar servicio de interés' : 'Añadir servicio de interés (opcional)'}
-          </OptionalToggle>
+          <Label htmlFor="telefono">
+            Teléfono (opcional)
+            <Input
+              id="telefono"
+              type="tel"
+              placeholder="+52 55 1234 5678"
+              {...register('telefono')}
+            />
+          </Label>
 
-          <AnimatePresence initial={false}>
-            {showService && (
-              <motion.div
-                key="servicio"
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                style={{ overflow: 'hidden' }}
-              >
-                <Label htmlFor="servicio">
-                  Servicio de interés
-                  <Select id="servicio" aria-invalid={Boolean(errors.servicio)} {...register('servicio')}>
-                    <option value="">Selecciona una opción</option>
-                    {serviceOptions.map((option) => (
-                      <option key={option.id} value={option.title}>
-                        {option.title}
-                      </option>
-                    ))}
-                  </Select>
-                </Label>
-                {selectedService ? (
-                  <FormHint>
-                    Ajustaremos la sesión para profundizar en «{selectedService}».
-                  </FormHint>
-                ) : null}
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <Label htmlFor="servicio">
+            Servicio de interés
+            <Select id="servicio" {...register('servicio')}>
+              <option value="">Selecciona una opción</option>
+              {serviceOptions.map((option) => (
+                <option key={option.id} value={option.title}>
+                  {option.title}
+                </option>
+              ))}
+            </Select>
+          </Label>
 
           <Label htmlFor="mensaje">
-            Cuéntanos qué deseas lograr *
+            ¿Cómo podemos ayudarte? *
             <TextArea
               id="mensaje"
-              placeholder="Queremos lanzar una experiencia inmersiva para onboarding en 6 semanas..."
+              placeholder="Describe brevemente lo que necesitas..."
               aria-invalid={Boolean(errors.mensaje)}
               {...register('mensaje', {
                 required: 'El mensaje es obligatorio',
@@ -442,18 +418,13 @@ function ContactSection() {
           </Label>
           {errors.mensaje && <ErrorMessage role="alert">{errors.mensaje.message}</ErrorMessage>}
 
-          <NewsletterCheckbox>
-            <Checkbox type="checkbox" {...register('newsletter')} />
-            Quiero recibir la newsletter con tácticas accionables y casos de estudio.
-          </NewsletterCheckbox>
-
           <SubmitButton type="submit" disabled={!isValid || isSending} aria-live="polite">
-            {isSending ? 'Enviando…' : 'Enviar mensaje y agendar' }
+            {isSending ? 'Enviando...' : 'Enviar y solicitar cotización'}
           </SubmitButton>
 
           <ConfidenceRow>
             <a href="/privacy.html">Política de privacidad</a>
-            <span>Datos protegidos con SOC2 &amp; ISO 27001 partners</span>
+            <span>Tus datos están protegidos</span>
           </ConfidenceRow>
         </FormWrapper>
       </Wrapper>
@@ -471,19 +442,18 @@ function ContactSection() {
               role="dialog"
               aria-modal="true"
               aria-labelledby="contacto-confirmacion-title"
-              aria-describedby="contacto-confirmacion-descripcion"
               initial={{ opacity: 0, scale: 0.92, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.92, y: 20 }}
               onClick={(event) => event.stopPropagation()}
             >
-              <h3 id="contacto-confirmacion-title">¡Gracias por escribirnos!</h3>
-              <p id="contacto-confirmacion-descripcion">
-                Tu mensaje llegó correctamente. Nuestro equipo responderá con un briefing personalizado en menos de 12 horas hábiles
-                y te enviaremos una invitación de agenda para tu sesión de diagnóstico gratuita.
+              <h3 id="contacto-confirmacion-title">¡Mensaje recibido!</h3>
+              <p>
+                Gracias por contactarnos. Nuestro equipo revisará tu solicitud y te contactará en
+                menos de 24 horas hábiles con una propuesta personalizada.
               </p>
               <p style={{ margin: 0 }}>
-                Revisa tu correo (incluida la carpeta de promociones) para descargar la guía estratégica y continuar la conversación.
+                Si prefieres atención inmediata, escríbenos por WhatsApp al +52 1 55 1234 5678.
               </p>
               <ModalActions>
                 <CloseButton type="button" onClick={() => setShowModal(false)}>

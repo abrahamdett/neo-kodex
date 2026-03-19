@@ -1,40 +1,40 @@
 export const themes = {
   light: {
     name: 'light',
-    background: '#eef1ff',
-    backgroundGradient: `radial-gradient(circle at 15% 20%, rgba(126, 90, 240, 0.25), transparent 55%),
-      radial-gradient(circle at 85% 15%, rgba(0, 209, 255, 0.18), transparent 55%),
+    background: '#f0f4f0',
+    backgroundGradient: `radial-gradient(circle at 15% 20%, rgba(34, 139, 34, 0.15), transparent 55%),
+      radial-gradient(circle at 85% 15%, rgba(0, 180, 100, 0.12), transparent 55%),
       radial-gradient(circle at 50% 80%, rgba(255, 255, 255, 0.9), transparent 65%)`,
-    surface: 'rgba(255, 255, 255, 0.7)',
-    surfaceSecondary: 'rgba(243, 245, 255, 0.85)',
-    text: '#0b1026',
-    textSecondary: '#334155',
-    accent: '#7f5af0',
-    accentSoft: 'rgba(127, 90, 240, 0.2)',
-    border: 'rgba(148, 163, 184, 0.35)',
+    surface: 'rgba(255, 255, 255, 0.8)',
+    surfaceSecondary: 'rgba(245, 250, 245, 0.9)',
+    text: '#0a1a0a',
+    textSecondary: '#3a5a3a',
+    accent: '#1a8c3a',
+    accentSoft: 'rgba(26, 140, 58, 0.15)',
+    border: 'rgba(100, 140, 100, 0.3)',
     glass: {
-      background: 'rgba(255, 255, 255, 0.45)',
-      border: 'rgba(255, 255, 255, 0.4)',
-      shadow: '0 24px 60px rgba(91, 138, 255, 0.2)'
+      background: 'rgba(255, 255, 255, 0.55)',
+      border: 'rgba(200, 230, 200, 0.5)',
+      shadow: '0 24px 60px rgba(26, 140, 58, 0.12)'
     }
   },
   dark: {
     name: 'dark',
-    background: '#050810',
-    backgroundGradient: `radial-gradient(circle at 20% 25%, rgba(127, 90, 240, 0.35), transparent 55%),
-      radial-gradient(circle at 80% 10%, rgba(0, 209, 255, 0.28), transparent 55%),
-      radial-gradient(circle at 50% 80%, rgba(35, 18, 61, 0.8), transparent 68%)`,
-    surface: 'rgba(12, 20, 34, 0.9)',
-    surfaceSecondary: 'rgba(15, 23, 42, 0.9)',
-    text: '#f5f7ff',
-    textSecondary: '#cbd5f5',
-    accent: '#7f5af0',
-    accentSoft: 'rgba(127, 90, 240, 0.35)',
-    border: 'rgba(100, 116, 139, 0.35)',
+    background: '#060e08',
+    backgroundGradient: `radial-gradient(circle at 20% 25%, rgba(26, 140, 58, 0.25), transparent 55%),
+      radial-gradient(circle at 80% 10%, rgba(0, 200, 100, 0.18), transparent 55%),
+      radial-gradient(circle at 50% 80%, rgba(10, 30, 15, 0.8), transparent 68%)`,
+    surface: 'rgba(10, 22, 14, 0.92)',
+    surfaceSecondary: 'rgba(12, 26, 16, 0.92)',
+    text: '#e8f5e8',
+    textSecondary: '#a0c8a0',
+    accent: '#2ecc5a',
+    accentSoft: 'rgba(46, 204, 90, 0.25)',
+    border: 'rgba(60, 100, 70, 0.4)',
     glass: {
-      background: 'rgba(15, 23, 42, 0.55)',
-      border: 'rgba(94, 106, 136, 0.45)',
-      shadow: '0 24px 60px rgba(2, 8, 23, 0.65)'
+      background: 'rgba(12, 26, 16, 0.6)',
+      border: 'rgba(46, 100, 60, 0.45)',
+      shadow: '0 24px 60px rgba(2, 12, 6, 0.65)'
     }
   },
   sepia: {
@@ -47,8 +47,8 @@ export const themes = {
     surfaceSecondary: 'rgba(250, 238, 220, 0.85)',
     text: '#3a2b20',
     textSecondary: '#5c4332',
-    accent: '#f97316',
-    accentSoft: 'rgba(249, 115, 22, 0.18)',
+    accent: '#d97706',
+    accentSoft: 'rgba(217, 119, 6, 0.18)',
     border: 'rgba(209, 178, 148, 0.45)',
     glass: {
       background: 'rgba(255, 245, 231, 0.6)',
@@ -59,5 +59,5 @@ export const themes = {
 };
 
 export function getTheme(name) {
-  return themes[name] ?? themes.light;
+  return themes[name] ?? themes.dark;
 }

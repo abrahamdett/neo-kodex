@@ -49,7 +49,7 @@ const PrimaryFooterButton = styled.a`
   background: linear-gradient(135deg, ${({ theme }) => theme.accent}, ${({ theme }) => theme.accentSoft});
   color: #ffffff;
   font-weight: 600;
-  box-shadow: 0 18px 36px rgba(127, 90, 240, 0.28);
+  box-shadow: 0 18px 36px ${({ theme }) => theme.accentSoft};
 
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.accentSoft};
@@ -235,10 +235,10 @@ function PortfolioSection() {
   return (
     <Section id="portafolio" aria-labelledby="portafolio-title">
       <Header>
-        <Title id="portafolio-title">Casos de éxito con impacto medible</Title>
+        <Title id="portafolio-title">Proyectos que hablan por nosotros</Title>
         <p>
-          Descubre cómo empresas de retail, salud y finanzas resolvieron retos concretos gracias a experiencias inmersivas,
-          datos accionables y acompañamiento continuo.
+          Conoce cómo hemos ayudado a empresas reales a resolver problemas concretos con software a la medida,
+          aplicaciones móviles e infraestructura de red.
         </p>
       </Header>
       <Grid>
@@ -266,25 +266,27 @@ function PortfolioSection() {
         ))}
       </Grid>
       <SectionFooter>
-        ¿Te gustaría que contemos la próxima historia de crecimiento contigo?
+        ¿Quieres resultados similares para tu empresa?
         <FooterActions>
           <PrimaryFooterButton
             href="#contacto"
             onClick={() => {
-              trackEvent({ action: 'cta_propuesta_portafolio', category: 'cta_intermedia', label: 'cta-portafolio-footer' });
-              logCtaInteraction({ location: 'cta-portafolio-footer', variant, intent: 'cta_propuesta_portafolio' }).catch(() => {});
+              trackEvent({ action: 'cta_cotizacion_portafolio', category: 'cta_intermedia', label: 'cta-portafolio-footer' });
+              logCtaInteraction({ location: 'cta-portafolio-footer', variant, intent: 'cta_cotizacion_portafolio' }).catch(() => {});
             }}
           >
-            Solicitar propuesta basada en datos
+            Solicitar cotización
           </PrimaryFooterButton>
           <FooterButton
-            href="#alianzas"
+            href="https://wa.me/5215512345678"
+            target="_blank"
+            rel="noreferrer"
             onClick={() => {
-              trackEvent({ action: 'cta_confianza_portafolio', category: 'cta_intermedia', label: 'cta-portafolio-footer' });
-              logCtaInteraction({ location: 'cta-portafolio-footer', variant, intent: 'cta_confianza_portafolio' }).catch(() => {});
+              trackEvent({ action: 'cta_whatsapp_portafolio', category: 'cta_intermedia', label: 'cta-portafolio-footer' });
+              logCtaInteraction({ location: 'cta-portafolio-footer', variant, intent: 'cta_whatsapp_portafolio' }).catch(() => {});
             }}
           >
-            Ver garantías y certificaciones
+            Escríbenos por WhatsApp
           </FooterButton>
         </FooterActions>
       </SectionFooter>

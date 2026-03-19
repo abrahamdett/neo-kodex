@@ -1,15 +1,14 @@
 import Hero from '../components/Hero.jsx';
+import HumanConnection from '../components/HumanConnection.jsx';
 import ServicesSection from '../components/ServicesSection.jsx';
 import PortfolioSection from '../components/PortfolioSection.jsx';
 import AboutSection from '../components/AboutSection.jsx';
 import WhyChooseUs from '../components/WhyChooseUs.jsx';
 import TeamSection from '../components/TeamSection.jsx';
 import Testimonials from '../components/Testimonials.jsx';
-import BlogPreview from '../components/BlogPreview.jsx';
 import ContactSection from '../components/ContactSection.jsx';
 import InlineCTA from '../components/InlineCTA.jsx';
 import TrustSection from '../components/TrustSection.jsx';
-import HumanConnection from '../components/HumanConnection.jsx';
 import styled from 'styled-components';
 
 const MainWrapper = styled.div`
@@ -26,19 +25,19 @@ function Home() {
       <ServicesSection />
       <InlineCTA
         id="cta-servicios"
-        title="Agenda una consultoría táctica"
-        description="En 45 minutos identificamos quick wins, definimos métricas de éxito y te compartimos un roadmap personalizado."
+        title="¿Necesitas una cotización personalizada?"
+        description="Cuéntanos tu proyecto y en menos de 24 horas te enviamos una propuesta detallada con costos y tiempos de entrega."
         primary={{
-          label: 'Reserva diagnóstico gratuito',
+          label: 'Solicitar cotización gratis',
           href: '#contacto',
-          analyticsAction: 'cta_diagnostico_servicios',
-          intent: 'cta_diagnostico_servicios'
+          analyticsAction: 'cta_cotizacion_servicios',
+          intent: 'cta_cotizacion_servicios'
         }}
         secondary={{
-          label: 'Descargar guía de descubrimiento',
-          href: '#recursos',
-          analyticsAction: 'cta_descarga_servicios',
-          intent: 'cta_descarga_servicios'
+          label: 'Llamar ahora',
+          href: 'tel:+525512345678',
+          analyticsAction: 'cta_llamar_servicios',
+          intent: 'cta_llamar_servicios'
         }}
       />
       <PortfolioSection />
@@ -49,22 +48,21 @@ function Home() {
       <Testimonials />
       <InlineCTA
         id="cta-testimonios"
-        title="¿Listo para construir tu siguiente caso de éxito?"
-        description="Nuestro equipo acompaña la implementación end-to-end con métricas de retención, activación y NPS en cada sprint."
+        title="¿Listo para transformar tu empresa con tecnología?"
+        description="Únete a las empresas que ya confían en NEO-KODEX para su software, soporte técnico e infraestructura."
         primary={{
-          label: 'Solicitar propuesta personalizada',
+          label: 'Contáctanos hoy',
           href: '#contacto',
-          analyticsAction: 'cta_propuesta_testimonios',
-          intent: 'cta_propuesta_testimonios'
+          analyticsAction: 'cta_contacto_testimonios',
+          intent: 'cta_contacto_testimonios'
         }}
         secondary={{
-          label: 'Ver más historias en el blog',
-          href: '/blog',
-          analyticsAction: 'cta_blog_testimonios',
-          intent: 'cta_blog_testimonios'
+          label: 'Escríbenos por WhatsApp',
+          href: 'https://wa.me/5215512345678',
+          analyticsAction: 'cta_whatsapp_testimonios',
+          intent: 'cta_whatsapp_testimonios'
         }}
       />
-      <BlogPreview />
       <ContactSection />
     </MainWrapper>
   );

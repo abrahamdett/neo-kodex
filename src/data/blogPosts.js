@@ -1,49 +1,47 @@
 export const blogPosts = [
   {
-    id: 'arquitecturas-neuronales-ux',
-    title: 'Arquitecturas neuronales para potenciar la UX en tiempo real',
+    id: 'software-medida-vs-generico',
+    title: '¿Software a la medida o genérico? Cómo elegir lo mejor para tu empresa',
     excerpt:
-      'Cómo anticipar necesidades del usuario con modelos ligeros y gobernanza ética sin sacrificar la accesibilidad de tu producto.',
-    date: '2024-12-12',
-    readingTime: '7 min',
-    heroImage: 'https://images.unsplash.com/photo-1526378722370-26e9a5d29081?auto=format&fit=crop&w=1200&q=80',
-    tags: ['IA aplicada', 'Experiencia de usuario'],
-    content: [
-      'La convergencia entre inteligencia artificial y diseño centrado en las personas permite adaptar interfaces en cuestión de segundos. En NEO-KODEX combinamos analítica de eventos con modelos neuronales ligeros para anticipar necesidades y reducir la fricción en cada flujo.',
-      'Mientras fortalecemos la inmersión con efectos visuales, mantenemos un enfoque accesible siguiendo pautas WCAG 2.2 y acuerdos éticos claros. Esto asegura experiencias personalizadas sin perder confianza.',
-      'Integramos estos aprendizajes en un sistema editorial que facilita actualizar el contenido y mantener la coherencia visual de todo el sitio.'
-    ]
-  },
-  {
-    id: 'microinteracciones-2025',
-    title: 'Micro-interacciones 2025: de la inspiración neón a la guía inclusiva',
-    excerpt:
-      'Tendencias clave para diseñar interacciones memorables que prioricen claridad, feedback oportuno y sensibilidad ante usuarios con distintos niveles de energía.',
-    date: '2025-02-04',
+      'Analizamos las ventajas y desventajas de cada opción para que tomes la mejor decisión según el tamaño y necesidades de tu negocio.',
+    date: '2025-11-15',
     readingTime: '5 min',
-    heroImage: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80',
-    tags: ['Animación', 'Accesibilidad'],
+    heroImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
+    tags: ['Software', 'Consultoría'],
     content: [
-      'Las micro-interacciones evolucionan hacia respuestas multisensoriales discretas. Sincronizamos estados de hover, focos y scroll con narrativas claras para que el usuario entienda qué sucede en cada paso.',
-      'Cada detalle se documenta en nuestro sistema de diseño vivo, reduciendo inconsistencias y reforzando la identidad visual futurista con un trato humano.',
-      'Este artículo enlaza con plantillas descargables que ayudan a tu equipo a auditar experiencias y priorizar mejoras basadas en evidencia.'
+      'Muchas empresas inician con software genérico porque es más económico y rápido de implementar. Sin embargo, conforme el negocio crece, las limitaciones empiezan a frenar la productividad.',
+      'El software a la medida se diseña para tus procesos específicos, eliminando pasos innecesarios y automatizando tareas repetitivas. La inversión inicial es mayor, pero el retorno se ve en ahorro de tiempo y reducción de errores.',
+      'En NEO-KODEX ayudamos a nuestros clientes a evaluar cuándo tiene sentido migrar a una solución personalizada y diseñamos un plan de implementación gradual que no interrumpe la operación.'
     ]
   },
   {
-    id: 'guia-devops-inmersiva',
-    title: 'Guía rápida para desplegar experiencias inmersivas con DevOps inteligente',
+    id: 'red-empresarial-estable',
+    title: '5 señales de que tu red empresarial necesita una actualización urgente',
     excerpt:
-      'Automatizaciones y observabilidad para mantener canvases 3D, chatbots y servicios críticos funcionando con estabilidad y métricas claras.',
-    date: '2025-01-18',
-    readingTime: '6 min',
-    heroImage: 'https://images.unsplash.com/photo-1518779578993-ec3579fee39f?auto=format&fit=crop&w=1200&q=80',
-    tags: ['DevOps', 'Escalabilidad'],
+      'Si tu internet se cae constantemente o tus archivos tardan en cargar, probablemente es momento de invertir en tu infraestructura de red.',
+    date: '2025-10-22',
+    readingTime: '4 min',
+    heroImage: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80',
+    tags: ['Redes', 'Infraestructura'],
     content: [
-      'Nuestros pipelines ejecutan pruebas visuales, de accesibilidad y rendimiento antes de cada despliegue para garantizar que el canvas neuronal, el chatbot y el modo multitema mantengan un comportamiento consistente.',
-      'Sugerimos monitorear métricas como First Contentful Paint y frame-rate del canvas generativo. Alertas predictivas nos permiten actuar antes de que la experiencia se degrade.',
-      'Esta guía es una base para integrar tus propias fuentes de datos y extender la automatización según las necesidades de tu organización.'
+      'Una red empresarial deficiente no solo afecta la productividad, también puede comprometer la seguridad de tus datos. Identificar los síntomas a tiempo te evita caídas costosas.',
+      'Señales claras incluyen: velocidad inconsistente, desconexiones frecuentes, equipos que no se pueden conectar, falta de segmentación entre áreas y ausencia de respaldos automatizados.',
+      'Una evaluación profesional de tu red puede revelar problemas ocultos como cableado deteriorado, equipos obsoletos o configuraciones de seguridad deficientes que ponen en riesgo tu operación.'
+    ]
+  },
+  {
+    id: 'app-movil-negocio',
+    title: '¿Tu negocio necesita una app móvil? Guía para decidir con inteligencia',
+    excerpt:
+      'No todos los negocios necesitan una app, pero para algunos puede ser un diferenciador clave. Te ayudamos a identificar si es tu caso.',
+    date: '2025-09-08',
+    readingTime: '6 min',
+    heroImage: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1200&q=80',
+    tags: ['Apps Móviles', 'Estrategia'],
+    content: [
+      'Una app móvil puede transformar la forma en que interactúas con tus clientes o gestionas tu operación interna. Pero desarrollar una app sin un propósito claro es un gasto innecesario.',
+      'Las mejores apps empresariales resuelven un problema concreto: gestión de pedidos en campo, control de inventario, comunicación con clientes o seguimiento de entregas en tiempo real.',
+      'Antes de desarrollar, validamos la idea contigo: analizamos si una app web progresiva es suficiente o si necesitas una app nativa, definimos las funcionalidades mínimas viables y estimamos tiempos y costos realistas.'
     ]
   }
 ];
-
-// CMS: aquí se integrará la fuente de datos externa (headless CMS o Markdown) en futuras iteraciones.

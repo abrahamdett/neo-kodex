@@ -56,10 +56,10 @@ function TrustSection() {
     <Section id="alianzas" aria-labelledby="alianzas-title">
       <Wrapper>
         <Header>
-          <h2 id="alianzas-title">Confianza respaldada por certificaciones y alianzas estratégicas</h2>
+          <h2 id="alianzas-title">Tecnología de clase mundial para tu empresa</h2>
           <p style={{ margin: 0 }}>
-            Cada proyecto integra prácticas auditadas y partners especializados para garantizar continuidad operativa, seguridad y
-            resultados medibles.
+            Trabajamos con las mejores plataformas y tecnologías del mercado para garantizar
+            soluciones confiables, seguras y escalables.
           </p>
         </Header>
         <Grid>
@@ -78,7 +78,7 @@ function TrustSection() {
           ))}
         </Grid>
         <Footer>
-          Procesos auditados trimestralmente y evaluaciones de seguridad compartidas con nuestros clientes.
+          Equipos certificados y tecnología de primer nivel al servicio de tu negocio.
         </Footer>
       </Wrapper>
     </Section>

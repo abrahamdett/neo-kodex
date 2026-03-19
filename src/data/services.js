@@ -8,141 +8,141 @@ import {
   FaChalkboardTeacher,
   FaLaptopCode,
   FaTools,
-  FaPalette,
+  FaNetworkWired,
   FaShoppingCart
 } from 'react-icons/fa';
 
 export const services = [
   {
     id: 1,
-    title: 'Aplicaciones que generan cercanía',
-    description: 'Creamos apps que acompañan cada momento clave del usuario con experiencias fluidas y soporte continuo.',
-    icon: FaMobileAlt,
+    title: 'Software a la medida',
+    description: 'Desarrollamos software personalizado que se adapta exactamente a las necesidades de tu negocio, optimizando procesos y aumentando la productividad.',
+    icon: FaLaptopCode,
     benefits: [
-      'Mapeamos los viajes críticos para reducir el abandono en la primera semana.',
-      'Iteramos con pruebas reales para validar funcionalidades antes del lanzamiento.',
-      'Medimos activaciones y retención desde el día uno con tableros accionables.'
+      'Análisis detallado de tus procesos para diseñar la solución ideal.',
+      'Desarrollo ágil con entregas incrementales para que veas avances rápidos.',
+      'Integración con tus sistemas existentes sin interrumpir operaciones.'
     ],
-    question: '¿Impulsamos juntos tu próxima app?'
+    question: '¿Necesitas un software que se ajuste a tu negocio?'
   },
   {
     id: 2,
-    title: 'Plataformas web que convierten',
-    description: 'Diseñamos sitios y sistemas que guían al visitante hasta la conversión con narrativa clara y accesibilidad total.',
-    icon: FaGlobe,
+    title: 'Aplicaciones móviles',
+    description: 'Creamos apps nativas e híbridas para iOS y Android que conectan con tus clientes y agilizan tus operaciones desde cualquier lugar.',
+    icon: FaMobileAlt,
     benefits: [
-      'Arquitectura de contenidos que responde a tus objetivos de negocio.',
-      'Velocidad optimizada para sostener campañas y picos de tráfico.',
-      'Paneles de control que muestran el impacto de cada mejora.'
+      'Diseño intuitivo centrado en la experiencia del usuario.',
+      'Rendimiento optimizado para funcionar en cualquier dispositivo.',
+      'Publicación y mantenimiento en App Store y Google Play.'
     ],
-    question: '¿Quieres que tu web trabaje a favor de tus metas?'
+    question: '¿Listo para llevar tu negocio al bolsillo de tus clientes?'
   },
   {
     id: 3,
-    title: 'Datos listos para decidir',
-    description: 'Organizamos y gobernamos tu información para que la consultes en segundos y actives nuevas oportunidades.',
-    icon: FaDatabase,
+    title: 'Desarrollo web profesional',
+    description: 'Diseñamos y desarrollamos sitios web y plataformas que convierten visitantes en clientes con diseño moderno y velocidad de carga óptima.',
+    icon: FaGlobe,
     benefits: [
-      'Migramos tus fuentes sin interrupciones en la operación.',
-      'Diseñamos reglas de calidad para mantener la confianza en los datos.',
-      'Creamos visualizaciones que señalan riesgos y oportunidades.'
+      'Diseño responsive adaptado a todos los dispositivos.',
+      'SEO optimizado para posicionar tu marca en buscadores.',
+      'Paneles de administración para que gestiones tu contenido fácilmente.'
     ],
-    question: '¿Listo para transformar datos dispersos en decisiones certeras?'
+    question: '¿Quieres una web que trabaje por tu negocio 24/7?'
   },
   {
     id: 4,
-    title: 'Infraestructura y automatización confiable',
-    description: 'Automatizamos despliegues y monitoreo para que tus servicios estén siempre disponibles y listos para crecer.',
-    icon: FaServer,
+    title: 'Soporte técnico especializado',
+    description: 'Brindamos soporte técnico preventivo y correctivo para mantener tus sistemas funcionando sin interrupciones.',
+    icon: FaTools,
     benefits: [
-      'Pipelines que reducen tiempos de salida a producción.',
-      'Alertas proactivas para anticipar caídas y saturaciones.',
-      'Gobernanza de entornos con políticas claras de seguridad.'
+      'Atención remota y presencial con tiempos de respuesta garantizados.',
+      'Mantenimiento preventivo para evitar fallas costosas.',
+      'Monitoreo proactivo de tus sistemas críticos.'
     ],
-    question: '¿Tu plataforma está preparada para escalar sin sobresaltos?'
+    question: '¿Necesitas un equipo técnico confiable a tu lado?'
   },
   {
     id: 5,
-    title: 'Integraciones y APIs sin fricción',
-    description: 'Conectamos tus sistemas para que la información fluya con seguridad y mantenga sincronizadas todas tus operaciones.',
-    icon: FaCubes,
+    title: 'Instalación de redes y cableado',
+    description: 'Instalamos y configuramos redes empresariales, cableado estructurado y puntos de acceso para una conectividad confiable.',
+    icon: FaNetworkWired,
     benefits: [
-      'Diagnóstico de puntos críticos entre equipos y aplicaciones.',
-      'Diseño de contratos claros que simplifican el mantenimiento.',
-      'Observabilidad continua para asegurar tiempos de respuesta.'
+      'Diseño de red optimizado para tu espacio y necesidades.',
+      'Cableado estructurado categoría 5e, 6 y 6A certificado.',
+      'Configuración de switches, routers y puntos de acceso WiFi.'
     ],
-    question: '¿Necesitas que tus sistemas conversen sin cuellos de botella?'
+    question: '¿Tu red actual soporta el crecimiento de tu empresa?'
   },
   {
     id: 6,
-    title: 'Migraciones y reingeniería a futuro',
-    description: 'Modernizamos tus plataformas para prolongar su valor y preparar nuevas funcionalidades sin perder historial.',
-    icon: FaExchangeAlt,
+    title: 'Bases de datos y servidores',
+    description: 'Administramos, optimizamos y migramos bases de datos y servidores para que tu información esté segura y siempre disponible.',
+    icon: FaDatabase,
     benefits: [
-      'Auditoría de riesgos para planear cada fase con precisión.',
-      'Refactorizaciones modulares que mantienen la operación activa.',
-      'Capacitaciones para que tu equipo adopte la nueva solución.'
+      'Configuración y optimización de servidores físicos y en la nube.',
+      'Respaldos automatizados y planes de recuperación ante desastres.',
+      'Monitoreo 24/7 de rendimiento y seguridad.'
     ],
-    question: '¿Actualizamos tu sistema sin detener el negocio?'
+    question: '¿Tus datos están protegidos y bien administrados?'
   },
   {
     id: 7,
-    title: 'Consultoría estratégica en tecnología',
-    description: 'Te ayudamos a definir la hoja de ruta ideal para tu producto digital y a priorizar inversiones con sentido.',
-    icon: FaChalkboardTeacher,
+    title: 'Infraestructura y nube',
+    description: 'Migramos y gestionamos tu infraestructura en la nube (AWS, Azure, Google Cloud) para escalar sin complicaciones.',
+    icon: FaServer,
     benefits: [
-      'Workshops para descubrir necesidades reales de tus usuarios.',
-      'Evaluaciones de madurez digital con entregables accionables.',
-      'Acompañamiento ejecutivo para alinear a toda la organización.'
+      'Migración planificada sin interrupciones en tu operación.',
+      'Optimización de costos en servicios cloud.',
+      'Alta disponibilidad y escalabilidad automática.'
     ],
-    question: '¿Te gustaría validar tu estrategia antes del próximo sprint?'
+    question: '¿Estás aprovechando el potencial de la nube?'
   },
   {
     id: 8,
-    title: 'Desarrollo full stack con visión integral',
-    description: 'Creamos soluciones completas que combinan negocio, experiencia y soporte técnico sin silos.',
-    icon: FaLaptopCode,
+    title: 'Integraciones y APIs',
+    description: 'Conectamos tus sistemas, plataformas y herramientas para que la información fluya automáticamente entre todos tus procesos.',
+    icon: FaCubes,
     benefits: [
-      'Equipos multidisciplinarios que piensan en todo el ciclo de vida.',
-      'Diseño de experiencias consistentes en cualquier dispositivo.',
-      'Métricas compartidas para medir valor en cada entrega.'
+      'Integración con ERPs, CRMs y sistemas de facturación.',
+      'Desarrollo de APIs robustas y bien documentadas.',
+      'Automatización de flujos de trabajo entre aplicaciones.'
     ],
-    question: '¿Buscas un aliado que integre producto, diseño y tecnología?'
+    question: '¿Tus sistemas se comunican entre sí de forma eficiente?'
   },
   {
     id: 9,
-    title: 'Soporte y evolución continua',
-    description: 'Monitoreamos y mejoramos tus sistemas para mantenerlos seguros, rápidos y alineados a tus objetivos.',
-    icon: FaTools,
+    title: 'Modernización de sistemas',
+    description: 'Actualizamos tus sistemas heredados a tecnologías modernas sin perder datos ni detener tu operación.',
+    icon: FaExchangeAlt,
     benefits: [
-      'Guardias especializadas que atienden incidencias críticas.',
-      'Reportes de salud periódicos con recomendaciones claras.',
-      'Roadmaps de optimización basados en datos reales.'
+      'Evaluación completa de riesgos antes de iniciar la migración.',
+      'Migración gradual con respaldos en cada fase.',
+      'Capacitación a tu equipo en la nueva plataforma.'
     ],
-    question: '¿Quieres un socio que cuide tu plataforma todos los días?'
+    question: '¿Tu sistema actual frena el crecimiento de tu negocio?'
   },
   {
     id: 10,
-    title: 'Diseño y UX/UI centrado en las personas',
-    description: 'Construimos interfaces accesibles que generan confianza, inspiran y convierten en cualquier contexto.',
-    icon: FaPalette,
+    title: 'Consultoría tecnológica',
+    description: 'Te asesoramos para elegir las mejores soluciones tecnológicas y definir una estrategia digital que impulse tus resultados.',
+    icon: FaChalkboardTeacher,
     benefits: [
-      'Investigación con usuarios para descubrir motivaciones y barreras.',
-      'Sistemas de diseño vivos que aseguran consistencia visual.',
-      'Micro-interacciones inclusivas con opción de reducir movimiento.'
+      'Diagnóstico de madurez tecnológica de tu empresa.',
+      'Plan de acción con prioridades claras y presupuesto estimado.',
+      'Acompañamiento ejecutivo durante la implementación.'
     ],
-    question: '¿Transformamos la experiencia de tus usuarios juntos?'
+    question: '¿Sabes qué tecnología necesita realmente tu negocio?'
   },
   {
     id: 11,
-    title: 'Equipamiento y puesta en marcha integral',
-    description: 'Seleccionamos, instalamos y configuramos hardware a la medida para que tu operación comience sin fricciones.',
+    title: 'Venta e instalación de equipo',
+    description: 'Seleccionamos, vendemos e instalamos el hardware ideal para tu empresa: computadoras, servidores, impresoras y más.',
     icon: FaShoppingCart,
     benefits: [
-      'Evaluación de necesidades para definir la solución ideal.',
-      'Instalación y calibración listas para usar desde el primer día.',
-      'Soporte posterior que garantiza continuidad y mantenimiento.'
+      'Asesoría personalizada para elegir el equipo correcto.',
+      'Instalación, configuración y puesta en marcha incluida.',
+      'Garantía y soporte post-venta para tu tranquilidad.'
     ],
-    question: '¿Preparamos tu infraestructura para arrancar sin retrasos?'
+    question: '¿Necesitas equipar tu empresa con tecnología confiable?'
   }
 ];

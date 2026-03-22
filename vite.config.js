@@ -3,13 +3,7 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   base: '/neo-kodex/',
-  plugins: [
-    react({
-      babel: {
-        plugins: ['babel-plugin-styled-components']
-      }
-    })
-  ],
+  plugins: [react()],
   server: {
     open: true
   }

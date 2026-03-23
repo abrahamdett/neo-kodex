@@ -251,7 +251,7 @@ function Navbar({ onCycleTheme, themeName, availableThemes }) {
     <Header>
       <Nav aria-label="Principal">
         <Brand to="/">
-          <Logo src="/assets/logo-neokodex.svg" alt="NeoKodex logo" />
+          <Logo src={`${import.meta.env.BASE_URL}assets/logo-neokodex.svg`} alt="NeoKodex logo" />
           NEO-KODEX
         </Brand>
         <DesktopMenu>
@@ -302,7 +302,7 @@ function Navbar({ onCycleTheme, themeName, availableThemes }) {
             >
               <MobileMenuHeader>
                 <Brand to="/" onClick={() => setMobileOpen(false)}>
-                  <Logo src="/assets/logo-neokodex.svg" alt="" />
+                  <Logo src={`${import.meta.env.BASE_URL}assets/logo-neokodex.svg`} alt="" />
                   NEO-KODEX
                 </Brand>
                 <HamburgerButton

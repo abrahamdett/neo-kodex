@@ -20,7 +20,7 @@ function Root() {
         <AnalyticsProvider>
           <ThemeProvider theme={theme}>
             <GlobalStyle data-theme={themeName} />
-            <BrowserRouter basename="/neo-kodex">
+            <BrowserRouter basename={import.meta.env.BASE_URL}>
               <App onCycleTheme={cycleTheme} themeName={themeName} availableThemes={themes} />
             </BrowserRouter>
           </ThemeProvider>

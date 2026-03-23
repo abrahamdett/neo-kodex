@@ -115,7 +115,7 @@ function Footer() {
       <FooterGrid>
         <BrandColumn>
           <h3>
-            <BrandLogo src="/assets/logo-neokodex.svg" alt="" />
+            <BrandLogo src={`${import.meta.env.BASE_URL}assets/logo-neokodex.svg`} alt="" />
             NEO-KODEX
           </h3>
           <p>Más allá del código. Tu socio tecnológico para software, soporte e infraestructura.</p>

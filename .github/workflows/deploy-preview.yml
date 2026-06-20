@@ -36,6 +36,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
+          VITE_BASE_URL: /neo-kodex/
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
           VITE_GA_MEASUREMENT_ID: ${{ secrets.VITE_GA_MEASUREMENT_ID }}

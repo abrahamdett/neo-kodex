@@ -4,3 +4,5 @@ dist
 .vite
 .idea
 .env.local
+.firebase/
+

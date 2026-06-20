@@ -3,146 +3,195 @@ import { motion } from 'framer-motion';
 import { teamMembers } from '../data/team.js';
 
 const Section = styled.section`
-  padding: clamp(4.5rem, 8vw, 7rem) clamp(1.25rem, 5vw, 4.5rem);
-  background: ${({ theme }) => theme.surfaceSecondary};
+  padding: ${({ theme }) => theme.spacing.sectionY} 24px;
+  background: ${({ theme }) => theme.colors.bg.secondary};
+`;
+
+const Container = styled.div`
+  max-width: ${({ theme }) => theme.spacing.maxWidth};
+  margin: 0 auto;
 `;
 
 const Header = styled.div`
-  max-width: 760px;
-  margin: 0 auto 3rem;
+  max-width: 600px;
+  margin: 0 auto 56px;
   text-align: center;
   display: grid;
-  gap: 1rem;
+  gap: 14px;
+`;
+
+const Eyebrow = styled.span`
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.accent.primary};
+  font-weight: 600;
 `;
 
 const Title = styled.h2`
   margin: 0;
-  font-size: clamp(2.1rem, 3vw + 1rem, 3rem);
+  font-size: clamp(2rem, 4vw, 3rem);
+`;
+
+const Subtitle = styled.p`
+  margin: 0;
+  color: ${({ theme }) => theme.colors.text.secondary};
+  line-height: 1.65;
 `;
 
 const Grid = styled.div`
   display: grid;
-  gap: clamp(1.5rem, 2vw, 2.5rem);
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 320px));
+  justify-content: center;
 `;
 
 const SectionFooter = styled.div`
-  margin-top: clamp(2.5rem, 4vw, 3.5rem);
+  margin-top: 48px;
   text-align: center;
-  color: ${({ theme }) => theme.textSecondary};
-  font-weight: 600;
+  color: ${({ theme }) => theme.colors.text.secondary};
 `;
 
 const Card = styled(motion.article)`
-  background: ${({ theme }) => theme.glass.background};
-  border-radius: 1.75rem;
-  border: 1px solid ${({ theme }) => theme.glass.border};
-  padding: 2rem 1.5rem 2.25rem;
-  backdrop-filter: blur(22px);
-  box-shadow: ${({ theme }) => theme.glass.shadow};
+  background: ${({ theme }) => theme.colors.bg.card};
+  border-radius: ${({ theme }) => theme.spacing.cardRadius};
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 32px 24px;
   display: grid;
-  gap: 1.1rem;
+  gap: 14px;
   text-align: center;
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
+  transition: all 250ms ease;
 
-  &:focus-visible {
-    outline: 3px solid ${({ theme }) => theme.accent};
-    outline-offset: 4px;
+  &:hover {
+    border-color: rgba(99, 210, 140, 0.2);
+    background: ${({ theme }) => theme.colors.bg.cardHover};
+    transform: translateY(-2px);
   }
 `;
 
-const AvatarWrapper = styled.div`
-  width: 110px;
-  height: 110px;
+const AvatarInitials = styled.div`
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  margin: 0 auto;
+  background: linear-gradient(135deg, rgba(99, 210, 140, 0.2), rgba(99, 210, 140, 0.05));
+  border: 1px solid rgba(99, 210, 140, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: ${({ theme }) => theme.typography.fontDisplay};
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.accent.primary};
+  margin: 0 auto 4px;
+`;
+
+const AvatarPhoto = styled.div`
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
   overflow: hidden;
-  position: relative;
-  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.3);
+  border: 2px solid rgba(99, 210, 140, 0.3);
+  margin: 0 auto 4px;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.6s ease;
-  }
-
-  ${Card}:hover & img,
-  ${Card}:focus-visible & img {
-    transform: scale(1.08);
   }
 `;
 
-const SpecialtyList = styled.ul`
+const Name = styled.h3`
+  margin: 0;
+  font-size: 1.05rem;
+`;
+
+const Role = styled.span`
+  color: ${({ theme }) => theme.colors.text.secondary};
+  font-size: 0.875rem;
+`;
+
+const Bio = styled.p`
+  margin: 0;
+  color: ${({ theme }) => theme.colors.text.secondary};
+  font-size: 0.875rem;
+  line-height: 1.6;
+`;
+
+const SkillList = styled.ul`
   margin: 0;
   padding: 0;
   list-style: none;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 6px;
   justify-content: center;
 `;
 
-const Specialty = styled.li`
-  padding: 0.35rem 0.75rem;
-  border-radius: 999px;
-  background: ${({ theme }) => theme.accentSoft};
-  color: ${({ theme }) => theme.text};
-  font-size: 0.8rem;
+const SkillChip = styled.li`
+  font-size: 0.6875rem;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: ${({ theme }) => theme.colors.text.secondary};
 `;
 
-const Role = styled.span`
-  color: ${({ theme }) => theme.textSecondary};
-  font-size: 0.95rem;
-`;
-
-const Bio = styled.p`
-  margin: 0;
-  color: ${({ theme }) => theme.textSecondary};
-`;
+function getInitials(name) {
+  return name
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((word) => word[0])
+    .join('')
+    .toUpperCase();
+}
 
 function TeamSection() {
   return (
     <Section id="equipo" aria-labelledby="equipo-title">
-      <Header>
-        <Title id="equipo-title">Equipo y cultura</Title>
-        <p>
-          Somos un equipo multidisciplinario movido por la ética, la curiosidad y la colaboración. Cada perfil muestra cómo
-          conectamos talento humano con resultados sostenibles.
-        </p>
-      </Header>
-      <Grid>
-        {teamMembers.map((member, index) => (
-          <Card
-            key={member.id}
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.35 }}
-            transition={{ duration: 0.6, delay: index * 0.1 }}
-            whileHover={{ y: -8 }}
-            tabIndex={0}
-          >
-            <AvatarWrapper>
-              <img src={member.avatar} alt={`Retrato de ${member.name}`} loading="lazy" />
-            </AvatarWrapper>
-            <div>
-              <h3 style={{ margin: '0 0 0.35rem 0' }}>{member.name}</h3>
-              <Role>{member.role}</Role>
-            </div>
-            <Bio>{member.bio}</Bio>
-            <SpecialtyList>
-              {member.specialties.map((item) => (
-                <Specialty key={item}>{item}</Specialty>
-              ))}
-            </SpecialtyList>
-          </Card>
-        ))}
-      </Grid>
-      <SectionFooter>
-        ¿Con quién de nosotros te gustaría co-crear tu próxima iniciativa?
-      </SectionFooter>
+      <Container>
+        <Header>
+          <Eyebrow>Quién está detrás</Eyebrow>
+          <Title id="equipo-title">Quién construye tu proyecto</Title>
+          <Subtitle>
+            NEO-KODEX lo lleva un responsable de punta a punta: hablas siempre con quien
+            diseña, desarrolla y da soporte a tu software. Sin intermediarios.
+          </Subtitle>
+        </Header>
+        <Grid>
+          {teamMembers.map((member, index) => (
+            <Card
+              key={member.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.5, delay: index * 0.08 }}
+            >
+              {member.avatar ? (
+                <AvatarPhoto>
+                  <img src={member.avatar} alt={`Retrato de ${member.name}`} loading="lazy" />
+                </AvatarPhoto>
+              ) : (
+                <AvatarInitials aria-hidden="true">{getInitials(member.name)}</AvatarInitials>
+              )}
+              <div>
+                <Name>{member.name}</Name>
+                <Role>{member.role}</Role>
+              </div>
+              <Bio>{member.bio}</Bio>
+              <SkillList>
+                {member.specialties.map((item) => (
+                  <SkillChip key={item}>{item}</SkillChip>
+                ))}
+              </SkillList>
+            </Card>
+          ))}
+        </Grid>
+        <SectionFooter>
+          ¿Listo para platicar tu proyecto directamente con quien lo va a construir?
+        </SectionFooter>
+      </Container>
     </Section>
   );
 }

@@ -2,147 +2,117 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import React from 'react';
-import { FiArrowUpRight } from 'react-icons/fi';
-
-const IconWrapper = styled(motion.div)`
-  display: inline-flex;
-  width: 64px;
-  height: 64px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 22px;
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.08));
-  color: ${({ theme }) => theme.accent};
-  font-size: 2rem;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18), 0 18px 28px rgba(0, 0, 0, 0.2);
-  transform: translateZ(0);
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 6px;
-    border-radius: 18px;
-    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.6), transparent 65%);
-    opacity: 0.7;
-    transition: opacity 0.4s ease;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    inset: -40%;
-    background: conic-gradient(from 90deg, ${({ theme }) => theme.accent}, transparent 70%);
-    mix-blend-mode: screen;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-  }
-`;
+import { FiArrowRight } from 'react-icons/fi';
 
 const Card = styled(motion.button)`
   position: relative;
-  background: ${({ theme }) => theme.glass.background};
-  border: 1px solid ${({ theme }) => theme.glass.border};
-  border-radius: clamp(1.2rem, 2vw, 1.8rem);
-  padding: clamp(1.5rem, 2.2vw, 2rem);
+  background: ${({ theme }) => theme.colors.bg.card};
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: ${({ theme }) => theme.spacing.cardRadius};
+  padding: 28px;
   display: flex;
   flex-direction: column;
-  gap: 1.1rem;
+  gap: 0;
   height: 100%;
-  backdrop-filter: blur(18px);
-  box-shadow: ${({ theme }) => theme.glass.shadow};
-  overflow: hidden;
-  isolation: isolate;
-  transform-style: preserve-3d;
+  text-align: left;
   cursor: pointer;
   color: inherit;
-  text-align: left;
-  transition: transform 0.4s ease;
-  outline: none;
-
-  &:focus-visible {
-    outline: 3px solid ${({ theme }) => theme.accent};
-    outline-offset: 4px;
-  }
+  overflow: hidden;
+  transition: all 250ms ease;
 
   &::before {
     content: '';
     position: absolute;
-    inset: 0;
-    background: var(--card-gradient, linear-gradient(135deg, rgba(26, 140, 58, 0.2), transparent 70%));
-    opacity: 0.9;
-    z-index: -2;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(99, 210, 140, 0.5), transparent);
+    opacity: 0;
+    transition: opacity 250ms ease;
   }
 
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 1px;
-    background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.18), transparent 55%);
-    z-index: -1;
+  &:hover,
+  &:focus-visible {
+    border-color: rgba(99, 210, 140, 0.2);
+    background: ${({ theme }) => theme.colors.bg.cardHover};
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+
+    &::before {
+      opacity: 1;
+    }
   }
 
-  &:hover ${IconWrapper},
-  &:focus-visible ${IconWrapper} {
-    transform: rotate(-6deg) translateY(-6px) scale(1.05);
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.accent.primary};
+    outline-offset: 3px;
   }
+`;
 
-  &:hover ${IconWrapper}::after,
-  &:focus-visible ${IconWrapper}::after {
-    opacity: 0.65;
-  }
-
-  &:hover ${IconWrapper}::before,
-  &:focus-visible ${IconWrapper}::before {
-    opacity: 1;
-  }
+const IconBox = styled.div`
+  width: 44px;
+  height: 44px;
+  background: rgba(99, 210, 140, 0.1);
+  border: 1px solid rgba(99, 210, 140, 0.2);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  color: ${({ theme }) => theme.colors.accent.primary};
+  font-size: 1.2rem;
 `;
 
 const Title = styled.h3`
-  margin: 0;
-  font-size: 1.25rem;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.text.primary};
+  margin-bottom: 10px;
 `;
 
 const Description = styled.p`
-  margin: 0;
-  color: ${({ theme }) => theme.textSecondary};
+  font-size: 0.875rem;
+  color: ${({ theme }) => theme.colors.text.secondary};
+  line-height: 1.65;
+  margin-bottom: 20px;
 `;
 
-const CardCTA = styled.span`
+const CardLink = styled.span`
   margin-top: auto;
+  font-size: 0.8125rem;
+  color: ${({ theme }) => theme.colors.accent.primary};
+  font-weight: 500;
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  font-weight: 600;
-  font-size: 0.95rem;
+  gap: 4px;
+  opacity: 0.85;
+  transition: opacity 150ms ease;
+
+  ${Card}:hover &,
+  ${Card}:focus-visible & {
+    opacity: 1;
+  }
 `;
 
 function ServiceCard({ icon: Icon, title, description, className, onSelect, ...motionProps }) {
   return (
     <Card
       type="button"
-      whileHover={{ y: -10, rotateX: -2, rotateY: 1.5 }}
-      whileFocus={{ scale: 1.02 }}
-      transition={{ type: 'spring', stiffness: 260, damping: 20 }}
       className={className}
       onClick={onSelect}
       aria-label={`Conoce más sobre ${title}`}
       {...motionProps}
     >
-      <IconWrapper
-        aria-hidden="true"
-        animate={{ rotate: [0, 3, -3, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-      >
+      <IconBox aria-hidden="true">
         <Icon />
-      </IconWrapper>
+      </IconBox>
       <Title>{title}</Title>
       <Description>{description}</Description>
-      <CardCTA>
+      <CardLink>
         Conoce cómo lo hacemos
-        <FiArrowUpRight aria-hidden="true" />
-      </CardCTA>
+        <FiArrowRight aria-hidden="true" />
+      </CardLink>
     </Card>
   );
 }

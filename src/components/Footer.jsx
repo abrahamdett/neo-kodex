@@ -2,111 +2,166 @@ import styled from 'styled-components';
 import { FaLinkedin, FaFacebook, FaWhatsapp, FaInstagram, FaLock } from 'react-icons/fa';
 
 const FooterWrapper = styled.footer`
-  padding: clamp(3rem, 6vw, 4rem) clamp(1.5rem, 5vw, 4rem) 2rem;
-  background: ${({ theme }) => theme.surfaceSecondary};
-  color: ${({ theme }) => theme.textSecondary};
-  border-top: 1px solid ${({ theme }) => theme.border};
+  padding: 64px 24px 28px;
+  background: ${({ theme }) => theme.colors.bg.deep};
+  color: ${({ theme }) => theme.colors.text.secondary};
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
 `;
 
 const FooterGrid = styled.div`
-  max-width: 1200px;
+  max-width: ${({ theme }) => theme.spacing.maxWidth};
   margin: 0 auto;
   display: grid;
-  gap: 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const Column = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-`;
+  gap: 12px;
 
-const BrandColumn = styled(Column)`
-  h3 {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
+  h4 {
+    color: ${({ theme }) => theme.colors.text.primary};
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin: 0 0 4px;
+  }
+
+  p {
     margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  strong {
+    color: ${({ theme }) => theme.colors.text.primary};
   }
 `;
 
+const BrandColumn = styled(Column)``;
+
+const BrandName = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: ${({ theme }) => theme.typography.fontDisplay};
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: ${({ theme }) => theme.colors.text.primary};
+`;
+
 const BrandLogo = styled.img`
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    width: 36px;
+    height: 36px;
+  }
+`;
+
+const Tagline = styled.p`
+  max-width: 280px;
 `;
 
 const ServiceList = styled.ul`
   list-style: none;
-  padding: 0;
-  margin: 0;
   display: grid;
-  gap: 0.4rem;
+  gap: 8px;
 
   li {
-    font-size: 0.9rem;
+    font-size: 0.875rem;
   }
 
   a {
-    transition: color 0.2s ease;
+    color: ${({ theme }) => theme.colors.text.secondary};
+    transition: color 200ms ease;
+
     &:hover {
-      color: ${({ theme }) => theme.accent};
+      color: ${({ theme }) => theme.colors.accent.primary};
     }
   }
 `;
 
 const SocialLinks = styled.div`
   display: flex;
-  gap: 0.75rem;
+  gap: 10px;
 `;
 
 const SocialAnchor = styled.a`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: ${({ theme }) => theme.surface};
-  color: ${({ theme }) => theme.accent};
-  font-size: 1.1rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: ${({ theme }) => theme.colors.text.secondary};
+  font-size: 1.05rem;
+  transition: all 250ms ease;
 
   &:hover,
   &:focus-visible {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 24px ${({ theme }) => theme.accentSoft};
+    color: ${({ theme }) => theme.colors.accent.primary};
+    border-color: rgba(99, 210, 140, 0.3);
+    transform: translateY(-2px);
   }
 `;
 
-const LegalRow = styled.div`
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid ${({ theme }) => theme.border};
+const BottomStrip = styled.div`
+  max-width: ${({ theme }) => theme.spacing.maxWidth};
+  margin: 48px auto 0;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
+  gap: 16px;
+  justify-content: space-between;
   align-items: center;
   font-size: 0.85rem;
+
+  a {
+    color: ${({ theme }) => theme.colors.text.secondary};
+    transition: color 200ms ease;
+
+    &:hover {
+      color: ${({ theme }) => theme.colors.text.primary};
+    }
+  }
+`;
+
+const BottomLinks = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
 `;
 
 const SecurityBadge = styled.span`
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.4rem 0.7rem;
-  border-radius: 999px;
-  border: 1px solid ${({ theme }) => theme.border};
-  background: ${({ theme }) => theme.surface};
-  font-size: 0.8rem;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.78rem;
 `;
 
-const Copyright = styled.p`
-  text-align: center;
-  margin-top: 1.5rem;
-  font-size: 0.85rem;
+const MadeIn = styled.span`
+  color: ${({ theme }) => theme.colors.text.muted};
 `;
 
 function Footer() {
@@ -114,34 +169,15 @@ function Footer() {
     <FooterWrapper>
       <FooterGrid>
         <BrandColumn>
-          <h3>
-            <BrandLogo src={`${import.meta.env.BASE_URL}assets/logo-neokodex.svg`} alt="" />
+          <BrandName>
+            <BrandLogo src={`${import.meta.env.BASE_URL}assets/logo-neokodex.svg`} alt="NEO-KODEX" />
             NEO-KODEX
-          </h3>
-          <p>Más allá del código. Tu socio tecnológico para software, soporte e infraestructura.</p>
-        </BrandColumn>
-        <Column>
-          <h4>Servicios</h4>
-          <ServiceList>
-            <li><a href="#servicios">Software a la medida</a></li>
-            <li><a href="#servicios">Aplicaciones móviles</a></li>
-            <li><a href="#servicios">Soporte técnico</a></li>
-            <li><a href="#servicios">Redes y cableado</a></li>
-            <li><a href="#servicios">Venta de equipo</a></li>
-            <li><a href="#servicios">Consultoría tecnológica</a></li>
-          </ServiceList>
-        </Column>
-        <Column>
-          <h4>Contacto</h4>
-          <p><strong>Tel:</strong> +52 55 1234 5678</p>
-          <p><strong>Email:</strong> hola@neo-kodex.com</p>
-          <p><strong>WhatsApp:</strong> <a href="https://wa.me/5215512345678">+52 1 55 1234 5678</a></p>
-          <p><strong>Horario:</strong> Lun-Vie 9:00 - 18:00</p>
-        </Column>
-        <Column>
-          <h4>Síguenos</h4>
+          </BrandName>
+          <Tagline>
+            Tu socio tecnológico para software a la medida, soporte técnico e infraestructura.
+          </Tagline>
           <SocialLinks>
-            <SocialAnchor href="https://wa.me/5215512345678" aria-label="WhatsApp" target="_blank" rel="noreferrer">
+            <SocialAnchor href="https://wa.me/5215621193579" aria-label="WhatsApp" target="_blank" rel="noreferrer">
               <FaWhatsapp aria-hidden="true" />
             </SocialAnchor>
             <SocialAnchor href="https://www.facebook.com" aria-label="Facebook" target="_blank" rel="noreferrer">
@@ -154,16 +190,45 @@ function Footer() {
               <FaLinkedin aria-hidden="true" />
             </SocialAnchor>
           </SocialLinks>
+        </BrandColumn>
+        <Column>
+          <h4>Servicios</h4>
+          <ServiceList>
+            <li><a href="#servicios">Software a la medida</a></li>
+            <li><a href="#servicios">Aplicaciones móviles</a></li>
+            <li><a href="#servicios">Soporte técnico</a></li>
+            <li><a href="#servicios">Redes y cableado</a></li>
+            <li><a href="#servicios">Consultoría tecnológica</a></li>
+          </ServiceList>
+        </Column>
+        <Column>
+          <h4>Contacto</h4>
+          <p><strong>Tel:</strong> +52 56 2119 3579</p>
+          <p><strong>Email:</strong> an@neo-kodex.com</p>
+          <p><strong>WhatsApp:</strong> +52 56 2119 3579</p>
+          <p><strong>Horario:</strong> Lun-Vie 9:00 - 18:00</p>
+        </Column>
+        <Column>
+          <h4>Empresa</h4>
+          <ServiceList>
+            <li><a href="#acerca">Nosotros</a></li>
+            <li><a href="#productos">Productos</a></li>
+            <li><a href="#portafolio">Portafolio</a></li>
+            <li><a href="#equipo">Equipo</a></li>
+          </ServiceList>
         </Column>
       </FooterGrid>
-      <LegalRow>
-        <a href="/privacy.html">Política de privacidad</a>
-        <a href="/terms.html">Términos de servicio</a>
-        <SecurityBadge>
-          <FaLock aria-hidden="true" /> Sitio seguro SSL
-        </SecurityBadge>
-      </LegalRow>
-      <Copyright>© {new Date().getFullYear()} NEO-KODEX. Todos los derechos reservados.</Copyright>
+      <BottomStrip>
+        <BottomLinks>
+          <span>© {new Date().getFullYear()} NEO-KODEX</span>
+          <a href="/privacy.html">Política de privacidad</a>
+          <a href="/terms.html">Términos de servicio</a>
+          <SecurityBadge>
+            <FaLock aria-hidden="true" /> SSL seguro
+          </SecurityBadge>
+        </BottomLinks>
+        <MadeIn>Hecho en México 🇲🇽</MadeIn>
+      </BottomStrip>
     </FooterWrapper>
   );
 }

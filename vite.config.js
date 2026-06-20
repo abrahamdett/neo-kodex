@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig(({ command }) => ({
-  base: command === 'build' ? '/neo-kodex/' : '/',
+  base: process.env.VITE_BASE_URL || '/',
   plugins: [
     react({
       babel: {
@@ -12,5 +12,19 @@ export default defineConfig(({ command }) => ({
   ],
   server: {
     open: true
+  },
+  build: {
+    target: 'es2020',
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'motion': ['framer-motion'],
+          'three-vendor': ['three', '@react-three/fiber', '@react-three/drei'],
+          'styled': ['styled-components']
+        }
+      }
+    }
   }
 }));

@@ -6,54 +6,60 @@ import { logCtaInteraction } from '../services/leadService.js';
 import { useExperiment } from '../contexts/ExperimentContext.jsx';
 
 const Wrapper = styled.section`
-  padding: clamp(3.5rem, 6vw, 4.5rem) clamp(1.5rem, 5vw, 4rem);
+  padding: 56px 24px;
 `;
 
-const Card = styled.div`
-  max-width: 960px;
+const Banner = styled.div`
+  max-width: 700px;
   margin: 0 auto;
-  border-radius: 24px;
-  background: ${({ theme }) => theme.glass.background};
-  border: 1px solid ${({ theme }) => theme.glass.border};
-  box-shadow: ${({ theme }) => theme.glass.shadow};
-  backdrop-filter: blur(18px);
-  display: grid;
-  gap: 1rem;
-  padding: clamp(2rem, 4vw, 2.75rem);
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(99, 210, 140, 0.08) 0%, rgba(99, 210, 140, 0.03) 100%);
+  border: 1px solid rgba(99, 210, 140, 0.15);
+  padding: 48px 40px;
   text-align: center;
+  display: grid;
+  gap: 16px;
+
+  @media (max-width: 480px) {
+    padding: 36px 24px;
+  }
 `;
 
 const Title = styled.h3`
   margin: 0;
-  font-size: clamp(1.6rem, 2vw + 1rem, 2.2rem);
+  font-size: clamp(1.5rem, 2vw + 1rem, 2rem);
 `;
 
 const Description = styled.p`
-  margin: 0;
-  color: ${({ theme }) => theme.textSecondary};
+  margin: 0 auto;
+  max-width: 520px;
+  color: ${({ theme }) => theme.colors.text.secondary};
+  line-height: 1.6;
 `;
 
 const ButtonRow = styled.div`
   display: inline-flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 14px;
   justify-content: center;
+  margin-top: 8px;
 `;
 
 const PrimaryButton = styled(motion.a)`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.85rem 1.8rem;
-  border-radius: 999px;
-  background: linear-gradient(135deg, ${({ theme }) => theme.accent}, ${({ theme }) => theme.accentSoft});
-  color: #ffffff;
+  padding: 14px 28px;
+  border-radius: ${({ theme }) => theme.spacing.buttonRadius};
+  background: ${({ theme }) => theme.colors.gradient.cta};
+  color: ${({ theme }) => theme.colors.bg.primary};
   font-weight: 600;
-  box-shadow: 0 20px 36px ${({ theme }) => theme.accentSoft};
+  font-size: 0.9375rem;
+  transition: box-shadow 200ms ease;
 
+  &:hover,
   &:focus-visible {
-    outline: 3px solid ${({ theme }) => theme.accentSoft};
-    outline-offset: 4px;
+    box-shadow: 0 0 30px rgba(99, 210, 140, 0.3);
   }
 `;
 
@@ -61,16 +67,19 @@ const SecondaryButton = styled(motion.a)`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.8rem 1.6rem;
-  border-radius: 999px;
-  border: 1px solid ${({ theme }) => theme.border};
-  background: ${({ theme }) => theme.surface};
-  color: ${({ theme }) => theme.text};
-  font-weight: 600;
+  padding: 14px 28px;
+  border-radius: ${({ theme }) => theme.spacing.buttonRadius};
+  border: 1px solid ${({ theme }) => theme.colors.border.strong};
+  background: transparent;
+  color: ${({ theme }) => theme.colors.text.primary};
+  font-weight: 500;
+  font-size: 0.9375rem;
+  transition: all 200ms ease;
 
+  &:hover,
   &:focus-visible {
-    outline: 3px solid ${({ theme }) => theme.accent};
-    outline-offset: 4px;
+    border-color: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.04);
   }
 `;
 
@@ -85,14 +94,14 @@ function InlineCTA({ id, title, description, primary, secondary }) {
 
   return (
     <Wrapper id={id}>
-      <Card>
+      <Banner>
         <Title>{title}</Title>
         <Description>{description}</Description>
         <ButtonRow>
           <PrimaryButton
             href={primary.href}
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
+            whileHover={{ y: -1 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => handleClick(primary.analyticsAction, primary.intent)}
           >
             {primary.label}
@@ -100,15 +109,15 @@ function InlineCTA({ id, title, description, primary, secondary }) {
           {secondary ? (
             <SecondaryButton
               href={secondary.href}
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.97 }}
+              whileHover={{ y: -1 }}
+              whileTap={{ scale: 0.98 }}
               onClick={() => handleClick(secondary.analyticsAction, secondary.intent)}
             >
               {secondary.label}
             </SecondaryButton>
           ) : null}
         </ButtonRow>
-      </Card>
+      </Banner>
     </Wrapper>
   );
 }

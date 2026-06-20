@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Bloquear rutas innecesarias para bots
+Disallow: /assets/
+
+Sitemap: https://neo-kodex.com/sitemap.xml

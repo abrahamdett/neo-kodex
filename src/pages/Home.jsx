@@ -1,11 +1,12 @@
 import Hero from '../components/Hero.jsx';
 import HumanConnection from '../components/HumanConnection.jsx';
 import ServicesSection from '../components/ServicesSection.jsx';
+import { usePageMeta } from '../hooks/usePageMeta.js';
+import ProductsSection from '../components/ProductsSection.jsx';
 import PortfolioSection from '../components/PortfolioSection.jsx';
 import AboutSection from '../components/AboutSection.jsx';
 import WhyChooseUs from '../components/WhyChooseUs.jsx';
 import TeamSection from '../components/TeamSection.jsx';
-import Testimonials from '../components/Testimonials.jsx';
 import ContactSection from '../components/ContactSection.jsx';
 import InlineCTA from '../components/InlineCTA.jsx';
 import TrustSection from '../components/TrustSection.jsx';
@@ -18,6 +19,7 @@ const MainWrapper = styled.div`
 `;
 
 function Home() {
+  usePageMeta({});
   return (
     <MainWrapper>
       <Hero />
@@ -35,21 +37,21 @@ function Home() {
         }}
         secondary={{
           label: 'Llamar ahora',
-          href: 'tel:+525512345678',
+          href: 'tel:+525621193579',
           analyticsAction: 'cta_llamar_servicios',
           intent: 'cta_llamar_servicios'
         }}
       />
+      <ProductsSection />
       <PortfolioSection />
       <AboutSection />
       <WhyChooseUs />
       <TrustSection />
       <TeamSection />
-      <Testimonials />
       <InlineCTA
         id="cta-testimonios"
         title="¿Listo para transformar tu empresa con tecnología?"
-        description="Únete a las empresas que ya confían en NEO-KODEX para su software, soporte técnico e infraestructura."
+        description="Cuéntanos tu idea y trabajemos juntos en el software, soporte técnico e infraestructura que tu empresa necesita."
         primary={{
           label: 'Contáctanos hoy',
           href: '#contacto',
@@ -58,7 +60,7 @@ function Home() {
         }}
         secondary={{
           label: 'Escríbenos por WhatsApp',
-          href: 'https://wa.me/5215512345678',
+          href: 'https://wa.me/5215621193579',
           analyticsAction: 'cta_whatsapp_testimonios',
           intent: 'cta_whatsapp_testimonios'
         }}

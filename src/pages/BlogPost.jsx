@@ -2,6 +2,7 @@ import { Link, Navigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { blogPosts } from '../data/blogPosts.js';
+import { usePageMeta } from '../hooks/usePageMeta.js';
 
 const ArticleWrapper = styled.article`
   padding: clamp(4.5rem, 8vw, 7rem) clamp(1.5rem, 6vw, 5rem);
@@ -82,6 +83,12 @@ const FooterNote = styled.p`
 function BlogPost() {
   const { slug } = useParams();
   const post = blogPosts.find((entry) => entry.id === slug);
+
+  usePageMeta(
+    post
+      ? { title: post.title, description: post.excerpt, url: `https://neo-kodex.com/blog/${post.id}`, image: post.heroImage }
+      : {}
+  );
 
   if (!post) {
     return <Navigate to="/blog" replace />;

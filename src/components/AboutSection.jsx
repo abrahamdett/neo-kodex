@@ -3,109 +3,109 @@ import { motion } from 'framer-motion';
 import { FaCheckCircle } from 'react-icons/fa';
 
 const Section = styled.section`
-  padding: clamp(4.5rem, 8vw, 7rem) 1.5rem;
-  background: ${({ theme }) => theme.surfaceSecondary};
+  padding: ${({ theme }) => theme.spacing.sectionY} 24px;
+  background: ${({ theme }) => theme.colors.bg.secondary};
 `;
 
 const Wrapper = styled.div`
-  max-width: 1200px;
+  max-width: ${({ theme }) => theme.spacing.maxWidth};
   margin: 0 auto;
   display: grid;
-  gap: 3rem;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 48px;
+  grid-template-columns: 1.1fr 1fr;
   align-items: center;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const Content = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 18px;
 `;
 
-const Highlight = styled.span`
-  display: inline-block;
-  background: ${({ theme }) => theme.accentSoft};
-  color: ${({ theme }) => theme.accent};
-  padding: 0.35rem 0.85rem;
-  border-radius: 999px;
-  font-weight: 600;
+const Eyebrow = styled.span`
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.85rem;
-  align-self: flex-start;
+  color: ${({ theme }) => theme.colors.accent.primary};
+  font-weight: 600;
 `;
 
 const Title = styled.h2`
-  font-size: clamp(2rem, 2.5vw + 1rem, 3rem);
+  font-size: clamp(2rem, 4vw, 3rem);
   margin: 0;
 `;
 
 const Description = styled.p`
-  color: ${({ theme }) => theme.textSecondary};
+  color: ${({ theme }) => theme.colors.text.secondary};
   line-height: 1.7;
   margin: 0;
 `;
 
 const FeatureList = styled.ul`
   list-style: none;
-  padding: 0;
-  margin: 0;
   display: grid;
-  gap: 0.75rem;
+  gap: 12px;
+  margin-top: 6px;
 `;
 
 const FeatureItem = styled.li`
   display: flex;
   align-items: flex-start;
-  gap: 0.65rem;
-  color: ${({ theme }) => theme.text};
+  gap: 10px;
+  color: ${({ theme }) => theme.colors.text.primary};
   line-height: 1.5;
+  font-size: 0.9375rem;
 
   svg {
-    color: ${({ theme }) => theme.accent};
+    color: ${({ theme }) => theme.colors.accent.primary};
     margin-top: 0.2rem;
     flex-shrink: 0;
   }
 `;
 
-const ImagePanel = styled(motion.div)`
-  border-radius: 24px;
+const CodePanel = styled(motion.div)`
+  border-radius: ${({ theme }) => theme.spacing.cardRadius};
   overflow: hidden;
-  box-shadow: 0 30px 60px rgba(15, 23, 42, 0.2);
-  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: ${({ theme }) => theme.colors.bg.card};
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+`;
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+const PanelBar = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+
+  span {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  span:first-child {
+    background: rgba(99, 210, 140, 0.5);
   }
 `;
 
-const LogoOverlay = styled.div`
-  position: absolute;
-  bottom: 1.5rem;
-  left: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.85rem 1.2rem;
-  border-radius: 1rem;
-  background: ${({ theme }) => theme.glass.background};
-  border: 1px solid ${({ theme }) => theme.glass.border};
-  backdrop-filter: blur(16px);
+const PanelBody = styled.pre`
+  margin: 0;
+  padding: 24px;
+  font-family: ${({ theme }) => theme.typography.fontMono};
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: ${({ theme }) => theme.colors.text.secondary};
+  overflow-x: auto;
 
-  img {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-  }
-
-  span {
-    font-weight: 700;
-    font-size: 0.95rem;
-    letter-spacing: 0.04em;
-  }
+  .key { color: ${({ theme }) => theme.colors.accent.primary}; }
+  .str { color: #b9e8cd; }
+  .muted { color: ${({ theme }) => theme.colors.text.muted}; }
 `;
 
 function AboutSection() {
@@ -113,17 +113,17 @@ function AboutSection() {
     <Section id="acerca" aria-labelledby="acerca-title">
       <Wrapper>
         <Content>
-          <Highlight>Sobre nosotros</Highlight>
+          <Eyebrow>Sobre nosotros</Eyebrow>
           <Title id="acerca-title">Tu socio tecnológico de confianza</Title>
           <Description>
-            En NEO-KODEX nos especializamos en crear soluciones tecnológicas que resuelven problemas reales.
-            Desde software a la medida hasta la instalación completa de tu infraestructura de red, somos
-            el aliado que tu empresa necesita para crecer con tecnología.
+            En NEO-KODEX creamos soluciones tecnológicas que resuelven problemas reales.
+            Desde software a la medida hasta la instalación completa de tu infraestructura
+            de red, somos el aliado que tu empresa necesita para crecer.
           </Description>
           <Description>
-            Nuestro equipo combina experiencia técnica con un compromiso genuino por entender tu negocio.
-            No vendemos soluciones genéricas: analizamos tus procesos, identificamos oportunidades y
-            diseñamos exactamente lo que necesitas.
+            Combinamos experiencia técnica con un compromiso genuino por entender tu negocio.
+            No vendemos soluciones genéricas: analizamos tus procesos, identificamos
+            oportunidades y diseñamos exactamente lo que necesitas.
           </Description>
           <FeatureList>
             <FeatureItem>
@@ -140,30 +140,33 @@ function AboutSection() {
             </FeatureItem>
             <FeatureItem>
               <FaCheckCircle aria-hidden="true" />
-              Venta y configuración de equipo de cómputo empresarial
-            </FeatureItem>
-            <FeatureItem>
-              <FaCheckCircle aria-hidden="true" />
               Consultoría tecnológica para tomar las mejores decisiones
             </FeatureItem>
           </FeatureList>
         </Content>
-        <ImagePanel
-          initial={{ opacity: 0, x: 60 }}
-          whileInView={{ opacity: 1, x: 0 }}
+        <CodePanel
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6 }}
+          aria-hidden="true"
         >
-          <img
-            src="https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=800&q=80"
-            alt="Equipo de desarrollo trabajando en soluciones tecnológicas"
-            loading="lazy"
-          />
-          <LogoOverlay>
-            <img src="/assets/logo-neokodex.svg" alt="" />
-            <span>NEO-KODEX</span>
-          </LogoOverlay>
-        </ImagePanel>
+          <PanelBar>
+            <span /><span /><span />
+          </PanelBar>
+          <PanelBody>
+{`const `}<span className="key">neoKodex</span>{` = {
+  `}<span className="key">sede</span>{`: `}<span className="str">'Ciudad de México'</span>{`,
+  `}<span className="key">experiencia</span>{`: `}<span className="str">'7+ años'</span>{`,
+  `}<span className="key">enfoque</span>{`: `}<span className="str">'Software a la medida'</span>{`,
+  `}<span className="key">stack</span>{`: [
+    `}<span className="str">'React'</span>{`, `}<span className="str">'Flutter'</span>{`,
+    `}<span className="str">'Node.js'</span>{`, `}<span className="str">'NestJS'</span>{`,
+  ],
+  `}<span className="key">trato</span>{`: `}<span className="str">'directo, sin intermediarios'</span>{`,
+};`}
+          </PanelBody>
+        </CodePanel>
       </Wrapper>
     </Section>
   );

@@ -1,118 +1,161 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { testimonials } from '../data/testimonials.js';
 
 const Section = styled.section`
-  position: relative;
-  padding: clamp(3.5rem, 7vw, 5.5rem) clamp(1.5rem, 5vw, 4.5rem);
-  display: grid;
-  justify-items: center;
-  overflow: hidden;
+  padding: ${({ theme }) => theme.spacing.sectionY} 24px;
 `;
 
 const Wrapper = styled.div`
-  width: min(1120px, 100%);
+  max-width: ${({ theme }) => theme.spacing.maxWidth};
+  margin: 0 auto;
   display: grid;
-  gap: clamp(2.5rem, 4vw, 4rem);
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 48px;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
-  position: relative;
-  z-index: 1;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const CopyBlock = styled.div`
   display: grid;
-  gap: 1.4rem;
+  gap: 18px;
 `;
 
 const Eyebrow = styled.span`
-  font-size: 0.85rem;
-  letter-spacing: 0.12em;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   font-weight: 600;
-  color: ${({ theme }) => theme.accent};
+  color: ${({ theme }) => theme.colors.accent.primary};
 `;
 
 const Title = styled.h2`
   margin: 0;
-  font-size: clamp(2.1rem, 3vw + 1rem, 3rem);
+  font-size: clamp(2rem, 4vw, 2.8rem);
 `;
 
 const Description = styled.p`
   margin: 0;
-  color: ${({ theme }) => theme.textSecondary};
-  max-width: 38ch;
+  color: ${({ theme }) => theme.colors.text.secondary};
+  max-width: 44ch;
   line-height: 1.7;
 `;
 
 const CTAGroup = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 14px;
+  margin-top: 6px;
 `;
 
 const PrimaryCTA = styled(motion.a)`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.9rem 1.8rem;
-  border-radius: 999px;
-  background: ${({ theme }) => theme.accent};
-  color: #ffffff;
+  padding: 14px 28px;
+  border-radius: ${({ theme }) => theme.spacing.buttonRadius};
+  background: ${({ theme }) => theme.colors.gradient.cta};
+  color: ${({ theme }) => theme.colors.bg.primary};
   font-weight: 600;
-  box-shadow: 0 18px 40px ${({ theme }) => theme.accentSoft};
+  font-size: 0.9375rem;
+  transition: box-shadow 200ms ease;
+
+  &:hover,
+  &:focus-visible {
+    box-shadow: 0 0 30px rgba(99, 210, 140, 0.3);
+  }
 `;
 
 const SecondaryCTA = styled.a`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.85rem 1.6rem;
-  border-radius: 999px;
-  border: 1px solid ${({ theme }) => theme.border};
-  color: ${({ theme }) => theme.text};
-  font-weight: 600;
-  background: ${({ theme }) => theme.surface};
-`;
+  padding: 14px 28px;
+  border-radius: ${({ theme }) => theme.spacing.buttonRadius};
+  border: 1px solid ${({ theme }) => theme.colors.border.strong};
+  color: ${({ theme }) => theme.colors.text.primary};
+  font-weight: 500;
+  font-size: 0.9375rem;
+  background: transparent;
+  transition: all 200ms ease;
 
-const QuoteGroup = styled.div`
-  display: grid;
-  gap: 1.2rem;
-`;
-
-const QuoteCard = styled(motion.blockquote)`
-  margin: 0;
-  padding: 1.4rem 1.6rem;
-  border-radius: 1.4rem;
-  background: ${({ theme }) => theme.surfaceSecondary};
-  border: 1px solid ${({ theme }) => theme.border};
-  color: ${({ theme }) => theme.textSecondary};
-  line-height: 1.6;
-
-  cite {
-    display: block;
-    margin-top: 0.8rem;
-    font-style: normal;
-    font-weight: 600;
-    color: ${({ theme }) => theme.text};
+  &:hover,
+  &:focus-visible {
+    border-color: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.04);
   }
 `;
 
-const Background = styled.div`
-  position: absolute;
-  inset: -10% -5% -40% -5%;
-  background: radial-gradient(circle at top, ${({ theme }) => theme.accentSoft}, transparent 65%);
-  filter: blur(40px);
-  z-index: 0;
-  pointer-events: none;
+const Steps = styled.div`
+  display: grid;
+  gap: 14px;
 `;
 
-function HumanConnection() {
-  const featuredQuotes = testimonials.slice(0, 2);
+const StepCard = styled(motion.div)`
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  align-items: start;
+  padding: 22px 24px;
+  border-radius: ${({ theme }) => theme.spacing.cardRadius};
+  background: ${({ theme }) => theme.colors.bg.card};
+  border: 1px solid rgba(255, 255, 255, 0.07);
+`;
 
+const StepNumber = styled.span`
+  font-family: ${({ theme }) => theme.typography.fontMono};
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.accent.primary};
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(99, 210, 140, 0.1);
+  border: 1px solid rgba(99, 210, 140, 0.2);
+  flex-shrink: 0;
+`;
+
+const StepBody = styled.div`
+  display: grid;
+  gap: 4px;
+
+  h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  p {
+    margin: 0;
+    color: ${({ theme }) => theme.colors.text.secondary};
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+`;
+
+const steps = [
+  {
+    title: 'Entendemos tu negocio',
+    description: 'Nos sentamos contigo para mapear tus procesos, objetivos y restricciones reales antes de proponer nada.'
+  },
+  {
+    title: 'Diseñamos la solución exacta',
+    description: 'Propuesta clara con alcance, tiempos y costos sobre la mesa antes de escribir la primera línea de código.'
+  },
+  {
+    title: 'Construimos y damos soporte',
+    description: 'Entregas incrementales para que veas avances, y acompañamiento continuo después del lanzamiento.'
+  }
+];
+
+function HumanConnection() {
   return (
     <Section aria-labelledby="human-connection-title">
-      <Background aria-hidden="true" />
       <Wrapper>
         <CopyBlock>
           <Eyebrow>Compromiso real</Eyebrow>
@@ -120,35 +163,36 @@ function HumanConnection() {
           <Description>
             No somos una fábrica de código. Nos sentamos contigo para entender tu negocio,
             tus procesos y tus objetivos. Después diseñamos la solución tecnológica exacta
-            que necesitas, con soporte continuo y un equipo que responde.
+            que necesitas, con soporte continuo y comunicación directa.
           </Description>
           <CTAGroup>
             <PrimaryCTA
               href="#contacto"
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
+              whileHover={{ y: -1 }}
+              whileTap={{ scale: 0.98 }}
             >
               Platícanos tu proyecto
             </PrimaryCTA>
-            <SecondaryCTA href="#equipo">Conoce a nuestro equipo</SecondaryCTA>
+            <SecondaryCTA href="#portafolio">Ver proyectos</SecondaryCTA>
           </CTAGroup>
         </CopyBlock>
-        <QuoteGroup>
-          {featuredQuotes.map((item, index) => (
-            <QuoteCard
-              key={item.id}
-              initial={{ opacity: 0, y: 20 }}
+        <Steps>
+          {steps.map((step, index) => (
+            <StepCard
+              key={step.title}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.4 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              &ldquo;{item.quote}&rdquo;
-              <cite>
-                {item.author} — {item.role}
-              </cite>
-            </QuoteCard>
+              <StepNumber aria-hidden="true">{String(index + 1).padStart(2, '0')}</StepNumber>
+              <StepBody>
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
+              </StepBody>
+            </StepCard>
           ))}
-        </QuoteGroup>
+        </Steps>
       </Wrapper>
     </Section>
   );

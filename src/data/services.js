@@ -9,6 +9,7 @@ import {
   FaLaptopCode,
   FaTools,
   FaNetworkWired,
+  FaRobot,
   FaShoppingCart
 } from 'react-icons/fa';
 
@@ -111,6 +112,18 @@ export const services = [
   },
   {
     id: 9,
+    title: 'Automatizaciones e IA',
+    description: 'Diseñamos automatizaciones inteligentes con IA para tareas repetitivas, seguimiento de proyectos, atención inicial y flujos internos que ahorran tiempo.',
+    icon: FaRobot,
+    benefits: [
+      'Automatización de tareas repetitivas para reducir trabajo manual.',
+      'Bots y asistentes para capturar leads, dar seguimiento y clasificar solicitudes.',
+      'Flujos de aprobación, notificaciones y traspaso de información entre equipos.'
+    ],
+    question: '¿Qué proceso de tu negocio podríamos automatizar con IA desde hoy?'
+  },
+  {
+    id: 10,
     title: 'Modernización de sistemas',
     description: 'Actualizamos tus sistemas heredados a tecnologías modernas sin perder datos ni detener tu operación.',
     icon: FaExchangeAlt,
@@ -122,7 +135,7 @@ export const services = [
     question: '¿Tu sistema actual frena el crecimiento de tu negocio?'
   },
   {
-    id: 10,
+    id: 11,
     title: 'Consultoría tecnológica',
     description: 'Te asesoramos para elegir las mejores soluciones tecnológicas y definir una estrategia digital que impulse tus resultados.',
     icon: FaChalkboardTeacher,
@@ -134,7 +147,7 @@ export const services = [
     question: '¿Sabes qué tecnología necesita realmente tu negocio?'
   },
   {
-    id: 11,
+    id: 12,
     title: 'Venta e instalación de equipo',
     description: 'Seleccionamos, vendemos e instalamos el hardware ideal para tu empresa: computadoras, servidores, impresoras y más.',
     icon: FaShoppingCart,

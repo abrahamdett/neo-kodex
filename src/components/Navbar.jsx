@@ -2,112 +2,91 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiMoon, FiSun, FiFeather, FiMenu, FiX } from 'react-icons/fi';
+import { FiMenu, FiX } from 'react-icons/fi';
 import { useCallback, useState, useEffect } from 'react';
 import { useAnalytics } from '../providers/AnalyticsProvider.jsx';
 import { useExperiment } from '../contexts/ExperimentContext.jsx';
-import { useAccessibility } from '../contexts/AccessibilityContext.jsx';
 import { logCtaInteraction } from '../services/leadService.js';
 
 const Header = styled.header`
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 999;
-  backdrop-filter: blur(16px);
-  background: ${({ theme }) => `${theme.background}e6`};
-  border-bottom: 1px solid ${({ theme }) => theme.border};
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  transition: background ${({ theme }) => theme.transitions.normal},
+    border-color ${({ theme }) => theme.transitions.normal},
+    backdrop-filter ${({ theme }) => theme.transitions.normal};
+
+  background: ${({ $scrolled }) => ($scrolled ? 'rgba(10,10,15,0.88)' : 'transparent')};
+  backdrop-filter: ${({ $scrolled }) => ($scrolled ? 'blur(20px)' : 'none')};
+  -webkit-backdrop-filter: ${({ $scrolled }) => ($scrolled ? 'blur(20px)' : 'none')};
+  border-bottom: 1px solid
+    ${({ $scrolled, theme }) => ($scrolled ? theme.colors.border.default : 'transparent')};
 `;
 
 const Nav = styled.nav`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 1200px;
+  max-width: ${({ theme }) => theme.spacing.maxWidth};
   margin: 0 auto;
-  padding: 0.75rem 1.5rem;
+  height: 64px;
+  padding: 0 40px;
+
+  @media (max-width: 768px) {
+    padding: 0 20px;
+  }
 `;
 
 const Brand = styled(Link)`
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  font-weight: 700;
+  gap: 0.55rem;
+  font-family: ${({ theme }) => theme.typography.fontDisplay};
+  font-weight: 800;
   font-size: 1.15rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  color: ${({ theme }) => theme.colors.text.primary};
 `;
 
 const Logo = styled.img`
-  width: 42px;
-  height: 42px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    width: 40px;
+    height: 40px;
+  }
 `;
 
 const DesktopMenu = styled.ul`
   display: flex;
   align-items: center;
-  gap: 1.25rem;
+  gap: 2rem;
   list-style: none;
-  padding: 0;
-  margin: 0;
 
   @media (max-width: 900px) {
     display: none;
   }
 `;
 
-const MenuItem = styled.li`
-  display: flex;
-  align-items: center;
-`;
-
 const MenuLink = styled.a`
-  position: relative;
+  font-size: 0.875rem;
   font-weight: 500;
-  font-size: 0.92rem;
-  color: ${({ theme }) => theme.textSecondary};
-  transition: color 0.3s ease;
-  &:focus-visible {
-    outline: 3px solid ${({ theme }) => theme.accent};
-    outline-offset: 4px;
-  }
-  &:hover {
-    color: ${({ theme }) => theme.accent};
-  }
-  &::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -6px;
-    width: 100%;
-    height: 2px;
-    background: ${({ theme }) => theme.accent};
-    transform: scaleX(0);
-    transform-origin: center;
-    transition: transform 0.3s ease;
-  }
-  &:hover::after,
-  &:focus-visible::after {
-    transform: scaleX(1);
-  }
-`;
+  color: ${({ theme }) => theme.colors.text.secondary};
+  transition: color ${({ theme }) => theme.transitions.fast};
 
-const ThemeToggle = styled.button`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  padding: 0.4rem 0.65rem;
-  border-radius: 999px;
-  border: 1px solid ${({ theme }) => theme.border};
-  background: ${({ theme }) => theme.surface};
-  color: ${({ theme }) => theme.text};
-  cursor: pointer;
-  font-size: 0.85rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   &:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 8px 20px ${({ theme }) => theme.accentSoft};
+    color: ${({ theme }) => theme.colors.text.primary};
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.accent.primary};
+    outline-offset: 4px;
+    border-radius: 4px;
   }
 `;
 
@@ -115,19 +94,21 @@ const HeaderCTA = styled.a`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.6rem 1.3rem;
-  border-radius: 999px;
-  background: ${({ theme }) => theme.accent};
-  color: #ffffff;
+  padding: 8px 18px;
+  border-radius: 8px;
+  background: ${({ theme }) => theme.colors.accent.primary};
+  color: ${({ theme }) => theme.colors.bg.primary};
   font-weight: 600;
-  font-size: 0.9rem;
-  letter-spacing: 0.02em;
-  box-shadow: 0 12px 30px ${({ theme }) => theme.accentSoft};
-  transition: transform 0.3s ease;
+  font-size: 0.875rem;
+  transition: background ${({ theme }) => theme.transitions.fast},
+    box-shadow ${({ theme }) => theme.transitions.fast},
+    transform ${({ theme }) => theme.transitions.fast};
 
   &:hover,
   &:focus-visible {
-    transform: translateY(-2px);
+    background: ${({ theme }) => theme.colors.accent.hover};
+    box-shadow: 0 0 20px rgba(99, 210, 140, 0.3);
+    transform: translateY(-1px);
   }
 `;
 
@@ -135,12 +116,12 @@ const HamburgerButton = styled.button`
   display: none;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  border: 1px solid ${({ theme }) => theme.border};
-  border-radius: 12px;
-  background: ${({ theme }) => theme.surface};
-  color: ${({ theme }) => theme.text};
+  width: 42px;
+  height: 42px;
+  border: 1px solid ${({ theme }) => theme.colors.border.default};
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  color: ${({ theme }) => theme.colors.text.primary};
   cursor: pointer;
   font-size: 1.3rem;
 
@@ -152,7 +133,7 @@ const HamburgerButton = styled.button`
 const MobileOverlay = styled(motion.div)`
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(8px);
   z-index: 998;
 `;
@@ -163,13 +144,15 @@ const MobileMenu = styled(motion.div)`
   right: 0;
   width: min(320px, 85vw);
   height: 100vh;
-  background: ${({ theme }) => theme.background};
-  border-left: 1px solid ${({ theme }) => theme.border};
+  height: 100dvh;
+  background: ${({ theme }) => theme.colors.bg.secondary};
+  border-left: 1px solid ${({ theme }) => theme.colors.border.default};
   z-index: 999;
   display: flex;
   flex-direction: column;
   padding: 1.5rem;
-  gap: 0.5rem;
+  padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+  gap: 0.25rem;
   overflow-y: auto;
 `;
 
@@ -179,20 +162,21 @@ const MobileMenuHeader = styled.div`
   align-items: center;
   margin-bottom: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid ${({ theme }) => theme.border};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border.default};
 `;
 
 const MobileLink = styled.a`
   display: block;
   padding: 0.85rem 1rem;
-  border-radius: 12px;
+  border-radius: 10px;
   font-weight: 500;
-  color: ${({ theme }) => theme.text};
-  transition: background 0.2s ease;
+  color: ${({ theme }) => theme.colors.text.secondary};
+  transition: background ${({ theme }) => theme.transitions.fast},
+    color ${({ theme }) => theme.transitions.fast};
 
   &:hover {
-    background: ${({ theme }) => theme.accentSoft};
-    color: ${({ theme }) => theme.accent};
+    background: rgba(255, 255, 255, 0.04);
+    color: ${({ theme }) => theme.colors.text.primary};
   }
 `;
 
@@ -202,32 +186,24 @@ const MobileActions = styled.div`
   flex-direction: column;
   gap: 0.75rem;
   padding-top: 1rem;
-  border-top: 1px solid ${({ theme }) => theme.border};
+  padding-bottom: env(safe-area-inset-bottom, 0.5rem);
+  border-top: 1px solid ${({ theme }) => theme.colors.border.default};
 `;
 
-const themeMeta = {
-  light: { label: 'Claro', icon: FiSun },
-  dark: { label: 'Oscuro', icon: FiMoon },
-  sepia: { label: 'Sepia', icon: FiFeather }
-};
-
-function Navbar({ onCycleTheme, themeName, availableThemes }) {
+function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   const links = [
     { href: '#servicios', label: 'Servicios' },
+    { href: '#productos', label: 'Productos' },
     { href: '#portafolio', label: 'Portafolio' },
     { href: '#acerca', label: 'Nosotros' },
     { href: '#por-que', label: 'Por qué elegirnos' },
     { href: '#equipo', label: 'Equipo' },
-    { href: '#testimonios', label: 'Testimonios' },
     { href: '#contacto', label: 'Contacto' }
   ];
 
-  const current = themeMeta[themeName] ?? themeMeta.dark;
-  const nextThemeIndex = (availableThemes.indexOf(themeName) + 1) % availableThemes.length;
-  const nextTheme = themeMeta[availableThemes[nextThemeIndex]] ?? themeMeta.dark;
-  const ThemeIcon = current.icon;
   const { variant } = useExperiment();
   const { trackEvent } = useAnalytics();
 
@@ -237,7 +213,14 @@ function Navbar({ onCycleTheme, themeName, availableThemes }) {
   }, [trackEvent, variant]);
 
   useEffect(() => {
-    if (!mobileOpen) return;
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    if (!mobileOpen) return undefined;
     const close = (e) => { if (e.key === 'Escape') setMobileOpen(false); };
     window.addEventListener('keydown', close);
     document.body.style.overflow = 'hidden';
@@ -248,33 +231,23 @@ function Navbar({ onCycleTheme, themeName, availableThemes }) {
   }, [mobileOpen]);
 
   return (
-    <Header>
+    <Header $scrolled={scrolled}>
       <Nav aria-label="Principal">
         <Brand to="/">
-          <Logo src={`${import.meta.env.BASE_URL}assets/logo-neokodex.svg`} alt="NeoKodex logo" />
+          <Logo src={`${import.meta.env.BASE_URL}assets/logo-neokodex.svg`} alt="NEO-KODEX" />
           NEO-KODEX
         </Brand>
         <DesktopMenu>
           {links.map((link) => (
-            <MenuItem key={link.href}>
+            <li key={link.href}>
               <MenuLink href={link.href}>{link.label}</MenuLink>
-            </MenuItem>
+            </li>
           ))}
-          <MenuItem>
+          <li>
             <HeaderCTA href="#contacto" onClick={handleCtaClick}>
               Cotiza gratis
             </HeaderCTA>
-          </MenuItem>
-          <MenuItem>
-            <ThemeToggle
-              type="button"
-              onClick={onCycleTheme}
-              aria-label={`Cambiar a modo ${nextTheme.label}`}
-              title={`Tema: ${current.label}`}
-            >
-              <ThemeIcon aria-hidden="true" />
-            </ThemeToggle>
-          </MenuItem>
+          </li>
         </DesktopMenu>
         <HamburgerButton
           type="button"
@@ -302,7 +275,7 @@ function Navbar({ onCycleTheme, themeName, availableThemes }) {
             >
               <MobileMenuHeader>
                 <Brand to="/" onClick={() => setMobileOpen(false)}>
-                  <Logo src={`${import.meta.env.BASE_URL}assets/logo-neokodex.svg`} alt="" />
+                  <Logo src={`${import.meta.env.BASE_URL}assets/logo-neokodex.svg`} alt="NEO-KODEX" />
                   NEO-KODEX
                 </Brand>
                 <HamburgerButton
@@ -327,14 +300,10 @@ function Navbar({ onCycleTheme, themeName, availableThemes }) {
                 <HeaderCTA
                   href="#contacto"
                   onClick={() => { handleCtaClick(); setMobileOpen(false); }}
-                  style={{ textAlign: 'center', justifyContent: 'center' }}
+                  style={{ width: '100%' }}
                 >
                   Cotiza gratis
                 </HeaderCTA>
-                <ThemeToggle type="button" onClick={onCycleTheme} style={{ justifyContent: 'center' }}>
-                  <ThemeIcon aria-hidden="true" />
-                  <span>{current.label}</span>
-                </ThemeToggle>
               </MobileActions>
             </MobileMenu>
           </>
@@ -345,9 +314,9 @@ function Navbar({ onCycleTheme, themeName, availableThemes }) {
 }
 
 Navbar.propTypes = {
-  onCycleTheme: PropTypes.func.isRequired,
-  themeName: PropTypes.oneOf(['light', 'dark', 'sepia']).isRequired,
-  availableThemes: PropTypes.arrayOf(PropTypes.string).isRequired
+  onCycleTheme: PropTypes.func,
+  themeName: PropTypes.string,
+  availableThemes: PropTypes.arrayOf(PropTypes.string)
 };
 
 export default Navbar;

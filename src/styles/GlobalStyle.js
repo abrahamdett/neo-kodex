@@ -1,30 +1,19 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
-  :root {
-    color-scheme: ${({ 'data-theme': dataTheme }) => dataTheme};
-    scroll-behavior: smooth;
-    --cursor-x: 50%;
-    --cursor-y: 50%;
-  }
-
   *, *::before, *::after {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
   }
 
-  body {
-    margin: 0;
-    min-height: 100vh;
-    background: ${({ theme }) => theme.background};
-    background-image: ${({ theme }) => theme.backgroundGradient};
-    background-attachment: fixed;
-    background-size: cover;
-    color: ${({ theme }) => theme.text};
-    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-    line-height: 1.65;
-    transition: background 0.8s ease, color 0.8s ease;
-    position: relative;
-    overflow-x: hidden;
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -33,25 +22,27 @@ const GlobalStyle = createGlobalStyle`
     scroll-behavior: auto;
   }
 
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    background: radial-gradient(circle at var(--cursor-x) var(--cursor-y), ${({ theme }) => theme.accentSoft}, transparent 55%);
-    mix-blend-mode: screen;
-    transition: background 0.3s ease;
-    z-index: 0;
+  body {
+    background-color: ${({ theme }) => theme.colors.bg.primary};
+    color: ${({ theme }) => theme.colors.text.primary};
+    font-family: ${({ theme }) => theme.typography.fontBody};
+    font-size: 1rem;
+    line-height: ${({ theme }) => theme.typography.lineHeights.normal};
+    overflow-x: hidden;
+    min-height: 100vh;
   }
 
-  ::selection {
-    background: ${({ theme }) => theme.accent};
-    color: #ffffff;
+  h1, h2, h3, h4, h5, h6 {
+    font-family: ${({ theme }) => theme.typography.fontDisplay};
+    font-weight: 700;
+    line-height: ${({ theme }) => theme.typography.lineHeights.tight};
+    color: ${({ theme }) => theme.colors.text.primary};
+    letter-spacing: -0.02em;
+    text-wrap: balance;
   }
 
-  img {
-    max-width: 100%;
-    display: block;
+  p {
+    text-wrap: pretty;
   }
 
   a {
@@ -63,49 +54,37 @@ const GlobalStyle = createGlobalStyle`
     font: inherit;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    text-wrap: balance;
+  img {
+    max-width: 100%;
+    display: block;
   }
 
-  p {
-    text-wrap: pretty;
+  ::selection {
+    background: rgba(99, 210, 140, 0.25);
+    color: #fff;
   }
 
-  @media (hover: hover) and (pointer: fine) {
-    body {
-      cursor: none;
+  /* Scrollbar sutil */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: ${({ theme }) => theme.colors.bg.primary};
+  }
+  ::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.colors.border.strong};
+    border-radius: 3px;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
     }
-  }
-
-  body[data-reduce-motion='true'] .neo-cursor,
-  body[data-reduce-motion='true'] .neo-cursor--trailing {
-    display: none;
-  }
-
-  .neo-cursor,
-  .neo-cursor--trailing {
-    pointer-events: none;
-    position: fixed;
-    border-radius: 50%;
-    z-index: 9999;
-    mix-blend-mode: difference;
-    will-change: transform;
-  }
-
-  .neo-cursor {
-    width: 16px;
-    height: 16px;
-    background: ${({ theme }) => theme.accent};
-    box-shadow: 0 0 20px ${({ theme }) => theme.accent};
-  }
-
-  .neo-cursor--trailing {
-    width: 56px;
-    height: 56px;
-    border: 2px solid ${({ theme }) => theme.accent};
-    opacity: 0.45;
-    mix-blend-mode: screen;
-    backdrop-filter: blur(12px);
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .sr-only {

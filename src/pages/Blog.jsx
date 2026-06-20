@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { blogPosts } from '../data/blogPosts.js';
+import { usePageMeta } from '../hooks/usePageMeta.js';
 
 const Wrapper = styled.section`
   padding: clamp(4.5rem, 8vw, 7rem) clamp(1.5rem, 6vw, 5rem);
@@ -99,6 +100,11 @@ const ArticleExcerpt = styled.p`
 `;
 
 function Blog() {
+  usePageMeta({
+    title: 'Blog & Recursos',
+    description: 'Artículos, guías y tendencias sobre software, apps móviles, infraestructura y tecnología empresarial. Publicado por NEO-KODEX.',
+    url: 'https://neo-kodex.com/blog'
+  });
   return (
     <Wrapper>
       <Header>
